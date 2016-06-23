@@ -1,4 +1,5 @@
 ﻿@model LMS.Models.Activity
+@using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "Details";
@@ -42,17 +43,13 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ModuleId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModuleId)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @if (User.IsInRole("Teacher"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })@: |
+    }
+    
     @Html.ActionLink("Back to List", "Index")
 </p>
