@@ -1,4 +1,5 @@
 ﻿@model LMS.Models.Activity
+@using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "Details";
@@ -45,6 +46,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @if (User.IsInRole("Teacher"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })@: |
+    }
+    
     @Html.ActionLink("Back to List", "Index")
 </p>
