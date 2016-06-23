@@ -44,6 +44,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Faker.NET4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Faker.Net.1.0.3\lib\net40\Faker.NET4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FizzWare.NBuilder, Version=3.0.1.0, Culture=neutral, PublicKeyToken=5651b03e12e42c12, processorArchitecture=MSIL">
+      <HintPath>..\packages\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -182,6 +190,14 @@
     <Compile Include="Migrations\201606231031491_Added_Done_to_Activity.Designer.cs">
       <DependentUpon>201606231031491_Added_Done_to_Activity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606231122543_Added_Object_links.cs" />
+    <Compile Include="Migrations\201606231122543_Added_Object_links.Designer.cs">
+      <DependentUpon>201606231122543_Added_Object_links.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606231127547_Removed_Done_from_Activity.cs" />
+    <Compile Include="Migrations\201606231127547_Removed_Done_from_Activity.Designer.cs">
+      <DependentUpon>201606231127547_Removed_Done_from_Activity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -271,6 +287,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606231031491_Added_Done_to_Activity.resx">
       <DependentUpon>201606231031491_Added_Done_to_Activity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606231122543_Added_Object_links.resx">
+      <DependentUpon>201606231122543_Added_Object_links.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606231127547_Removed_Done_from_Activity.resx">
+      <DependentUpon>201606231127547_Removed_Done_from_Activity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

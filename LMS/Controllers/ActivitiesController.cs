@@ -124,6 +124,7 @@ namespace LMS.Controllers
             base.Dispose(disposing);
         }
 
+        /*
         // GET: New Activities
         public ActionResult Unfinished()
         {
@@ -144,5 +145,6 @@ namespace LMS.Controllers
 
             return View(finishedActivities.ToList());
         }
+        */
     }
 }
