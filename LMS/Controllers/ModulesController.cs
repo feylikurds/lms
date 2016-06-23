@@ -10,121 +10,122 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
-    [Authorize(Roles = "Teacher")]
-    public class ActivitiesController : Controller
+    [Authorize(Roles ="Teacher")]
+    public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Activities
+        // GET: Modules
         public ActionResult Index()
         {
-            return View(db.Activities.ToList());
+            var modules = db.Modules.Include(m => m.Course);
+            return View(modules.ToList());
         }
 
         /// <summary>
-        /// Returns all activities belonging to a certain moduleId
+        /// Returns all modules belonging to a certain courseId
         /// </summary>
-        public ActionResult ActivitiesByModule(int moduleId)
+        public ActionResult ModulesByCourse(int courseId)
         {
-            var activities = db.Activities.Where(m => m.ModuleId == moduleId);
-            return View(activities.ToList());
+            var modules = db.Modules.Where(m => m.CourseId == courseId);
+            return View(modules.ToList());
         }
 
-        // GET: Activities/Details/5
+        // GET: Modules/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activity activity = db.Activities.Find(id);
-            if (activity == null)
+            Module module = db.Modules.Find(id);
+            if (module == null)
             {
                 return HttpNotFound();
             }
-            return View(activity);
+            return View(module);
         }
 
-        // GET: Activities/Create
+        // GET: Modules/Create
         public ActionResult Create()
         {
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
             return View();
         }
 
-        // POST: Activities/Create
+        // POST: Modules/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             if (ModelState.IsValid)
             {
-                db.Activities.Add(activity);
+                db.Modules.Add(module);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(activity);
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", module.CourseId);
+            return View(module);
         }
 
-        // GET: Activities/Edit/5
-        [Authorize(Roles ="Teacher")]
+        // GET: Modules/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activity activity = db.Activities.Find(id);
-            if (activity == null)
+            Module module = db.Modules.Find(id);
+            if (module == null)
             {
                 return HttpNotFound();
             }
-            return View(activity);
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", module.CourseId);
+            return View(module);
         }
 
-        // POST: Activities/Edit/5
+        // POST: Modules/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(activity).State = EntityState.Modified;
+                db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(activity);
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", module.CourseId);
+            return View(module);
         }
 
-        // GET: Activities/Delete/5
-        [Authorize(Roles = "Teacher")]
+        // GET: Modules/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activity activity = db.Activities.Find(id);
-            if (activity == null)
+            Module module = db.Modules.Find(id);
+            if (module == null)
             {
                 return HttpNotFound();
             }
-            return View(activity);
+            return View(module);
         }
 
-        // POST: Activities/Delete/5
+        // POST: Modules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Activity activity = db.Activities.Find(id);
-            db.Activities.Remove(activity);
+            Module module = db.Modules.Find(id);
+            db.Modules.Remove(module);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -137,28 +138,5 @@ namespace LMS.Controllers
             }
             base.Dispose(disposing);
         }
-
-        /*
-        // GET: New Activities
-        public ActionResult Unfinished()
-        {
-            var unfinishedActivities = from a in db.Activities
-                                       where a.Done != true
-                                       select a;
-
-            return View(unfinishedActivities.ToList());
-        }
-
-
-        // GET: New Activities
-        public ActionResult finished()
-        {
-            var finishedActivities = from a in db.Activities
-                                       where a.Done == true
-                                       select a;
-
-            return View(finishedActivities.ToList());
-        }
-        */
     }
 }

@@ -180,6 +180,7 @@
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -286,6 +287,7 @@
     <Content Include="Views\Activities\Details.cshtml" />
     <Content Include="Views\Activities\Edit.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Courses\Create.cshtml" />
     <Content Include="Views\Courses\Delete.cshtml" />
     <Content Include="Views\Courses\Details.cshtml" />
@@ -295,6 +297,13 @@
 =======
     <Content Include="Views\Account\SeeAllUsers.cshtml" />
 >>>>>>> Axel
+=======
+    <Content Include="Views\Modules\Create.cshtml" />
+    <Content Include="Views\Modules\Delete.cshtml" />
+    <Content Include="Views\Modules\Details.cshtml" />
+    <Content Include="Views\Modules\Edit.cshtml" />
+    <Content Include="Views\Modules\Index.cshtml" />
+>>>>>>> Thomas
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
