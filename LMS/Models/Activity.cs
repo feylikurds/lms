@@ -16,6 +16,7 @@ namespace LMS.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int ModuleId { get; set; }
+        public bool Done { get; set; }
 
         public virtual ICollection<Document> Documents { get; set; }
     }

@@ -123,5 +123,26 @@ namespace LMS.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // GET: New Activities
+        public ActionResult Unfinished()
+        {
+            var unfinishedActivities = from a in db.Activities
+                                       where a.Done != true
+                                       select a;
+
+            return View(unfinishedActivities.ToList());
+        }
+
+
+        // GET: New Activities
+        public ActionResult finished()
+        {
+            var finishedActivities = from a in db.Activities
+                                       where a.Done == true
+                                       select a;
+
+            return View(finishedActivities.ToList());
+        }
     }
 }
