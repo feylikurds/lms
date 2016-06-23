@@ -64,6 +64,7 @@ C:\Users\User\documents\visual studio 2015\Projects\LMS\LMS\bin\Microsoft.Owin.S
 C:\Users\User\documents\visual studio 2015\Projects\LMS\LMS\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\User\documents\visual studio 2015\Projects\LMS\LMS\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\User\documents\visual studio 2015\Projects\LMS\LMS\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\User\documents\visual studio 2015\Projects\LMS\LMS\obj\Debug\LMS.csprojResolveAssemblyReference.cache
 C:\Users\User\documents\visual studio 2015\Projects\LMS\LMS\obj\Debug\LMS.dll
 C:\Users\User\documents\visual studio 2015\Projects\LMS\LMS\obj\Debug\LMS.pdb
+C:\Users\User\Documents\Visual Studio 2015\Projects\lms\LMS\obj\Debug\LMS.Migrations.Init.resources
+C:\Users\User\Documents\Visual Studio 2015\Projects\lms\LMS\obj\Debug\LMS.csproj.GenerateResource.Cache

@@ -18,9 +18,10 @@ namespace LMS.Models
         public DateTime Deadline { get; set; }
         public string DocumentName { get; set; }
         public DocumentTypes DocumentType { get; set; }
-        public int CourseId { get; set; }
-        public int ModuleId { get; set; }
-        public int ActivityId { get; set; }
+
+        public Course Course { get; set; }
+        public Module Module { get; set; }
+        public Activity Activity { get; set; }
 
         public enum DocumentTypes
         {
