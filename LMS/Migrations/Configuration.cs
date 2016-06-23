@@ -53,7 +53,7 @@ namespace LMS.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = "teacher@localhost.com" };
+                var user = new ApplicationUser { UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson" };
 
                 manager.Create(user, "Pass.123");
                 manager.AddToRole(user.Id, "Teacher");
@@ -63,7 +63,7 @@ namespace LMS.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = "student@localhost.com" };
+                var user = new ApplicationUser { UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson" };
 
                 manager.Create(user, "Pass.123");
                 manager.AddToRole(user.Id, "Student");
