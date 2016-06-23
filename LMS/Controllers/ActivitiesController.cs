@@ -10,6 +10,7 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     public class ActivitiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -18,6 +19,15 @@ namespace LMS.Controllers
         public ActionResult Index()
         {
             return View(db.Activities.ToList());
+        }
+
+        /// <summary>
+        /// Returns all activities belonging to a certain moduleId
+        /// </summary>
+        public ActionResult ActivitiesByModule(int moduleId)
+        {
+            var activities = db.Activities.Where(m => m.ModuleId == moduleId);
+            return View(activities.ToList());
         }
 
         // GET: Activities/Details/5
