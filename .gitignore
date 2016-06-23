@@ -24,7 +24,13 @@ bld/
 
 
 # Visual Studio 2015 cache/options directory
-.vs/
+.vs/*
+.vs
+.vs/LMS/
+.vs/LMS
+.vs/LMS/v14/
+.vs/LMS/v14
+.vs/LMS/v14/*
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
