@@ -12,7 +12,7 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
-    [Authorize(Roles ="Teacher")]
+    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -136,6 +136,7 @@ namespace LMS.Controllers
 
         //
         // GET: /Account/Register
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -144,6 +145,7 @@ namespace LMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -399,6 +401,11 @@ namespace LMS.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        public ActionResult SeeAllUsers()
+        {
+            return View(UserManager.Users);
         }
 
         protected override void Dispose(bool disposing)
