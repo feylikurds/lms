@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201606231341359_Removed_required_from_AppUser.Designer.cs">
       <DependentUpon>201606231341359_Removed_required_from_AppUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606231409094_Added_Status_to_Document.cs" />
+    <Compile Include="Migrations\201606231409094_Added_Status_to_Document.Designer.cs">
+      <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -313,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606231341359_Removed_required_from_AppUser.resx">
       <DependentUpon>201606231341359_Removed_required_from_AppUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606231409094_Added_Status_to_Document.resx">
+      <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

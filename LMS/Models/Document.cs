@@ -18,6 +18,7 @@ namespace LMS.Models
         public DateTime Deadline { get; set; }
         public string DocumentName { get; set; }
         public DocumentTypes DocumentType { get; set; }
+        public Statuses Status { get; set; }
 
         public Course Course { get; set; }
         public Module Module { get; set; }
@@ -29,6 +30,13 @@ namespace LMS.Models
             Module,
             Activity,
             Homework,
+        }
+
+        public enum Statuses
+        {
+            Waiting,
+            Done,
+            Error,
         }
     }
 }
