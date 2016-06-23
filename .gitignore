@@ -31,6 +31,10 @@ bld/
 .vs/LMS/v14/
 .vs/LMS/v14
 .vs/LMS/v14/*
+.vs\LMS\v14\.suo
+.vs\config\applicationhost.config
+.vs/LMS/v14/.suo
+.vs/config/applicationhost.config
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
