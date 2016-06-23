@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS.Models;
+using System.Collections.Generic;
 
 namespace LMS.Controllers
 {
@@ -421,6 +422,36 @@ namespace LMS.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        //
+        // POST: /Account/CreateUser
+        [HttpPost]
+        [Authorize (Roles ="Teacher")]
+        public async Task<ActionResult> CreateUser(RegisterViewModel model)
+        {
+            List<string> status = new List<string>();
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    status.Add("success");
+                }
+                else
+                {
+                    status.Add("error");
+                }
+            }
+            else
+            {
+                status.Add("error");
+            }
+
+            return Json(status);
         }
 
         #region Helpers
