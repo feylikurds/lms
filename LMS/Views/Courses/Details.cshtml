@@ -46,7 +46,11 @@
                 @Html.Label("Modules")
             </dt>
             <dd>
-
+                @foreach (var item in Model.Modules)
+                {
+                    @Html.ActionLink(item.Name, "Details", "Modules", new { Id = item.Id}, new { })
+                   <br />
+                }
             </dd>
         </dl>
     </div>
