@@ -19,6 +19,7 @@ namespace LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -451,6 +452,11 @@ namespace LMS.Controllers
                 return HttpNotFound();
             }
 
+            var courses = from c in db.Courses
+                          select c;
+
+            ViewBag.Courses = new SelectList(courses.ToList(), "Id", "Name");
+
             return View(user);
         }
 
@@ -465,7 +471,7 @@ namespace LMS.Controllers
                 return View(model);
             }
 
-            var user = await UserManager.FindByIdAsync(model.Id);
+            ApplicationUser user = db.Users.Where(u => u.Id == model.Id).SingleOrDefault();
 
             if (user != null)
             {
@@ -485,16 +491,20 @@ namespace LMS.Controllers
                 {
                     user.UserName = model.UserName;
                 }
-
-                IdentityResult result = await UserManager.UpdateAsync(user);
-
-                if (result.Succeeded)
+                if (model.CourseId != null)
                 {
-                    return RedirectToAction("SeeAllUsers", "Account");
+                    user.CourseId = model.CourseId;
                 }
 
-                AddErrors(result);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("SeeAllUsers", "Account");
             }
+
+            var courses = from c in db.Courses
+                          select c;
+
+            ViewBag.Courses = new SelectList(courses.ToList(), "Id", "Name");
 
             return View(model);
         }

@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using System.Linq;
 
 namespace LMS.Models
 {
@@ -17,7 +19,8 @@ namespace LMS.Models
         public string FullName { get { return FirstName + " " + LastName; } }
         public DateTime TimeOfRegistration { get; set; } = DateTime.Now;
 
-        public virtual ICollection<Course> Courses { get; set; }
+        public int? CourseId { get; set; }
+        public virtual Course Course { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
