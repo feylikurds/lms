@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS.Models;
 using System.Collections.Generic;
+using System.Net;
 
 namespace LMS.Controllers
 {
@@ -434,7 +435,70 @@ namespace LMS.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-		
+
+        // GET: Account/Edit/5
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = await UserManager.FindByIdAsync(id);
+            
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(user);
+        }
+
+        //
+        // POST: /Account/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ApplicationUser model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await UserManager.FindByIdAsync(model.Id);
+
+            if (user != null)
+            {
+                if (!string.IsNullOrEmpty(model.FirstName))
+                {
+                    user.FirstName = model.FirstName;
+                }
+                if (!string.IsNullOrEmpty(model.LastName))
+                {
+                    user.LastName = model.LastName;
+                }
+                if (!string.IsNullOrEmpty(model.Email))
+                {
+                    user.Email = model.Email;
+                }
+                if (!string.IsNullOrEmpty(model.UserName))
+                {
+                    user.UserName = model.UserName;
+                }
+
+                IdentityResult result = await UserManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("SeeAllUsers", "Account");
+                }
+
+                AddErrors(result);
+            }
+
+            return View(model);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
