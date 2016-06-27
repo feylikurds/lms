@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace LMS.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "Teacher")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -137,7 +137,6 @@ namespace LMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -146,13 +145,12 @@ namespace LMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -408,35 +406,33 @@ namespace LMS.Controllers
         {
             return View(UserManager.Users);
         }
-		
+
+        //
+        // GET: /Account/CreateUser
+        public ActionResult CreateUser()
+        {
+            return View();
+        }
+
         //
         // POST: /Account/CreateUser
         [HttpPost]
-        [Authorize (Roles ="Teacher")]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateUser(RegisterViewModel model)
         {
-            List<string> status = new List<string>();
-
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-
                 if (result.Succeeded)
                 {
-                    status.Add("success");
+                    return RedirectToAction("SeeAllUsers", "Account");
                 }
-                else
-                {
-                    status.Add("error");
-                }
-            }
-            else
-            {
-                status.Add("error");
+                AddErrors(result);
             }
 
-            return Json(status);
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 		
         protected override void Dispose(bool disposing)
