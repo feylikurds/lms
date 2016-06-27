@@ -81,6 +81,7 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
             return View(activity);
         }
 
