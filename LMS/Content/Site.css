@@ -23,6 +23,7 @@ textarea {
     max-width: 280px;
 }
 
+/*Prevents the navbar from having a transition when collpasing*/
 .no-transition {
   -webkit-transition: height 0.01s;
   -moz-transition: height 0.01s;
