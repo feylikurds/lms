@@ -17,7 +17,7 @@ namespace LMS.Models
         public DateTime EndDate { get; set; }
 
         public virtual ICollection<Document> Documents { get; set; }
-
+        public virtual ICollection<ApplicationUser> CourseParticipants { get; set; } 
         public virtual ICollection<Module> Modules { get; set; }
     }
 }
