@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace LMS.Controllers
 {
+    [Authorize(Roles ="Teacher")]
     public class TeacherController : Controller
     {
         // GET: Teacher
