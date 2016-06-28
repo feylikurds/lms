@@ -18,6 +18,7 @@ namespace LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -409,6 +410,16 @@ namespace LMS.Controllers
             return View(UserManager.Users);
         }
 		
+        public ActionResult SeeMyClassmates()
+        {
+            var myself = (from u in db.Users
+                          where u.UserName == User.Identity.Name
+                          select u).FirstOrDefault();
+            var roles = db.Roles.FirstOrDefault(r => r.Name == "Teacher").Id;
+            var courseMembers = db.Users.Where(r => r.CourseId == myself.CourseId && r.Id != myself.Id && r.Roles.FirstOrDefault().RoleId != roles);
+            return View(courseMembers);
+        }
+
         //
         // POST: /Account/CreateUser
         [HttpPost]
