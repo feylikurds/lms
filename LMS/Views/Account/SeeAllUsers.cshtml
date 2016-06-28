@@ -32,7 +32,7 @@
                 <td>
                     @{
                         var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                        var userRoles = userManager.GetRoles(User.Identity.GetUserId());
+                        var userRoles = userManager.GetRoles(user.Id);
                         var role = userRoles[0];
 
                         //string roleString = "role";
