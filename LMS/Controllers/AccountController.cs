@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS.Models;
 using System.Collections.Generic;
+using System.Web.Security;
 
 namespace LMS.Controllers
 {
@@ -18,6 +19,7 @@ namespace LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -149,7 +151,7 @@ namespace LMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles ="Teacher")]
         public ActionResult Register()
         {
             return View();
@@ -158,27 +160,32 @@ namespace LMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+                bool validRole = (model.Role.Equals("Teacher")) || (model.Role.Equals("Student"));
+
+                if (validRole)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var result2 = await UserManager.AddToRoleAsync(user.Id, model.Role);
+                    if (result.Succeeded)
+                    {
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        //// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        //// Send an email with this link
+                        //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
@@ -419,36 +426,6 @@ namespace LMS.Controllers
         public ActionResult SeeAllUsers()
         {
             return View(UserManager.Users);
-        }
-
-        //
-        // POST: /Account/CreateUser
-        [HttpPost]
-        [Authorize(Roles = "Teacher")]
-        public async Task<ActionResult> CreateUser(RegisterViewModel model)
-        {
-            List<string> status = new List<string>();
-
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
-                var result = await UserManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    status.Add("success");
-                }
-                else
-                {
-                    status.Add("error");
-                }
-            }
-            else
-            {
-                status.Add("error");
-            }
-
-            return Json(status);
         }
 
         protected override void Dispose(bool disposing)

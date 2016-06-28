@@ -44,5 +44,7 @@ namespace LMS.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
