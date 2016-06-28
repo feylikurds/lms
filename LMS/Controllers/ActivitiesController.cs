@@ -15,6 +15,7 @@ namespace LMS.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        
         // GET: Activities
         public ActionResult Index()
         {
