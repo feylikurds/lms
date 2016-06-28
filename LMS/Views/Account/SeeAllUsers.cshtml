@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<LMS.Models.ApplicationUser>
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin;
 
 @{
     ViewBag.Title = "SeeAllUsers";
@@ -12,17 +14,33 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            Username
+        </th>
+        <th>
+            Role
         </th>
         <th></th>
     </tr>
+    @{
+        var users = Model.ToArray();
+        foreach (var user in users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.UserName)
+                </td>
+                <td>
+                    @{
+                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var userRoles = userManager.GetRoles(User.Identity.GetUserId());
+                        var role = userRoles[0];
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-    </tr>
-}
+                        //string roleString = "role";
+                        @Html.DisplayFor(s => role);
+                    }
+                </td>
+            </tr>
+         }
+    }
 
 </table>
