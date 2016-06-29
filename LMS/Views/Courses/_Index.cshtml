@@ -42,11 +42,11 @@
             </td>
             <td>
 
-                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @Html.ActionLink("Details", "Details", "Courses", new { id = item.Id }, new { })
                 @if (User.IsInRole("Teacher"))
                 {
-                    @: | @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                    @: | @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @: | @Html.ActionLink("Edit", "Edit", "Courses", new { id = item.Id }, new { })
+                    @: | @Html.ActionLink("Delete", "Delete", "Courses", new { id = item.Id }, new { })
                 }
 
             </td>

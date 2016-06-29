@@ -36,6 +36,11 @@ namespace LMS.Controllers
             return View(course);
         }
 
+        private bool IsValidCourse(Course course)
+        {
+            return course.EndDate >= course.StartDate;
+        }
+
         // GET: Courses/Create
         public ActionResult Create()
         {
@@ -49,8 +54,7 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
-            if (ModelState.IsValid
-                && course.EndDate >= course.StartDate)
+            if (ModelState.IsValid && IsValidCourse(course))
             {
                 db.Courses.Add(course);
                 db.SaveChanges();
@@ -82,7 +86,7 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && IsValidCourse(course))
             {
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
