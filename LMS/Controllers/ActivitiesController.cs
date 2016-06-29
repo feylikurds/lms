@@ -128,29 +128,27 @@ namespace LMS.Controllers
         }
 
         /// <summary>
-        /// Given a Course.ID, it returns a View of finished activities
+        /// Given a Module.ID, it returns a View of finished activities for that module
         /// </summary>
-        public ActionResult FinishedActivities(int courseId)
+        public ActionResult FinishedActivities(int moduleId)
         {
             DateTime now = DateTime.Now;
 
             var finishedActivities = from a in db.Activities
-                                     join m in db.Modules on a.ModuleId equals m.Id
-                                     where m.CourseId == courseId && a.EndDate < now
+                                     where a.ModuleId == moduleId && a.EndDate < now
                                      select a;
             return View("Index", finishedActivities.ToList());
         }
 
         /// <summary>
-        /// Given a Course.ID, it returns a View of current activities
+        /// Given a Module.ID, it returns a View of current activities for that module
         /// </summary>
-        public ActionResult CurrentActivities(int courseId)
+        public ActionResult CurrentActivities(int moduleId)
         {
             DateTime now = DateTime.Now;
 
             var currentActivities = from a in db.Activities
-                                    join m in db.Modules on a.ModuleId equals m.Id
-                                    where m.CourseId == courseId && a.StartDate <= now && a.EndDate >= now
+                                    where a.ModuleId == moduleId && a.StartDate <= now && a.EndDate >= now
                                     select a;
             return View("Index", currentActivities.ToList());
 
