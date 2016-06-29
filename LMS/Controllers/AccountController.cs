@@ -37,9 +37,9 @@ namespace LMS.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set
-            {
-                _signInManager = value;
+            private set 
+            { 
+                _signInManager = value; 
             }
         }
 
@@ -93,7 +93,7 @@ namespace LMS.Controllers
                     }
                     else
                     {
-                        return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(returnUrl);
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -171,20 +171,20 @@ namespace LMS.Controllers
 
                 if (validRole)
                 {
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, model.Password);
                     var result2 = await UserManager.AddToRoleAsync(user.Id, model.Role);
-                    if (result.Succeeded)
-                    {
+                if (result.Succeeded)
+                {
                         //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
+                    
                         //// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                         //// Send an email with this link
                         //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return RedirectToAction("Index", "Home");
+                }
                 }
             }
 
@@ -427,7 +427,47 @@ namespace LMS.Controllers
         {
             return View(UserManager.Users);
         }
+		
+        public ActionResult SeeMyClassmates()
+        {
+            var myself = (from u in db.Users
+                          where u.UserName == User.Identity.Name
+                          select u).FirstOrDefault();
+            var roles = db.Roles.FirstOrDefault(r => r.Name == "Teacher").Id;
+            var courseMembers = db.Users.Where(r => r.CourseId == myself.CourseId && r.Id != myself.Id && r.Roles.FirstOrDefault().RoleId != roles);
+            return View(courseMembers);
+        }
 
+        //
+        // POST: /Account/CreateUser
+        [HttpPost]
+        [Authorize (Roles ="Teacher")]
+        public async Task<ActionResult> CreateUser(RegisterViewModel model)
+        {
+            List<string> status = new List<string>();
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    status.Add("success");
+                }
+                else
+                {
+                    status.Add("error");
+                }
+            }
+            else
+            {
+                status.Add("error");
+            }
+
+            return Json(status);
+        }
+		
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -25,8 +25,8 @@
         var users = Model.ToArray();
         foreach (var user in users)
         {
-            <tr>
-                <td>
+    <tr>
+        <td>
                     @Html.DisplayFor(modelItem => user.UserName)
                 </td>
                 <td>
@@ -38,9 +38,9 @@
                         //string roleString = "role";
                         @Html.DisplayFor(s => role);
                     }
-                </td>
-            </tr>
-         }
+        </td>
+    </tr>
+}
     }
 
 </table>

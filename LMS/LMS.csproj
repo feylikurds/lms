@@ -214,6 +214,14 @@
     <Compile Include="Migrations\201606231409094_Added_Status_to_Document.Designer.cs">
       <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.cs" />
+    <Compile Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.Designer.cs">
+      <DependentUpon>201606280852248_Removed_Erroneous_Course_User_Relationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.cs" />
+    <Compile Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.Designer.cs">
+      <DependentUpon>201606280916461_Made_Application_CourseId_Nullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -302,6 +310,7 @@
     <Content Include="Views\Modules\Index.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Account\SeeMyClassMates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -336,6 +345,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606231409094_Added_Status_to_Document.resx">
       <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.resx">
+      <DependentUpon>201606280852248_Removed_Erroneous_Course_User_Relationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.resx">
+      <DependentUpon>201606280916461_Made_Application_CourseId_Nullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
