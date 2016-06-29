@@ -214,13 +214,9 @@
     <Compile Include="Migrations\201606231409094_Added_Status_to_Document.Designer.cs">
       <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.cs" />
-    <Compile Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.Designer.cs">
-      <DependentUpon>201606280852248_Removed_Erroneous_Course_User_Relationship.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.cs" />
-    <Compile Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.Designer.cs">
-      <DependentUpon>201606280916461_Made_Application_CourseId_Nullable.cs</DependentUpon>
+    <Compile Include="Migrations\201606290747356_Resolve merge conflict.cs" />
+    <Compile Include="Migrations\201606290747356_Resolve merge conflict.Designer.cs">
+      <DependentUpon>201606290747356_Resolve merge conflict.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -346,11 +342,8 @@
     <EmbeddedResource Include="Migrations\201606231409094_Added_Status_to_Document.resx">
       <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.resx">
-      <DependentUpon>201606280852248_Removed_Erroneous_Course_User_Relationship.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.resx">
-      <DependentUpon>201606280916461_Made_Application_CourseId_Nullable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606290747356_Resolve merge conflict.resx">
+      <DependentUpon>201606290747356_Resolve merge conflict.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

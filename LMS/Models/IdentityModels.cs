@@ -18,7 +18,7 @@ namespace LMS.Models
         public DateTime TimeOfRegistration { get; set; } = DateTime.Now;
 
         public int? CourseId { get; set; }
-
+        public virtual Course course { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
