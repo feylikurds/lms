@@ -49,7 +49,8 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid
+                && course.EndDate >= course.StartDate)
             {
                 db.Courses.Add(course);
                 db.SaveChanges();
