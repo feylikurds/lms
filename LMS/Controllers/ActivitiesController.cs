@@ -154,6 +154,17 @@ namespace LMS.Controllers
 
         }
 
+        /// <summary>
+        /// Given a Course.ID, it returns a View of all activities for that module
+        /// </summary>
+        public ActionResult AllActivities(int moduleId)
+        {
+            var allActivities = from a in db.Activities
+                                where a.ModuleId == moduleId
+                                select a;
+            return View("Index", allActivities.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
