@@ -1,8 +1,5 @@
-﻿<h1>Teacher controller</h1>
+﻿@model IEnumerable<LMS.Models.Course>
 
-@{
-    var db = new LMS.Models.ApplicationDbContext();
-    var courses = db.Courses;
-    @Html.Partial("~/Views/Courses/_Index.cshtml", courses)
-}
+<h1>Teacher controller</h1>
 
+@Html.Partial("~/Views/Courses/_Index.cshtml", Model)
