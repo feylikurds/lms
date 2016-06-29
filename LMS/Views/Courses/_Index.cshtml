@@ -1,6 +1,13 @@
 ﻿@model IEnumerable<LMS.Models.Course>
 @using Microsoft.AspNet.Identity
 
+@if (User.IsInRole("Teacher"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>

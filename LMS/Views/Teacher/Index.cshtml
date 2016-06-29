@@ -1,1 +1,8 @@
 ﻿<h1>Teacher controller</h1>
+
+@{
+    var db = new LMS.Models.ApplicationDbContext();
+    var courses = db.Courses;
+    @Html.Partial("~/Views/Courses/_Index.cshtml", courses)
+}
+
