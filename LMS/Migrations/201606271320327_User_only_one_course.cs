@@ -3,7 +3,7 @@ namespace LMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Removed_Erroneous_Course_User_Relationship : DbMigration
+    public partial class User_only_one_course : DbMigration
     {
         public override void Up()
         {

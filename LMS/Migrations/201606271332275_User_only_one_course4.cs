@@ -3,7 +3,7 @@ namespace LMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Made_Application_CourseId_Nullable : DbMigration
+    public partial class User_only_one_course4 : DbMigration
     {
         public override void Up()
         {

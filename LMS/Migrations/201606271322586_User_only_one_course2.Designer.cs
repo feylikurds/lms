@@ -7,13 +7,13 @@ namespace LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Removed_Erroneous_Course_User_Relationship : IMigrationMetadata
+    public sealed partial class User_only_one_course2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Removed_Erroneous_Course_User_Relationship));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(User_only_one_course2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606280852248_Removed_Erroneous_Course_User_Relationship"; }
+            get { return "201606271322586_User_only_one_course2"; }
         }
         
         string IMigrationMetadata.Source

@@ -181,6 +181,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,13 +214,21 @@
     <Compile Include="Migrations\201606231409094_Added_Status_to_Document.Designer.cs">
       <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.cs" />
-    <Compile Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.Designer.cs">
-      <DependentUpon>201606280852248_Removed_Erroneous_Course_User_Relationship.cs</DependentUpon>
+    <Compile Include="Migrations\201606271320327_User_only_one_course.cs" />
+    <Compile Include="Migrations\201606271320327_User_only_one_course.Designer.cs">
+      <DependentUpon>201606271320327_User_only_one_course.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.cs" />
-    <Compile Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.Designer.cs">
-      <DependentUpon>201606280916461_Made_Application_CourseId_Nullable.cs</DependentUpon>
+    <Compile Include="Migrations\201606271322586_User_only_one_course2.cs" />
+    <Compile Include="Migrations\201606271322586_User_only_one_course2.Designer.cs">
+      <DependentUpon>201606271322586_User_only_one_course2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606271329263_User_only_one_course3.cs" />
+    <Compile Include="Migrations\201606271329263_User_only_one_course3.Designer.cs">
+      <DependentUpon>201606271329263_User_only_one_course3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606271332275_User_only_one_course4.cs" />
+    <Compile Include="Migrations\201606271332275_User_only_one_course4.Designer.cs">
+      <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -306,10 +316,15 @@
     <Content Include="Views\Modules\Details.cshtml" />
     <Content Include="Views\Modules\Edit.cshtml" />
     <Content Include="Views\Modules\Index.cshtml" />
+    <Content Include="Views\Account\CreateUser.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Teacher\Index.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
     <Content Include="Views\Account\SeeMyClassMates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -341,11 +356,17 @@
     <EmbeddedResource Include="Migrations\201606231409094_Added_Status_to_Document.resx">
       <DependentUpon>201606231409094_Added_Status_to_Document.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606280852248_Removed_Erroneous_Course_User_Relationship.resx">
-      <DependentUpon>201606280852248_Removed_Erroneous_Course_User_Relationship.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606271320327_User_only_one_course.resx">
+      <DependentUpon>201606271320327_User_only_one_course.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606280916461_Made_Application_CourseId_Nullable.resx">
-      <DependentUpon>201606280916461_Made_Application_CourseId_Nullable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606271322586_User_only_one_course2.resx">
+      <DependentUpon>201606271322586_User_only_one_course2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606271329263_User_only_one_course3.resx">
+      <DependentUpon>201606271329263_User_only_one_course3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606271332275_User_only_one_course4.resx">
+      <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,13 +7,13 @@ namespace LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Made_Application_CourseId_Nullable : IMigrationMetadata
+    public sealed partial class User_only_one_course4 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Made_Application_CourseId_Nullable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(User_only_one_course4));
         
         string IMigrationMetadata.Id
         {
-            get { return "201606280916461_Made_Application_CourseId_Nullable"; }
+            get { return "201606271332275_User_only_one_course4"; }
         }
         
         string IMigrationMetadata.Source
