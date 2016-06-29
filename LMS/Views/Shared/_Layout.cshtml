@@ -21,11 +21,11 @@
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse no-transition">
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Teacher"))
                     {
-                        <li>@Html.ActionLink("See all Users", "SeeAllUsers", "Account")</li>
+                        <li>@Html.ActionLink("See all users", "SeeAllUsers", "Account")</li>
                         <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
                         <li>@Html.ActionLink("Modules", "Index", "Modules")</li>
                         <li>@Html.ActionLink("Activities", "Index", "Activities")</li>
@@ -33,6 +33,7 @@
                     else
                     {
                         //Default for now
+                        <li>@Html.ActionLink("See my classmates", "SeeMyClassMates", "Account")</li>
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>

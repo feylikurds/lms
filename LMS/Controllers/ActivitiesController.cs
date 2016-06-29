@@ -15,6 +15,7 @@ namespace LMS.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        
         // GET: Activities
         public ActionResult Index()
         {
@@ -81,6 +82,7 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
             return View(activity);
         }
 

@@ -10,11 +10,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS.Models;
 using System.Collections.Generic;
-using System.Net;
+using System.Web.Security;
 
 namespace LMS.Controllers
 {
-    [Authorize (Roles = "Teacher")]
+    [Authorize(Roles ="Teacher")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -25,7 +25,7 @@ namespace LMS.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -82,7 +82,19 @@ namespace LMS.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //return RedirectToLocal(returnUrl);
+
+                    var user = await UserManager.FindAsync(model.Email, model.Password);
+                    var roles = await UserManager.GetRolesAsync(user.Id);
+
+                    if (roles.Contains("Teacher"))
+                    {
+                        return RedirectToAction("Index", "Teacher");
+                    }
+                    else
+                    {
                     return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -123,7 +135,7 @@ namespace LMS.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -147,26 +159,32 @@ namespace LMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+                bool validRole = (model.Role.Equals("Teacher")) || (model.Role.Equals("Student"));
+
+                if (validRole)
+                {
                 var result = await UserManager.CreateAsync(user, model.Password);
+                    var result2 = await UserManager.AddToRoleAsync(user.Id, model.Role);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        //// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        //// Send an email with this link
+                        //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Home");
                 }
-                AddErrors(result);
+                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -408,13 +426,23 @@ namespace LMS.Controllers
         {
             return View(UserManager.Users);
         }
-
-        //
+		
+        public ActionResult SeeMyClassmates()
+        {
+            var myself = (from u in db.Users
+                          where u.UserName == User.Identity.Name
+                          select u).FirstOrDefault();
+            var roles = db.Roles.FirstOrDefault(r => r.Name == "Teacher").Id;
+            var courseMembers = db.Users.Where(r => r.CourseId == myself.CourseId && r.Id != myself.Id && r.Roles.FirstOrDefault().RoleId != roles);
+            return View(courseMembers);
+		}
+		
+		//
         // GET: /Account/CreateUser
         public ActionResult CreateUser()
         {
             return View();
-        }
+		}
 
         //
         // POST: /Account/CreateUser

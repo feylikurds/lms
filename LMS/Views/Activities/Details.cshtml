@@ -1,5 +1,6 @@
 ﻿@model LMS.Models.Activity
 @using Microsoft.AspNet.Identity;
+@using LMS.Controllers
 
 @{
     ViewBag.Title = "Details";
@@ -43,6 +44,13 @@
             @Model.EndDate.ToShortDateString()
         </dd>
 
+        <dt>
+            Module
+        </dt>
+
+        <dd>
+            @Model.Module.Name
+        </dd>
     </dl>
 </div>
 <p>

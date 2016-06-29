@@ -10,7 +10,18 @@ namespace LMS.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (User.IsInRole("Teacher"))
+            {
+                return RedirectToAction("Index", "Teacher");
+            }
+            else if (User.IsInRole("Student"))
+            {
+                return RedirectToAction("Index", "Student");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         public ActionResult About()

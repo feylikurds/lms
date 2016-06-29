@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<LMS.Models.ApplicationUser>
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin;
 
 @{
     ViewBag.Title = "SeeAllUsers";
@@ -7,25 +9,43 @@
 <h2>SeeAllUsers</h2>
 
 <p>
-    @Html.ActionLink("Create New", "CreateUser")
+    @Html.ActionLink("Create New", "Register")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            Username
         </th>
-        <th></th>
+        <th>
+            Role
+        </th>
+        <th>
+		</th>
     </tr>
+    @{
+        var users = Model.ToArray();
+        foreach (var user in users)
+        {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => user.UserName)
+				</td>
+				<td>
+					@{
+						var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+						var userRoles = userManager.GetRoles(user.Id);
+						var role = userRoles[0];
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-        </td>
-</tr>
-}
+						//string roleString = "role";
+						@Html.DisplayFor(s => role);
+					}
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.Id })
+				</td>
+			</tr>
+		}
+    }
 
 </table>
+>>>>>>> master

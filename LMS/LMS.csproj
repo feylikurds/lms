@@ -181,6 +181,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,6 +229,9 @@
     <Compile Include="Migrations\201606271332275_User_only_one_course4.cs" />
     <Compile Include="Migrations\201606271332275_User_only_one_course4.Designer.cs">
       <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
+    <Compile Include="Migrations\201606290747356_Resolve merge conflict.cs" />
+    <Compile Include="Migrations\201606290747356_Resolve merge conflict.Designer.cs">
+      <DependentUpon>201606290747356_Resolve merge conflict.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -316,9 +321,13 @@
     <Content Include="Views\Modules\Index.cshtml" />
     <Content Include="Views\Account\CreateUser.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Teacher\Index.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Account\SeeMyClassMates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -361,6 +370,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606271332275_User_only_one_course4.resx">
       <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606290747356_Resolve merge conflict.resx">
+      <DependentUpon>201606290747356_Resolve merge conflict.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
