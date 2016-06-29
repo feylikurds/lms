@@ -160,7 +160,6 @@ namespace LMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
