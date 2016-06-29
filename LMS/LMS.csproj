@@ -230,10 +230,6 @@
     <Compile Include="Migrations\201606271332275_User_only_one_course4.Designer.cs">
       <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201606290747356_Resolve merge conflict.cs" />
-    <Compile Include="Migrations\201606290747356_Resolve merge conflict.Designer.cs">
-      <DependentUpon>201606290747356_Resolve merge conflict.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -371,9 +367,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606271332275_User_only_one_course4.resx">
       <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606290747356_Resolve merge conflict.resx">
-      <DependentUpon>201606290747356_Resolve merge conflict.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
