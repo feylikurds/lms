@@ -130,6 +130,7 @@ namespace LMS.Controllers
         /// <summary>
         /// Given a Module.ID, it returns a View of finished activities for that module
         /// </summary>
+        [Authorize]
         public ActionResult FinishedActivities(int moduleId)
         {
             DateTime now = DateTime.Now;
@@ -143,6 +144,7 @@ namespace LMS.Controllers
         /// <summary>
         /// Given a Module.ID, it returns a View of current activities for that module
         /// </summary>
+        [Authorize]
         public ActionResult CurrentActivities(int moduleId)
         {
             DateTime now = DateTime.Now;
@@ -157,6 +159,7 @@ namespace LMS.Controllers
         /// <summary>
         /// Given a Course.ID, it returns a View of all activities for that module
         /// </summary>
+        [Authorize]
         public ActionResult AllActivities(int moduleId)
         {
             var allActivities = from a in db.Activities
