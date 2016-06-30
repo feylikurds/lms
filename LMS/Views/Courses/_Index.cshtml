@@ -46,7 +46,6 @@
                 @if (User.IsInRole("Teacher"))
                 {
                     @: | @Html.ActionLink("Edit", "Edit", "Courses", new { id = item.Id }, new { })
-                    @: | @Html.ActionLink("Delete", "Delete", "Courses", new { id = item.Id }, new { })
                 }
 
             </td>
