@@ -48,7 +48,9 @@ namespace LMS.Controllers
 
         private bool IsValidModule(Module module)
         {
-            return module.EndDate >= module.StartDate;
+            bool validModuleDate = module.EndDate >= module.StartDate;
+
+            return validModuleDate
         }
 
         // GET: Modules/Create
