@@ -15,7 +15,7 @@ using System.Net;
 
 namespace LMS.Controllers
 {
-    [Authorize(Roles ="Teacher")]
+    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -152,6 +152,7 @@ namespace LMS.Controllers
 
         //
         // GET: /Account/Register
+        [Authorize(Roles ="Teacher")]
         public ActionResult Register()
         {
             return View();
@@ -159,8 +160,8 @@ namespace LMS.Controllers
 
         //
         // POST: /Account/Register
-        [HttpPost]
         [Authorize(Roles = "Teacher")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -409,6 +410,7 @@ namespace LMS.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -423,11 +425,13 @@ namespace LMS.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult SeeAllUsers()
         {
             return View(UserManager.Users);
         }
 		
+        [Authorize]
         public ActionResult SeeMyClassmates()
         {
             var myself = (from u in db.Users
@@ -437,9 +441,10 @@ namespace LMS.Controllers
             var courseMembers = db.Users.Where(r => r.CourseId == myself.CourseId && r.Id != myself.Id && r.Roles.FirstOrDefault().RoleId != roles);
             return View(courseMembers);
 		}
-		
-		//
+
+        //
         // GET: /Account/CreateUser
+        [Authorize(Roles = "Teacher")]
         public ActionResult CreateUser()
         {
             return View();
@@ -447,6 +452,7 @@ namespace LMS.Controllers
 
         //
         // POST: /Account/CreateUser
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateUser(RegisterViewModel model)
