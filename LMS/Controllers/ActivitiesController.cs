@@ -17,6 +17,7 @@ namespace LMS.Controllers
 
         
         // GET: Activities
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.Activities.ToList());
@@ -25,6 +26,7 @@ namespace LMS.Controllers
         /// <summary>
         /// Returns all activities belonging to a certain moduleId
         /// </summary>
+        [Authorize]
         public ActionResult ActivitiesByModule(int moduleId)
         {
             var activities = db.Activities.Where(m => m.ModuleId == moduleId);
@@ -32,6 +34,7 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -59,7 +62,7 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && IsValidActivity(activity))
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
@@ -70,7 +73,6 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Edit/5
-        [Authorize(Roles ="Teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -91,10 +93,9 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && IsValidActivity(activity))
             {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
@@ -104,7 +105,6 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Delete/5
-        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -122,13 +122,64 @@ namespace LMS.Controllers
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
             Activity activity = db.Activities.Find(id);
             db.Activities.Remove(activity);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Performs some validation on an activity about to be saved to the database
+        /// </summary>
+        bool IsValidActivity(Activity act)
+        {
+            DateTime now = DateTime.Now;
+
+            return act.StartDate <= act.EndDate &&
+                (now >= act.StartDate && now <= act.EndDate);
+        }
+
+        /// <summary>
+        /// Given a Module.ID, it returns a View of finished activities for that module
+        /// </summary>
+        [Authorize]
+        public ActionResult FinishedActivities(int moduleId)
+        {
+            DateTime now = DateTime.Now;
+
+            var finishedActivities = from a in db.Activities
+                                     where a.ModuleId == moduleId && a.EndDate < now
+                                     select a;
+            return View("Index", finishedActivities.ToList());
+        }
+
+        /// <summary>
+        /// Given a Module.ID, it returns a View of current activities for that module
+        /// </summary>
+        [Authorize]
+        public ActionResult CurrentActivities(int moduleId)
+        {
+            DateTime now = DateTime.Now;
+
+            var currentActivities = from a in db.Activities
+                                    where a.ModuleId == moduleId && a.StartDate <= now && a.EndDate >= now
+                                    select a;
+            return View("Index", currentActivities.ToList());
+
+        }
+
+        /// <summary>
+        /// Given a Module.ID, it returns a View of all activities for that module
+        /// </summary>
+        [Authorize]
+        public ActionResult AllActivities(int moduleId)
+        {
+            var allActivities = from a in db.Activities
+                                where a.ModuleId == moduleId
+                                select a;
+            return View("Index", allActivities.ToList());
         }
 
         protected override void Dispose(bool disposing)
@@ -139,28 +190,5 @@ namespace LMS.Controllers
             }
             base.Dispose(disposing);
         }
-
-        /*
-        // GET: New Activities
-        public ActionResult Unfinished()
-        {
-            var unfinishedActivities = from a in db.Activities
-                                       where a.Done != true
-                                       select a;
-
-            return View(unfinishedActivities.ToList());
-        }
-
-
-        // GET: New Activities
-        public ActionResult finished()
-        {
-            var finishedActivities = from a in db.Activities
-                                       where a.Done == true
-                                       select a;
-
-            return View(finishedActivities.ToList());
-        }
-        */
     }
 }

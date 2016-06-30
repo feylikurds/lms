@@ -15,7 +15,7 @@ namespace LMS.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Modules
+        [Authorize]
         public ActionResult Index()
         {
             var modules = db.Modules.Include(m => m.Course);
@@ -25,6 +25,7 @@ namespace LMS.Controllers
         /// <summary>
         /// Returns all modules belonging to a certain courseId
         /// </summary>
+        [Authorize]
         public ActionResult ModulesByCourse(int courseId)
         {
             var modules = db.Modules.Where(m => m.CourseId == courseId);
@@ -32,6 +33,7 @@ namespace LMS.Controllers
         }
 
         // GET: Modules/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
