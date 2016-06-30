@@ -32,6 +32,7 @@ namespace LMS.Controllers
         }
 
         // GET: Modules/Details/5
+        [Authorize(Roles = "Teacher, Student")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -50,7 +51,7 @@ namespace LMS.Controllers
         {
             bool validModuleDate = module.EndDate >= module.StartDate;
 
-            return validModuleDate
+            return validModuleDate;
         }
 
         // GET: Modules/Create
