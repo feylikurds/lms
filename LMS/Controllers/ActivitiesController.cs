@@ -171,7 +171,7 @@ namespace LMS.Controllers
         }
 
         /// <summary>
-        /// Given a Course.ID, it returns a View of all activities for that module
+        /// Given a Module.ID, it returns a View of all activities for that module
         /// </summary>
         [Authorize]
         public ActionResult AllActivities(int moduleId)
