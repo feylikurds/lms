@@ -18,7 +18,7 @@
         <dd>
             @Html.ActionLink(@Model.Module.Name, "Details", "Modules", new { id = Model.Module.Id }, new { })
         </dd>
-        
+
         <dt>
             Name
         </dt>
@@ -63,8 +63,6 @@
 <p>
     @if (User.IsInRole("Teacher"))
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })@: |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
     }
-
-    @Html.ActionLink("Back to List", "Index")
 </p>
