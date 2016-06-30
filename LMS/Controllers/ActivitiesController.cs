@@ -52,6 +52,8 @@ namespace LMS.Controllers
         // GET: Activities/Create
         public ActionResult Create()
         {
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name");
+
             return View();
         }
 
@@ -66,8 +68,11 @@ namespace LMS.Controllers
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name");
 
             return View(activity);
         }
@@ -75,16 +80,21 @@ namespace LMS.Controllers
         // GET: Activities/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activity activity = db.Activities.Find(id);
+
+            var activity = db.Activities.Find(id);
+
             if (activity == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
+
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name", activity.ModuleId);
+
             return View(activity);
         }
 
@@ -95,12 +105,20 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid && IsValidActivity(activity))
+            if (!IsValidActivity(activity))
+            {
+                ModelState.AddModelError("", "Invalid activity.");
+            }
+            else if (ModelState.IsValid)
             {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name", activity.ModuleId);
+
             return View(activity);
         }
 
@@ -135,10 +153,10 @@ namespace LMS.Controllers
         /// </summary>
         bool IsValidActivity(Activity act)
         {
-            DateTime now = DateTime.Now;
+            var validRange = act.StartDate <= act.EndDate;
+            var notTooOld = DateTime.Now <= act.StartDate;
 
-            return act.StartDate <= act.EndDate &&
-                (now >= act.StartDate && now <= act.EndDate);
+            return validRange && notTooOld;
         }
 
         /// <summary>
