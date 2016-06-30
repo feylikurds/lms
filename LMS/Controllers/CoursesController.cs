@@ -36,6 +36,11 @@ namespace LMS.Controllers
             return View(course);
         }
 
+        /// <summary>
+        /// Checks is the data for a course is valid
+        /// </summary>
+        /// <param name="course">The course to check</param>
+        /// <returns>True if it is valid</returns>
         private bool IsValidCourse(Course course)
         {
             return course.EndDate >= course.StartDate;
