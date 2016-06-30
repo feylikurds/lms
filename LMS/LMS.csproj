@@ -230,6 +230,10 @@
     <Compile Include="Migrations\201606271332275_User_only_one_course4.Designer.cs">
       <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606300708383_Added_AssignedRole.cs" />
+    <Compile Include="Migrations\201606300708383_Added_AssignedRole.Designer.cs">
+      <DependentUpon>201606300708383_Added_AssignedRole.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -367,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606271332275_User_only_one_course4.resx">
       <DependentUpon>201606271332275_User_only_one_course4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606300708383_Added_AssignedRole.resx">
+      <DependentUpon>201606300708383_Added_AssignedRole.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

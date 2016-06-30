@@ -12,6 +12,7 @@ using LMS.Models;
 using System.Collections.Generic;
 using System.Web.Security;
 using System.Net;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LMS.Controllers
 {
@@ -483,7 +484,16 @@ namespace LMS.Controllers
 
             var courses = from c in db.Courses
                           select c;
+            var roles = from r in db.Roles
+                        select r;
+            var rolesList = new List<string>();
 
+            foreach (var r in roles)
+            {
+                rolesList.Add(r.Name);
+            }
+
+            ViewBag.Roles = new SelectList(rolesList);
             ViewBag.Courses = new SelectList(courses.ToList(), "Id", "Name");
 
             return View(user);
@@ -524,6 +534,36 @@ namespace LMS.Controllers
                 {
                     user.CourseId = model.CourseId;
                 }
+                if (!string.IsNullOrEmpty(model.AssignedRole))
+                {
+                    var role = (from r in db.Roles
+                                where r.Name == model.AssignedRole
+                                select r).First();
+
+                    var store = new UserStore<ApplicationUser>(db);
+                    var manager = new UserManager<ApplicationUser>(store);
+                    var currentRoles = await manager.GetRolesAsync(user.Id);
+                    var removeResult = await manager.RemoveFromRolesAsync(user.Id, currentRoles.ToArray());
+
+                    if (!removeResult.Succeeded)
+                    {
+                        ModelState.AddModelError("", "Failed to remove user roles");
+
+                        return View(model);
+                    }
+
+                    string[] rolesToAssign = { model.AssignedRole };
+                    IdentityResult addResult = await manager.AddToRolesAsync(user.Id, rolesToAssign);
+
+                    if (!addResult.Succeeded)
+                    {
+                        ModelState.AddModelError("", "Failed to add user roles");
+
+                        return View(model);
+                    }
+
+                    user.AssignedRole = model.AssignedRole;
+                }
 
                 await db.SaveChangesAsync();
 
@@ -532,7 +572,16 @@ namespace LMS.Controllers
 
             var courses = from c in db.Courses
                           select c;
+            var roles = from r in db.Roles
+                        select r;
+            var rolesList = new List<string>();
 
+            foreach (var r in roles)
+            {
+                rolesList.Add(r.Name);
+            }
+
+            ViewBag.Roles = new SelectList(rolesList);
             ViewBag.Courses = new SelectList(courses.ToList(), "Id", "Name");
 
             return View(model);
