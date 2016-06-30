@@ -49,26 +49,6 @@ namespace LMS.Migrations
                 manager.Create(role);
             }
 
-            if (!context.Users.Any(u => u.UserName == "teacher@localhost.com"))
-            {
-                var store = new UserStore<ApplicationUser>(context);
-                var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { AssignedRole = "Teacher", UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson" };
-
-                manager.Create(user, "Pass.123");
-                manager.AddToRole(user.Id, "Teacher");
-            }
-
-            if (!context.Users.Any(u => u.UserName == "student@localhost.com"))
-            {
-                var store = new UserStore<ApplicationUser>(context);
-                var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { AssignedRole = "Student", UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson" };
-
-                manager.Create(user, "Pass.123");
-                manager.AddToRole(user.Id, "Student");
-            }
-
             var rand = new Random();
 
             var courses1 = Builder<Course>.CreateListOfSize(5).All()
@@ -128,6 +108,30 @@ namespace LMS.Migrations
                 .Build();
 
             context.Activities.AddOrUpdate(a => a.Id, activities2.ToArray());
+            context.SaveChanges();
+
+            int aCourseId = context.Courses.First().Id;
+
+            if (!context.Users.Any(u => u.UserName == "teacher@localhost.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { AssignedRole = "Teacher", UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson", CourseId = aCourseId };
+
+                manager.Create(user, "Pass.123");
+                manager.AddToRole(user.Id, "Teacher");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "student@localhost.com"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { AssignedRole = "Student", UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson", CourseId = aCourseId };
+
+                manager.Create(user, "Pass.123");
+                manager.AddToRole(user.Id, "Student");
+            }
+
         }
     }
 }
