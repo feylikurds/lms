@@ -15,13 +15,13 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Course.Name)
+            @Html.ActionLink(@Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id }, new { })
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-
+        
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
