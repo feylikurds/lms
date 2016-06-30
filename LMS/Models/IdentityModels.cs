@@ -19,6 +19,8 @@ namespace LMS.Models
         public string FullName { get { return FirstName + " " + LastName; } }
         public DateTime TimeOfRegistration { get; set; } = DateTime.Now;
 
+        public string AssignedRole { get; set; } = "Student";
+
         public int? CourseId { get; set; }
         public virtual Course Course { get; set; }
 

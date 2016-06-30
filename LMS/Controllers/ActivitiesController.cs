@@ -52,6 +52,8 @@ namespace LMS.Controllers
         // GET: Activities/Create
         public ActionResult Create()
         {
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name");
+
             return View();
         }
 
@@ -62,12 +64,26 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid && IsValidActivity(activity))
+            var validRange = activity.StartDate <= activity.EndDate;
+            var notTooOld = DateTime.Now <= activity.StartDate;
+
+            if (!validRange)
+            {
+                ModelState.AddModelError("", "Invalid date range.");
+            }
+            else if (!notTooOld)
+            {
+                ModelState.AddModelError("", "Date too old.");
+            }
+            else if (ModelState.IsValid)
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name");
 
             return View(activity);
         }
@@ -75,16 +91,21 @@ namespace LMS.Controllers
         // GET: Activities/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Activity activity = db.Activities.Find(id);
+
+            var activity = db.Activities.Find(id);
+
             if (activity == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ModuleId = new SelectList(db.Modules, "Id", "Name", activity.ModuleId);
+
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name", activity.ModuleId);
+
             return View(activity);
         }
 
@@ -95,12 +116,27 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid && IsValidActivity(activity))
+            var validRange = activity.StartDate <= activity.EndDate;
+            var notTooOld = DateTime.Now <= activity.StartDate;
+
+            if (!validRange)
+            {
+                ModelState.AddModelError("", "Invalid date range.");
+            }
+            else if (!notTooOld)
+            {
+                ModelState.AddModelError("", "Date too old.");
+            }
+            else if (ModelState.IsValid)
             {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name", activity.ModuleId);
+
             return View(activity);
         }
 
@@ -128,17 +164,6 @@ namespace LMS.Controllers
             db.Activities.Remove(activity);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        /// <summary>
-        /// Performs some validation on an activity about to be saved to the database
-        /// </summary>
-        bool IsValidActivity(Activity act)
-        {
-            DateTime now = DateTime.Now;
-
-            return act.StartDate <= act.EndDate &&
-                (now >= act.StartDate && now <= act.EndDate);
         }
 
         /// <summary>
