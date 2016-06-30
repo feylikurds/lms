@@ -443,6 +443,17 @@ namespace LMS.Controllers
         // GET: /Account/CreateUser
         public ActionResult CreateUser()
         {
+            var roles = from r in db.Roles
+                        select r;
+            var rolesList = new List<string>();
+
+            foreach (var r in roles)
+            {
+                rolesList.Add(r.Name);
+            }
+
+            ViewBag.Roles = new SelectList(rolesList);
+
             return View();
 		}
 
@@ -450,18 +461,43 @@ namespace LMS.Controllers
         // POST: /Account/CreateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateUser(RegisterViewModel model)
+        public async Task<ActionResult> CreateUser(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { AssignedRole = "Student", FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("SeeAllUsers", "Account");
+
+                    var store = new UserStore<ApplicationUser>(db);
+                    var manager = new UserManager<ApplicationUser>(store);
+
+                    result = manager.AddToRole(user.Id, "Student");
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("SeeAllUsers", "Account");
+                    }
                 }
+
                 AddErrors(result);
             }
+
+            var courses = from c in db.Courses
+                          select c;
+            var roles = from r in db.Roles
+                        select r;
+            var rolesList = new List<string>();
+
+            foreach (var r in roles)
+            {
+                rolesList.Add(r.Name);
+            }
+
+            ViewBag.Roles = new SelectList(rolesList);
+            ViewBag.Courses = new SelectList(courses.ToList(), "Id", "Name");
 
             // If we got this far, something failed, redisplay form
             return View(model);
