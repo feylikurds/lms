@@ -46,6 +46,11 @@ namespace LMS.Controllers
             return View(module);
         }
 
+        private bool IsValidModule(Module module)
+        {
+            return module.EndDate >= module.StartDate;
+        }
+
         // GET: Modules/Create
         public ActionResult Create()
         {
@@ -60,7 +65,7 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && IsValidModule(module))
             {
                 db.Modules.Add(module);
                 db.SaveChanges();
@@ -94,7 +99,7 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && IsValidModule(module))
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
