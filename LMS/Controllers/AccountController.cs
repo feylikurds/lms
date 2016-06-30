@@ -16,7 +16,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LMS.Controllers
 {
-    [Authorize(Roles ="Teacher")]
+    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -153,6 +153,7 @@ namespace LMS.Controllers
 
         //
         // GET: /Account/Register
+        [Authorize(Roles = "Teacher")]
         public ActionResult Register()
         {
             return View();
@@ -410,6 +411,7 @@ namespace LMS.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -424,11 +426,13 @@ namespace LMS.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult SeeAllUsers()
         {
             return View(UserManager.Users);
         }
 		
+        [Authorize(Roles = "Student")]
         public ActionResult SeeMyClassmates()
         {
             var myself = (from u in db.Users
@@ -438,9 +442,10 @@ namespace LMS.Controllers
             var courseMembers = db.Users.Where(r => r.CourseId == myself.CourseId && r.Id != myself.Id && r.Roles.FirstOrDefault().RoleId != roles);
             return View(courseMembers);
 		}
-		
-		//
+
+        //
         // GET: /Account/CreateUser
+        [Authorize(Roles = "Teacher")]
         public ActionResult CreateUser()
         {
             var roles = from r in db.Roles
@@ -461,6 +466,7 @@ namespace LMS.Controllers
         // POST: /Account/CreateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public async Task<ActionResult> CreateUser(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -504,6 +510,7 @@ namespace LMS.Controllers
         }
 
         // GET: Account/Edit/5
+        [Authorize(Roles = "Teacher")]
         public async Task<ActionResult> Edit(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -539,6 +546,7 @@ namespace LMS.Controllers
         // POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public async Task<ActionResult> Edit(ApplicationUser model)
         {
             if (!ModelState.IsValid)
