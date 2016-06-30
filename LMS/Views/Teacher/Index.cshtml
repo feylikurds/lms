@@ -1,1 +1,8 @@
-﻿<h1>Teacher controller</h1>
+﻿@model IEnumerable<LMS.Models.Course>
+
+@{
+    ViewBag.Title = "Teacher home";
+}
+<h1>Teacher controller</h1>
+
+@Html.Partial("~/Views/Courses/_Index.cshtml", Model)
