@@ -116,6 +116,47 @@ namespace LMS.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Given a Course.ID, it returns a View of finished Modules for that Course
+        /// </summary>
+        [Authorize]
+        public ActionResult FinishedModules(int courseId)
+        {
+            DateTime now = DateTime.Now;
+
+            var finishedModules = from m in db.Modules
+                                  where m.CourseId == courseId && m.EndDate < now
+                                  select m;
+            return View("Index", finishedModules.ToList());
+        }
+
+        /// <summary>
+        /// Given a Course.ID, it returns a View of current Modules for that Course
+        /// </summary>
+        [Authorize]
+        public ActionResult CurrentModules(int courseId)
+        {
+            DateTime now = DateTime.Now;
+
+            var currentModules = from m in db.Modules
+                                 where m.CourseId == courseId && m.StartDate <= now && m.EndDate >= now
+                                 select m;
+            return View("Index", currentModules.ToList());
+
+        }
+
+        /// <summary>
+        /// Given a Course.ID, it returns a View of all Modules for that Course
+        /// </summary>
+        [Authorize]
+        public ActionResult AllModules(int courseId)
+        {
+            var allModules = from m in db.Modules
+                             where m.CourseId  == courseId
+                             select m;
+            return View("Index", allModules.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
