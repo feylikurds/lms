@@ -48,17 +48,11 @@ namespace LMS.Controllers
             return View(module);
         }
 
-        private bool IsValidModule(Module module)
-        {
-            bool validModuleDate = module.EndDate >= module.StartDate;
-
-            return validModuleDate;
-        }
-
         // GET: Modules/Create
         public ActionResult Create()
         {
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
+
             return View();
         }
 
@@ -69,10 +63,22 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
-            if (ModelState.IsValid && IsValidModule(module))
+            var validRange = module.StartDate <= module.EndDate;
+            var notTooOld = DateTime.Now <= module.StartDate;
+
+            if (!validRange)
+            {
+                ModelState.AddModelError("", "Invalid date range.");
+            }
+            else if (!notTooOld)
+            {
+                ModelState.AddModelError("", "Date too old.");
+            }
+            else if (ModelState.IsValid)
             {
                 db.Modules.Add(module);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -87,12 +93,16 @@ namespace LMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Module module = db.Modules.Find(id);
+
+            var module = db.Modules.Find(id);
+
             if (module == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", module.CourseId);
+
             return View(module);
         }
 
@@ -103,13 +113,26 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
-            if (ModelState.IsValid && IsValidModule(module))
+            var validRange = module.StartDate <= module.EndDate;
+            var notTooOld = DateTime.Now <= module.StartDate;
+
+            if (!validRange)
+            {
+                ModelState.AddModelError("", "Invalid date range.");
+            }
+            else if (!notTooOld)
+            {
+                ModelState.AddModelError("", "Date too old.");
+            }
+            else if (ModelState.IsValid)
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", module.CourseId);
+
             return View(module);
         }
 

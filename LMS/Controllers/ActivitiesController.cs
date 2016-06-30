@@ -64,7 +64,18 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid && IsValidActivity(activity))
+            var validRange = activity.StartDate <= activity.EndDate;
+            var notTooOld = DateTime.Now <= activity.StartDate;
+
+            if (!validRange)
+            {
+                ModelState.AddModelError("", "Invalid date range.");
+            }
+            else if (!notTooOld)
+            {
+                ModelState.AddModelError("", "Date too old.");
+            }
+            else if (ModelState.IsValid)
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
@@ -105,9 +116,16 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (!IsValidActivity(activity))
+            var validRange = activity.StartDate <= activity.EndDate;
+            var notTooOld = DateTime.Now <= activity.StartDate;
+
+            if (!validRange)
             {
-                ModelState.AddModelError("", "Invalid activity.");
+                ModelState.AddModelError("", "Invalid date range.");
+            }
+            else if (!notTooOld)
+            {
+                ModelState.AddModelError("", "Date too old.");
             }
             else if (ModelState.IsValid)
             {
@@ -146,17 +164,6 @@ namespace LMS.Controllers
             db.Activities.Remove(activity);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        /// <summary>
-        /// Performs some validation on an activity about to be saved to the database
-        /// </summary>
-        bool IsValidActivity(Activity act)
-        {
-            var validRange = act.StartDate <= act.EndDate;
-            var notTooOld = DateTime.Now <= act.StartDate;
-
-            return validRange && notTooOld;
         }
 
         /// <summary>
