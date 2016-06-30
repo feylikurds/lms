@@ -28,19 +28,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
+            Start Date
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
+            @Model.StartDate.ToShortDateString()
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
+            End Date
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EndDate)
+            @Model.EndDate.ToShortDateString()
         </dd>
 
     </dl>
