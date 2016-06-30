@@ -17,6 +17,7 @@ namespace LMS.Controllers
 
         
         // GET: Activities
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.Activities.ToList());
@@ -25,6 +26,7 @@ namespace LMS.Controllers
         /// <summary>
         /// Returns all activities belonging to a certain moduleId
         /// </summary>
+        [Authorize]
         public ActionResult ActivitiesByModule(int moduleId)
         {
             var activities = db.Activities.Where(m => m.ModuleId == moduleId);
@@ -32,6 +34,7 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -59,7 +62,7 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && IsValidActivity(activity))
             {
                 db.Activities.Add(activity);
                 db.SaveChanges();
@@ -92,7 +95,7 @@ namespace LMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && IsValidActivity(activity))
             {
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
@@ -125,6 +128,17 @@ namespace LMS.Controllers
             db.Activities.Remove(activity);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Performs some validation on an activity about to be saved to the database
+        /// </summary>
+        bool IsValidActivity(Activity act)
+        {
+            DateTime now = DateTime.Now;
+
+            return act.StartDate <= act.EndDate &&
+                (now >= act.StartDate && now <= act.EndDate);
         }
 
         /// <summary>
