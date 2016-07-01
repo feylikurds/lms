@@ -186,6 +186,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DBValidation.cs" />
     <Compile Include="Helpers\HtmlHelpers.cs" />
     <Compile Include="Migrations\201606230905437_Init.cs" />
     <Compile Include="Migrations\201606230905437_Init.Designer.cs">
