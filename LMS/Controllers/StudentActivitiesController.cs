@@ -77,7 +77,23 @@ namespace LMS.Controllers
                 return HttpNotFound();
             }
 
-            return View(activities);
+            var studentActivities = new List<StudentActivityViewModel>();
+
+            foreach (var activity in activities)
+            {
+                var sa = new StudentActivityViewModel();
+                var a = (from ac in db.Activities
+                         where ac.Id == activity.ActivityId
+                         select ac).First();
+
+                sa.Name = a.Name;
+                sa.Status = activity.Status;
+                sa.Grade = activity.Grade;
+
+                studentActivities.Add(sa);
+            }
+
+            return View(studentActivities);
         }
 
         // GET: StudentActivities/ListActivities/5

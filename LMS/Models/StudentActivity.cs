@@ -27,6 +27,7 @@ namespace LMS.Models
 
     public enum Grades
     {
+        Waiting,
         Pass,
         Fail,
     }

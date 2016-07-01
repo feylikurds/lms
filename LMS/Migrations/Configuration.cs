@@ -5,6 +5,7 @@ namespace LMS.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -50,6 +51,14 @@ namespace LMS.Migrations
             }
 
             var rand = new Random();
+            var noCourse = new Course();
+
+            noCourse.Name = "None";
+            noCourse.Description = "None";
+            noCourse.StartDate = new DateTime(2000, 1, 1);
+            noCourse.EndDate = new DateTime(2001, 12, 12);
+
+            context.Courses.AddOrUpdate(noCourse);
 
             var courses1 = Builder<Course>.CreateListOfSize(5).All()
                 .With(c => c.Name = Faker.Company.Name())
@@ -110,13 +119,11 @@ namespace LMS.Migrations
             context.Activities.AddOrUpdate(a => a.Id, activities2.ToArray());
             context.SaveChanges();
 
-            int aCourseId = context.Courses.First().Id;
-
             if (!context.Users.Any(u => u.UserName == "teacher@localhost.com"))
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { AssignedRole = "Teacher", UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson", CourseId = aCourseId };
+                var user = new ApplicationUser { AssignedRole = "Teacher", UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson", CourseId = noCourse.Id };
 
                 manager.Create(user, "Pass.123");
                 manager.AddToRole(user.Id, "Teacher");
@@ -126,12 +133,35 @@ namespace LMS.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { AssignedRole = "Student", UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson", CourseId = aCourseId };
+                var course = (from c in context.Courses
+                              where c.Name != "None" && c.Modules.Count() > 0
+                              select c).First();
+
+                var user = new ApplicationUser { AssignedRole = "Student", UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson", CourseId = course.Id };
 
                 manager.Create(user, "Pass.123");
                 manager.AddToRole(user.Id, "Student");
-            }
 
+                var activities = (from m in context.Modules
+                                  where m.CourseId == course.Id
+                                  from a in context.Activities
+                                  where a.ModuleId == m.Id
+                                  select a).ToList();
+                var studentActivities = new List<StudentActivity>();
+
+                foreach (var a in activities)
+                {
+                    var sa = new StudentActivity();
+
+                    sa.StudentId = user.Id;
+                    sa.ActivityId = a.Id;
+
+                    studentActivities.Add(sa);
+                }
+
+                context.StudentActivities.AddOrUpdate(a => a.StudentId, studentActivities.ToArray());
+                context.SaveChanges();
+            }
         }
     }
 }
