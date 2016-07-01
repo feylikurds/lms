@@ -10,12 +10,13 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    [Authorize]
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Courses        
+        // GET: Courses
+        [Authorize(Roles = "Teacher")]
         public ActionResult Index()
         {
             return View(db.Courses.OrderBy(c => c.StartDate).ThenBy(c=>c.EndDate).ThenBy(c => c.Name).ToList());
@@ -47,6 +48,7 @@ namespace LMS.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create()
         {
             return View();
@@ -57,6 +59,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid && IsValidCourse(course))
@@ -70,6 +73,7 @@ namespace LMS.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -89,6 +93,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] Course course)
         {
             if (ModelState.IsValid && IsValidCourse(course))
@@ -101,6 +106,7 @@ namespace LMS.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -118,6 +124,7 @@ namespace LMS.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
             Course course = db.Courses.Find(id);
