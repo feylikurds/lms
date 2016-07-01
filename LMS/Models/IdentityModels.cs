@@ -24,6 +24,8 @@ namespace LMS.Models
         public int? CourseId { get; set; }
         public virtual Course Course { get; set; }
 
+        public virtual ICollection<StudentActivity> StudentActivities { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -49,6 +51,26 @@ namespace LMS.Models
         {
             return new ApplicationDbContext();
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<StudentActivity>()
+                .HasKey(c => new { c.StudentId, c.ActivityId });
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany(c => c.StudentActivities)
+                .WithRequired()
+                .HasForeignKey(c => c.StudentId);
+
+            modelBuilder.Entity<Activity>()
+                .HasMany(c => c.StudentActivities)
+                .WithRequired()
+                .HasForeignKey(c => c.ActivityId);
+        }
+
+        public System.Data.Entity.DbSet<LMS.Models.StudentActivity> StudentActivities { get; set; }
 
         //public System.Data.Entity.DbSet<LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }

@@ -19,6 +19,8 @@ namespace LMS.Models
         public int ModuleId { get; set; }
         public virtual Module Module { get; set; }
 
+        public virtual ICollection<StudentActivity> StudentActivities { get; set; }
+
         public virtual ICollection<Document> Documents { get; set; }
     }
 }

@@ -181,8 +181,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\StudentActivitiesController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
-    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201606300708383_Added_AssignedRole.Designer.cs">
       <DependentUpon>201606300708383_Added_AssignedRole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606301259472_Student_to_Activity.cs" />
+    <Compile Include="Migrations\201606301259472_Student_to_Activity.Designer.cs">
+      <DependentUpon>201606301259472_Student_to_Activity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -242,6 +246,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\StudentActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -322,10 +327,17 @@
     <Content Include="Views\Modules\Index.cshtml" />
     <Content Include="Views\Account\CreateUser.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
     <Content Include="Views\Account\SeeMyClassMates.cshtml" />
     <Content Include="Views\Courses\_Index.cshtml" />
+    <Content Include="Views\StudentActivities\Create.cshtml" />
+    <Content Include="Views\StudentActivities\Delete.cshtml" />
+    <Content Include="Views\StudentActivities\Details.cshtml" />
+    <Content Include="Views\StudentActivities\Edit.cshtml" />
+    <Content Include="Views\StudentActivities\Index.cshtml" />
+    <Content Include="Views\StudentActivities\ListModules.cshtml" />
+    <Content Include="Views\StudentActivities\ListActivities.cshtml" />
+    <Content Include="Views\StudentActivities\StudentListActivities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -375,6 +387,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606300708383_Added_AssignedRole.resx">
       <DependentUpon>201606300708383_Added_AssignedRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606301259472_Student_to_Activity.resx">
+      <DependentUpon>201606301259472_Student_to_Activity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

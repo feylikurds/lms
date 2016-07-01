@@ -91,7 +91,7 @@ namespace LMS.Controllers
 
                     if (roles.Contains("Teacher"))
                     {
-                        return RedirectToAction("Index", "Teacher");
+                        return RedirectToAction("Index", "StudentActivities");
                     }
                     else
                     {
