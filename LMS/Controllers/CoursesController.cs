@@ -18,7 +18,7 @@ namespace LMS.Controllers
         // GET: Courses        
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            return View(db.Courses.OrderBy(c => c.StartDate).ThenBy(c=>c.EndDate).ThenBy(c => c.Name).ToList());
         }
 
         // GET: Courses/Details/5
@@ -162,7 +162,7 @@ namespace LMS.Controllers
         public ActionResult AllModules(int courseId)
         {
             var allModules = from m in db.Modules
-                             where m.CourseId  == courseId
+                             where m.CourseId == courseId
                              select m;
             return View("Index", allModules.ToList());
         }

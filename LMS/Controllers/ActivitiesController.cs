@@ -19,7 +19,7 @@ namespace LMS.Controllers
         // GET: Activities
         public ActionResult Index()
         {
-            return View(db.Activities.ToList());
+            return View(db.Activities.OrderBy(c => c.StartDate).ThenBy(c=>c.EndDate).ThenBy(c => c.Name).ToList());
         }
 
         /// <summary>

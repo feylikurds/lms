@@ -18,7 +18,7 @@ namespace LMS.Controllers
         public ActionResult Index()
         {
             var modules = db.Modules.Include(m => m.Course);
-            return View(modules.ToList());
+            return View(modules.OrderBy(c => c.StartDate).ThenBy(c=>c.EndDate).ThenBy(c => c.Name).ToList());
         }
 
         /// <summary>
