@@ -19,7 +19,10 @@ namespace LMS.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult Index()
         {
-            return View(db.Courses.OrderBy(c => c.StartDate).ThenBy(c=>c.EndDate).ThenBy(c => c.Name).ToList());
+            return View(db.Courses
+                .OrderBy(c => c.StartDate)
+                .ThenBy(c=>c.EndDate)
+                .ThenBy(c => c.Name).ToList());
         }
 
         // GET: Courses/Details/5
@@ -144,7 +147,10 @@ namespace LMS.Controllers
             var finishedModules = from m in db.Modules
                                   where m.CourseId == courseId && m.EndDate < now
                                   select m;
-            return View("Index", finishedModules.OrderBy(c => c.StartDate).ThenBy(c => c.EndDate).ThenBy(c => c.Name).ToList());
+            return View("Index", finishedModules
+                .OrderBy(c => c.StartDate)
+                .ThenBy(c => c.EndDate)
+                .ThenBy(c => c.Name).ToList());
         }
 
         /// <summary>
@@ -158,7 +164,10 @@ namespace LMS.Controllers
             var currentModules = from m in db.Modules
                                  where m.CourseId == courseId && m.StartDate <= now && m.EndDate >= now
                                  select m;
-            return View("Index", currentModules.OrderBy(c => c.StartDate).ThenBy(c => c.EndDate).ThenBy(c => c.Name).ToList());
+            return View("Index", currentModules
+                .OrderBy(c => c.StartDate)
+                .ThenBy(c => c.EndDate)
+                .ThenBy(c => c.Name).ToList());
 
         }
 
@@ -171,7 +180,10 @@ namespace LMS.Controllers
             var allModules = from m in db.Modules
                              where m.CourseId == courseId
                              select m;
-            return View("Index", allModules.OrderBy(c => c.StartDate).ThenBy(c => c.EndDate).ThenBy(c => c.Name).ToList());
+            return View("Index", allModules
+                .OrderBy(c => c.StartDate)
+                .ThenBy(c => c.EndDate)
+                .ThenBy(c => c.Name).ToList());
         }
 
         protected override void Dispose(bool disposing)
