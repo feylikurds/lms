@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<LMS.Models.Module>
+@using Microsoft.AspNet.Identity
 
 <table class="table">
     <tr>
@@ -33,7 +34,15 @@
                 @item.EndDate.ToShortDateString()
             </td>
             <td>
-                @Html.ActionLink("Activities", "ListActivities", "StudentActivities", new { id = item.Id }, new { })
+                @if (User.IsInRole("Teacher"))
+                {
+                    @Html.ActionLink("Activities", "ListActivities", "StudentActivities", new { id = item.Id }, new { })
+                }
+                else
+                {
+                    @Html.ActionLink("Activities", "StudentListActivities", "StudentActivities", new { }, new { })
+                }
+
             </td>
         </tr>
     }

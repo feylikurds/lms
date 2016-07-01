@@ -3,44 +3,21 @@
 <table class="table">
     <tr>
         <th>
-            Name
+            Status
         </th>
         <th>
-            Description
+            Grade
         </th>
-        <th>
-            Start Date
-        </th>
-        <th>
-            End Date
-        </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @item.StartDate.ToShortDateString()
-            </td>
-            <td>
-                @item.EndDate.ToShortDateString()
-            </td>
-            <td>
-                @if (User.IsInRole("Teacher"))
-                {
-                   @Html.ActionLink("List Students", "ListStudents", "Courses", new { id = item.Id }, new { })
-                }
-                else
-                {
-                    @:Lägg till kod att lämna in läxor.
-                }
+                @Html.DisplayFor(modelItem => item.Grade)
             </td>
         </tr>
     }

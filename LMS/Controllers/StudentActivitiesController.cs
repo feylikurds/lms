@@ -57,15 +57,19 @@ namespace LMS.Controllers
         }
 
         // GET: StudentActivities/ListActivities/5
-        public ActionResult StudentListActivities(string id)
+        public ActionResult StudentListActivities()
         {
-            if (string.IsNullOrEmpty(id))
+            var user = (from u in db.Users
+                          where u.UserName == User.Identity.Name
+                          select u).FirstOrDefault();
+
+            if (user == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             var activities = (from a in db.StudentActivities
-                              where a.StudentId == id
+                              where a.StudentId == user.Id
                               select a).ToList();
 
             if (activities == null)
