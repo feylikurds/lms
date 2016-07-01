@@ -16,10 +16,14 @@ namespace LMS.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            //var course = (from u in db.Users
-            //             where u.Id == userId
-            //             select u.Course).First();
-            var course = db.Users.Where(u => u.Id == userId).Select(u => u.Course).First();
+            var course = (from u in db.Users
+                         where u.Id == userId
+                         select u.Course).First();
+            //  var course = db.Users.Where(u => u.Id == userId).Select(u => u.Course).First();
+
+
+            //var Lcourse = db.Users.FirstOrDefault(u => u.Id == userId);
+            //var course = db.Courses.FirstOrDefault(u => u.Id == Lcourse.CourseId);
             return View(course);
         }
     }
