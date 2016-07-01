@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Activity</h4>
         <hr />
@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("ModuleId", "Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("EndDate", "End Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ModuleId, "ModuleId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("ModuleId", "Module", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ModuleId", (SelectList)ViewBag.Modules, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ModuleId, "", new { @class = "text-danger" })

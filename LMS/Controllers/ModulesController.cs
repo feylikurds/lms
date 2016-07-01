@@ -10,12 +10,11 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
-    [Authorize(Roles ="Teacher")]
+    [Authorize]
     public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize]
         public ActionResult Index()
         {
             var modules = db.Modules.Include(m => m.Course);
@@ -25,7 +24,6 @@ namespace LMS.Controllers
         /// <summary>
         /// Returns all modules belonging to a certain courseId
         /// </summary>
-        [Authorize]
         public ActionResult ModulesByCourse(int courseId)
         {
             var modules = db.Modules.Where(m => m.CourseId == courseId);
@@ -33,7 +31,6 @@ namespace LMS.Controllers
         }
 
         // GET: Modules/Details/5
-        [Authorize(Roles = "Teacher, Student")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -49,6 +46,7 @@ namespace LMS.Controllers
         }
 
         // GET: Modules/Create
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create()
         {
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
@@ -61,6 +59,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             var validRange = module.StartDate <= module.EndDate;
@@ -87,6 +86,7 @@ namespace LMS.Controllers
         }
 
         // GET: Modules/Edit/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -111,6 +111,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,CourseId")] Module module)
         {
             var validRange = module.StartDate <= module.EndDate;
@@ -137,6 +138,7 @@ namespace LMS.Controllers
         }
 
         // GET: Modules/Delete/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -154,6 +156,7 @@ namespace LMS.Controllers
         // POST: Modules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
             Module module = db.Modules.Find(id);

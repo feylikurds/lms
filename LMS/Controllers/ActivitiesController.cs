@@ -10,14 +10,13 @@ using LMS.Models;
 
 namespace LMS.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    [Authorize]
     public class ActivitiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         
         // GET: Activities
-        [Authorize]
         public ActionResult Index()
         {
             return View(db.Activities.ToList());
@@ -26,7 +25,6 @@ namespace LMS.Controllers
         /// <summary>
         /// Returns all activities belonging to a certain moduleId
         /// </summary>
-        [Authorize]
         public ActionResult ActivitiesByModule(int moduleId)
         {
             var activities = db.Activities.Where(m => m.ModuleId == moduleId);
@@ -34,7 +32,6 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Details/5
-        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -50,6 +47,7 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Create
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create()
         {
             ViewBag.Modules = new SelectList(db.Modules.ToList(), "Id", "Name");
@@ -62,6 +60,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
             var validRange = activity.StartDate <= activity.EndDate;
@@ -89,6 +88,7 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Edit/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)
         {
 
@@ -114,6 +114,7 @@ namespace LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate,ModuleId")] Activity activity)
         {
             var validRange = activity.StartDate <= activity.EndDate;
@@ -141,6 +142,7 @@ namespace LMS.Controllers
         }
 
         // GET: Activities/Delete/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -158,6 +160,7 @@ namespace LMS.Controllers
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
             Activity activity = db.Activities.Find(id);
@@ -169,7 +172,6 @@ namespace LMS.Controllers
         /// <summary>
         /// Given a Module.ID, it returns a View of finished activities for that module
         /// </summary>
-        [Authorize]
         public ActionResult FinishedActivities(int moduleId)
         {
             DateTime now = DateTime.Now;
@@ -183,7 +185,6 @@ namespace LMS.Controllers
         /// <summary>
         /// Given a Module.ID, it returns a View of current activities for that module
         /// </summary>
-        [Authorize]
         public ActionResult CurrentActivities(int moduleId)
         {
             DateTime now = DateTime.Now;
@@ -198,7 +199,6 @@ namespace LMS.Controllers
         /// <summary>
         /// Given a Module.ID, it returns a View of all activities for that module
         /// </summary>
-        [Authorize]
         public ActionResult AllActivities(int moduleId)
         {
             var allActivities = from a in db.Activities
