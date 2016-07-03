@@ -471,7 +471,10 @@ namespace LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { AssignedRole = "Student", FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
+                var course = (from c in db.Courses
+                              where c.Name == "None"
+                              select c).First();
+                var user = new ApplicationUser { AssignedRole = "Student", FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email, CourseId = course.Id };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -629,6 +632,49 @@ namespace LMS.Controllers
             ViewBag.Courses = new SelectList(courses.ToList(), "Id", "Name");
 
             return View(model);
+        }
+
+        // GET: Account/UpdateUsers/5
+        [Authorize(Roles = "Teacher")]
+        public async Task<ActionResult> UpdateUsers()
+        {
+            var users = (from u in db.Users
+                       select u).ToList();
+
+            foreach (var u in users)
+            {
+                if (u.Course.Name == "None")
+                    continue;
+
+                var moduleIds = db.Modules
+                                .Where(m => m.CourseId == u.CourseId)
+                                .Select(m => m.Id)
+                                .ToList();
+                var allActivties = db.Activities
+                                   .Where(a => moduleIds.Contains(a.ModuleId))
+                                   .ToList();
+                var currentStudentActivities = db.StudentActivities
+                                               .Where(sa => sa.StudentId == u.Id)
+                                               .ToList();
+                var deletedStudentActivities = currentStudentActivities
+                                               .Where(csa => allActivties.Any(aa => aa.Id != csa.ActivityId))
+                                               .ToList();
+
+                db.StudentActivities.RemoveRange(deletedStudentActivities);
+
+                await db.SaveChangesAsync();
+
+                var newActivties = allActivties
+                                   .Where(aa => currentStudentActivities.Any(sa => aa.Id != sa.ActivityId))
+                                   .ToList();
+
+                foreach (var na in newActivties)
+                    db.StudentActivities.Add(new StudentActivity { StudentId = u.Id, ActivityId = na.Id });
+
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("SeeAllUsers", "Account");
         }
 
         protected override void Dispose(bool disposing)

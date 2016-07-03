@@ -117,6 +117,7 @@ namespace LMS.Migrations
                 .Build();
 
             context.Activities.AddOrUpdate(a => a.Id, activities2.ToArray());
+
             context.SaveChanges();
 
             if (!context.Users.Any(u => u.UserName == "teacher@localhost.com"))
