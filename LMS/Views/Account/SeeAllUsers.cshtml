@@ -7,7 +7,14 @@
 }
 
 <h2>SeeAllUsers</h2>
+<p>
+    @using (Html.BeginForm("UpdateUsers", "Account"))
+    {
 
+        <input type="submit" value="Update Users" />
+
+    }
+</p>
 <p>
     @Html.ActionLink("Create New", "CreateUser")
 </p>

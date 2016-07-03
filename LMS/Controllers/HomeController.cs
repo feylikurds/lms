@@ -12,11 +12,11 @@ namespace LMS.Controllers
         {
             if (User.IsInRole("Teacher"))
             {
-                return RedirectToAction("Index", "Teacher");
+                return RedirectToAction("Index", "StudentActivities");
             }
             else if (User.IsInRole("Student"))
             {
-                return RedirectToAction("Index", "Student");
+                return RedirectToAction("Index", "StudentActivities");
             }
             else
             {
