@@ -1,4 +1,5 @@
 ﻿@model LMS.Models.EditUserViewModel
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Edit";
@@ -75,6 +76,11 @@
 
 <div>
     @Html.ActionLink("Back to List", "SeeAllUsers")
+    @if (User.Identity.GetUserId() != Model.Id)
+    {
+        @: | @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+    }
+     
 </div>
 
 @section Scripts {

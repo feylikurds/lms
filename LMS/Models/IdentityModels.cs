@@ -76,5 +76,7 @@ namespace LMS.Models
         public System.Data.Entity.DbSet<LMS.Models.StudentActivity> StudentActivities { get; set; }
 
         //public System.Data.Entity.DbSet<LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
+
+        //public System.Data.Entity.DbSet<LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

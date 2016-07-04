@@ -159,6 +159,41 @@ namespace LMS.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = UserManager.FindById(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (user.Id == User.Identity.GetUserId())
+            {
+                return RedirectToAction("SeeAllUsers");
+            }
+
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            var user = UserManager.Users.SingleOrDefault(u => u.Id == id);
+            if (user.Id != User.Identity.GetUserId())
+            {
+                await UserManager.DeleteAsync(user);
+            }
+                
+            return RedirectToAction("SeeAllUsers");
+        }
+
         //
         // POST: /Account/Register
         [HttpPost]

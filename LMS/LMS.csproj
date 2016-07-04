@@ -332,6 +332,7 @@
     <Content Include="Views\StudentActivities\ListModules.cshtml" />
     <Content Include="Views\StudentActivities\ListActivities.cshtml" />
     <Content Include="Views\StudentActivities\StudentListActivities.cshtml" />
+    <Content Include="Views\Account\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
