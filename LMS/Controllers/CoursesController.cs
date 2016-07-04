@@ -20,6 +20,7 @@ namespace LMS.Controllers
         public ActionResult Index()
         {
             return View(db.Courses
+                .Where(c => c.Name != "None")
                 .OrderBy(c => c.StartDate)
                 .ThenBy(c=>c.EndDate)
                 .ThenBy(c => c.Name).ToList());
