@@ -333,6 +333,7 @@
     <Content Include="Views\StudentActivities\ListActivities.cshtml" />
     <Content Include="Views\StudentActivities\StudentListActivities.cshtml" />
     <Content Include="Views\StudentActivities\ListStudents.cshtml" />
+    <Content Include="Views\StudentActivities\EditStudent.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

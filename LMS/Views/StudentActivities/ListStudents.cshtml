@@ -29,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td>
-                 @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { id = item.StudentId }, new { })
+                 @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
             </td>
         </tr>
     }

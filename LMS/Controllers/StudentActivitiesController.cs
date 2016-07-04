@@ -138,7 +138,9 @@ namespace LMS.Controllers
                                     where s.Id == sa.StudentId
                                     select s).First().FullName;
 
-                students.Add(new StudentActivityViewModel { ActivityId = sa.ActivityId, ActivityName = activityName, StudentId = sa.StudentId, StudentName = studentName });
+                students.Add(new StudentActivityViewModel{ ActivityId = sa.ActivityId, ActivityName = activityName,
+                                                           StudentId = sa.StudentId, StudentName = studentName,
+                                                           Status = sa.Status, Grade = sa.Grade });                
             }
 
 
@@ -181,6 +183,68 @@ namespace LMS.Controllers
             }
 
             return View(studentActivity);
+        }
+
+        // GET: StudentActivities/EditStudent/5
+        public ActionResult EditStudent(int activityId, string studentId)
+        {
+            if (activityId == 0 || string.IsNullOrEmpty(studentId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = (from u in db.Users
+                        where u.Id == studentId
+                        select u).FirstOrDefault();
+
+            if (user == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            var studentActivity = (from a in db.StudentActivities
+                                   where a.StudentId == user.Id && a.ActivityId == activityId
+                                   select a).First();
+
+            if (studentActivity == null)
+            {
+                return HttpNotFound();
+            }
+
+            var activityName = (from a in db.Activities
+                                where a.Id == activityId
+                                select a.Name).First();
+
+            var viewModel = new StudentActivityViewModel { ActivityId = activityId, ActivityName = activityName,
+                                                           StudentId = user.Id, StudentName = user.FullName,
+                                                           Status = studentActivity.Status, Grade = studentActivity.Grade };
+
+            return View(viewModel);
+        }
+
+        // POST: StudentActivities/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditStudent(StudentActivityViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var studentActivity = (from sa in db.StudentActivities
+                                       where sa.StudentId == viewModel.StudentId && sa.ActivityId == viewModel.ActivityId
+                                       select sa).First();
+
+                studentActivity.Status = viewModel.Status;
+                studentActivity.Grade = viewModel.Grade;
+
+                db.Entry(studentActivity).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(viewModel);
         }
 
         // GET: StudentActivities/Edit/5
