@@ -25,30 +25,29 @@
             Role
         </th>
         <th>
-		</th>
+        </th>
     </tr>
     @{
         var users = Model.ToArray();
         foreach (var user in users)
         {
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => user.UserName)
-				</td>
-				<td>
-					@{
-						var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-						var userRoles = userManager.GetRoles(user.Id);
-						var role = userRoles[0];
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.UserName)
+                </td>
+                <td>
+                    @{
+                        var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var userRoles = userManager.GetRoles(user.Id);
+                        var role = userRoles[0];
 
-						@Html.DisplayFor(s => role);
-					}
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = user.Id })
-				</td>
-			</tr>
-		}
+                        @Html.DisplayFor(s => role);
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = user.Id })
+                </td>
+            </tr>}
     }
 
 </table>

@@ -39,9 +39,9 @@ namespace LMS.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -95,7 +95,7 @@ namespace LMS.Controllers
                     }
                     else
                     {
-                    return RedirectToLocal(returnUrl);
+                        return RedirectToLocal(returnUrl);
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -190,7 +190,7 @@ namespace LMS.Controllers
             {
                 await UserManager.DeleteAsync(user);
             }
-                
+
             return RedirectToAction("SeeAllUsers");
         }
 
@@ -203,25 +203,25 @@ namespace LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
                 bool validRole = (model.Role.Equals("Teacher")) || (model.Role.Equals("Student"));
 
                 if (validRole)
                 {
-                var result = await UserManager.CreateAsync(user, model.Password);
+                    var result = await UserManager.CreateAsync(user, model.Password);
                     var result2 = await UserManager.AddToRoleAsync(user.Id, model.Role);
-                if (result.Succeeded)
-                {
+                    if (result.Succeeded)
+                    {
                         //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    
+
                         //// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                         //// Send an email with this link
                         //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
-                }
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
 
@@ -466,7 +466,7 @@ namespace LMS.Controllers
         {
             return View(UserManager.Users.OrderBy(u => u.UserName));
         }
-		
+
         [Authorize(Roles = "Student")]
         public ActionResult SeeMyClassmates()
         {
@@ -476,7 +476,7 @@ namespace LMS.Controllers
             var roles = db.Roles.FirstOrDefault(r => r.Name == "Teacher").Id;
             var courseMembers = db.Users.Where(r => r.CourseId == myself.CourseId && r.Id != myself.Id && r.Roles.FirstOrDefault().RoleId != roles);
             return View(courseMembers);
-		}
+        }
 
         //
         // GET: /Account/CreateUser
@@ -487,7 +487,7 @@ namespace LMS.Controllers
             ViewBag.Roles = new SelectList(rolesList);
 
             return View();
-		}
+        }
 
         //
         // POST: /Account/CreateUser
@@ -513,7 +513,16 @@ namespace LMS.Controllers
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
 
                     //TODO: find teacher's choice of role in dropdown listbox
-                    result = userManager.AddToRole(user.Id, "Student");
+                    if (model.AssignedRole.Equals("Teacher"))
+                    {
+                        result = userManager.AddToRole(user.Id, "Teacher");
+                    }
+                    else
+                    {
+                        result = userManager.AddToRole(user.Id, "Student");
+                    }
+
+                    
 
                     if (result.Succeeded)
                     {
@@ -552,7 +561,7 @@ namespace LMS.Controllers
             }
 
             var user = await UserManager.FindByIdAsync(id);
-            
+
             if (user == null)
             {
                 return HttpNotFound();
@@ -635,7 +644,7 @@ namespace LMS.Controllers
                         ModelState.AddModelError("", "Failed to remove user roles");
                         return View(model);
                     }
-                    IdentityResult addResult = await userManager.AddToRoleAsync(model.Id, model.AssignedRole);                    
+                    IdentityResult addResult = await userManager.AddToRoleAsync(model.Id, model.AssignedRole);
                     if (!addResult.Succeeded)
                     {
                         ModelState.AddModelError("", "Failed to add user roles");
@@ -669,7 +678,7 @@ namespace LMS.Controllers
         public async Task<ActionResult> UpdateUsers()
         {
             var users = (from u in db.Users
-                       select u).ToList();
+                         select u).ToList();
 
             foreach (var u in users)
             {
