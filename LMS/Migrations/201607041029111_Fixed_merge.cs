@@ -3,7 +3,7 @@ namespace LMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Removed_AssignedRole : DbMigration
+    public partial class Fixed_merge : DbMigration
     {
         public override void Up()
         {

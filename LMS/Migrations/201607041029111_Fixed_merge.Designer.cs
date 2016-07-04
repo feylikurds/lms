@@ -7,13 +7,13 @@ namespace LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Removed_AssignedRole : IMigrationMetadata
+    public sealed partial class Fixed_merge : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Removed_AssignedRole));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Fixed_merge));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607011456174_Removed_AssignedRole"; }
+            get { return "201607041029111_Fixed_merge"; }
         }
         
         string IMigrationMetadata.Source
