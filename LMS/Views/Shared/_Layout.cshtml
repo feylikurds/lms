@@ -26,6 +26,7 @@
                     @if (User.IsInRole("Teacher"))
                     {
                         <li>@Html.MenuLink("See all users", "SeeAllUsers", "Account")</li>
+                        <li>@Html.MenuLink("Student activites", "Index", "StudentActivities")</li>
                         <li>@Html.MenuLink("Courses", "Index", "Courses")</li>
                         <li>@Html.MenuLink("Modules", "Index", "Modules")</li>
                         <li>@Html.MenuLink("Activities", "Index", "Activities")</li>
