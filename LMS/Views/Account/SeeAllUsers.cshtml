@@ -3,10 +3,10 @@
 @using Microsoft.AspNet.Identity.Owin;
 
 @{
-    ViewBag.Title = "SeeAllUsers";
+    ViewBag.Title = "See All Users";
 }
 
-<h2>SeeAllUsers</h2>
+<h2>See All Users</h2>
 
 <p>
     @Html.ActionLink("Create New", "CreateUser")
@@ -36,7 +36,6 @@
 						var userRoles = userManager.GetRoles(user.Id);
 						var role = userRoles[0];
 
-						//string roleString = "role";
 						@Html.DisplayFor(s => role);
 					}
 				</td>

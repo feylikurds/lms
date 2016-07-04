@@ -41,22 +41,53 @@
         <dd>
             @Model.EndDate.ToShortDateString()
         </dd>
-
-        <dt>
-            @Html.Label("Modules")
-        </dt>
-        <dd>
-            @foreach (var item in Model.Modules)
-            {
-                @Html.ActionLink(item.Name, "Details", "Modules", new { Id = item.Id }, new { })
-                <br />
-            }
-        </dd>
     </dl>
 </div>
+<div>
+    <h4>Activities</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Module Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Modules)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", "Modules", new { Id = item.Id }, new { })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @item.StartDate.ToShortDateString()
+                </td>
+                <td>
+                    @item.EndDate.ToShortDateString()
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+
+
 <p>
+    @Html.ActionLink("Back to list", "Index", "Courses", new { }, new { })
     @if (User.IsInRole("Teacher"))
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
     }
 </p>
