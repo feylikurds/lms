@@ -463,14 +463,10 @@ namespace LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-<<<<<<< HEAD
                 var course = (from c in db.Courses
                               where c.Name == "None"
                               select c).First();
-                var user = new ApplicationUser { AssignedRole = "Student", FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email, CourseId = course.Id };
-=======
-                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
->>>>>>> master
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email, CourseId = course.Id };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
