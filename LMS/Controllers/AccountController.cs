@@ -464,7 +464,7 @@ namespace LMS.Controllers
         [Authorize]
         public ActionResult SeeAllUsers()
         {
-            return View(UserManager.Users);
+            return View(UserManager.Users.OrderBy(u => u.UserName));
         }
 		
         [Authorize(Roles = "Student")]
