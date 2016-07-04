@@ -3,16 +3,14 @@
 @using Microsoft.AspNet.Identity.Owin;
 
 @{
-    ViewBag.Title = "SeeAllUsers";
+    ViewBag.Title = "See All Users";
 }
 
 <h2>SeeAllUsers</h2>
 <p>
     @using (Html.BeginForm("UpdateUsers", "Account"))
     {
-
         <input type="submit" value="Update Users" />
-
     }
 </p>
 <p>
@@ -43,7 +41,6 @@
 						var userRoles = userManager.GetRoles(user.Id);
 						var role = userRoles[0];
 
-						//string roleString = "role";
 						@Html.DisplayFor(s => role);
 					}
 				</td>

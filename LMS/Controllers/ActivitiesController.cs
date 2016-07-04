@@ -19,7 +19,12 @@ namespace LMS.Controllers
         // GET: Activities
         public ActionResult Index()
         {
-            return View(db.Activities.ToList());
+            return View(db.Activities
+                .OrderBy(c => c.Module.Course.Name)
+                .ThenBy(c => c.Module.Name)
+                .ThenBy(c => c.StartDate)
+                .ThenBy(c => c.EndDate)
+                .ThenBy(c => c.Name).ToList());
         }
 
         /// <summary>
@@ -179,7 +184,12 @@ namespace LMS.Controllers
             var finishedActivities = from a in db.Activities
                                      where a.ModuleId == moduleId && a.EndDate < now
                                      select a;
-            return View("Index", finishedActivities.ToList());
+            return View("Index", finishedActivities
+                .OrderBy(c => c.Module.Course.Name)
+                .ThenBy(c => c.Module.Name)
+                .ThenBy(c => c.StartDate)
+                .ThenBy(c => c.EndDate)
+                .ThenBy(c => c.Name).ToList());
         }
 
         /// <summary>
@@ -192,7 +202,12 @@ namespace LMS.Controllers
             var currentActivities = from a in db.Activities
                                     where a.ModuleId == moduleId && a.StartDate <= now && a.EndDate >= now
                                     select a;
-            return View("Index", currentActivities.ToList());
+            return View("Index", currentActivities
+                .OrderBy(c => c.Module.Course.Name)
+                .ThenBy(c => c.Module.Name)
+                .ThenBy(c => c.StartDate)
+                .ThenBy(c => c.EndDate)
+                .ThenBy(c => c.Name).ToList());
 
         }
 
@@ -204,7 +219,11 @@ namespace LMS.Controllers
             var allActivities = from a in db.Activities
                                 where a.ModuleId == moduleId
                                 select a;
-            return View("Index", allActivities.ToList());
+            return View("Index", allActivities.OrderBy(c => c.Module.Course.Name)
+                .ThenBy(c => c.Module.Name)
+                .ThenBy(c => c.StartDate)
+                .ThenBy(c => c.EndDate)
+                .ThenBy(c => c.Name).ToList());
         }
 
         protected override void Dispose(bool disposing)

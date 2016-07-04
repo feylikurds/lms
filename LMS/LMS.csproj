@@ -34,6 +34,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -186,6 +188,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DBValidation.cs" />
     <Compile Include="Helpers\HtmlHelpers.cs" />
     <Compile Include="Migrations\201606230905437_Init.cs" />
     <Compile Include="Migrations\201606230905437_Init.Designer.cs">
@@ -218,6 +221,10 @@
     <Compile Include="Migrations\201607031754295_Rebuilt_migrations.cs" />
     <Compile Include="Migrations\201607031754295_Rebuilt_migrations.Designer.cs">
       <DependentUpon>201607031754295_Rebuilt_migrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607011456174_Removed_AssignedRole.cs" />
+    <Compile Include="Migrations\201607011456174_Removed_AssignedRole.Designer.cs">
+      <DependentUpon>201607011456174_Removed_AssignedRole.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -359,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607031754295_Rebuilt_migrations.resx">
       <DependentUpon>201607031754295_Rebuilt_migrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607011456174_Removed_AssignedRole.resx">
+      <DependentUpon>201607011456174_Removed_AssignedRole.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

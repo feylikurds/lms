@@ -32,22 +32,20 @@ namespace LMS.Migrations
             //    );
             //
 
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
             if (!context.Roles.Any(r => r.Name == "Teacher"))
             {
-                var store = new RoleStore<IdentityRole>(context);
-                var manager = new RoleManager<IdentityRole>(store);
                 var role = new IdentityRole { Name = "Teacher" };
 
-                manager.Create(role);
+                roleManager.Create(role);
             }
 
             if (!context.Roles.Any(r => r.Name == "Student"))
             {
-                var store = new RoleStore<IdentityRole>(context);
-                var manager = new RoleManager<IdentityRole>(store);
                 var role = new IdentityRole { Name = "Student" };
 
-                manager.Create(role);
+                roleManager.Create(role);
             }
 
             var rand = new Random();
@@ -120,29 +118,26 @@ namespace LMS.Migrations
 
             context.SaveChanges();
 
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
             if (!context.Users.Any(u => u.UserName == "teacher@localhost.com"))
             {
-                var store = new UserStore<ApplicationUser>(context);
-                var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { AssignedRole = "Teacher", UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson", CourseId = noCourse.Id };
+                var user = new ApplicationUser { UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson", Email = "teacher@localhost.com", CourseId = noCourse.Id };
 
-                manager.Create(user, "Pass.123");
-                manager.AddToRole(user.Id, "Teacher");
+                userManager.Create(user, "Pass.123");
+                userManager.AddToRole(user.Id, "Teacher");
             }
 
             if (!context.Users.Any(u => u.UserName == "student@localhost.com"))
             {
-                var store = new UserStore<ApplicationUser>(context);
-                var manager = new UserManager<ApplicationUser>(store);
                 var course = (from c in context.Courses
                               where c.Name != "None" && c.Modules.Count() > 0
                               select c).First();
+                var user = new ApplicationUser { UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson", Email = "student@localhost.com", CourseId = course.Id };
 
-                var user = new ApplicationUser { AssignedRole = "Student", UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson", CourseId = course.Id };
-
-                manager.Create(user, "Pass.123");
-                manager.AddToRole(user.Id, "Student");
-
+                userManager.Create(user, "Pass.123");
+                userManager.AddToRole(user.Id, "Student");
+ 
                 var activities = (from m in context.Modules
                                   where m.CourseId == course.Id
                                   from a in context.Activities

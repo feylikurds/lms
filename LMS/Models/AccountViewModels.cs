@@ -124,7 +124,7 @@ namespace LMS.Models
         public string Email { get; set; }
     }
 
-    public class CreateUserViewModel
+    public class BaseUserViewModel
     {
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
@@ -142,13 +142,30 @@ namespace LMS.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-        
-        [Required]
         [Display(Name = " Role ")]
         public string AssignedRole { get; set; }
     }
+
+    public class CreateUserViewModel : BaseUserViewModel
+    {    
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }        
+   } 
+
+    public class EditUserViewModel : BaseUserViewModel
+    {
+        [Required]
+        public string Id { get; set; }
+
+        public int? CourseId { get; set; }
+
+        [Required]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+    }
+
+
 }

@@ -448,15 +448,7 @@ namespace LMS.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult CreateUser()
         {
-            var roles = from r in db.Roles
-                        select r;
-            var rolesList = new List<string>();
-
-            foreach (var r in roles)
-            {
-                rolesList.Add(r.Name);
-            }
-
+            var rolesList = db.Roles.Select(r => r.Name).ToList();
             ViewBag.Roles = new SelectList(rolesList);
 
             return View();
@@ -471,19 +463,26 @@ namespace LMS.Controllers
         {
             if (ModelState.IsValid)
             {
+<<<<<<< HEAD
                 var course = (from c in db.Courses
                               where c.Name == "None"
                               select c).First();
                 var user = new ApplicationUser { AssignedRole = "Student", FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email, CourseId = course.Id };
+=======
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.Email, Email = model.Email };
+>>>>>>> master
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
 
-                    var store = new UserStore<ApplicationUser>(db);
-                    var manager = new UserManager<ApplicationUser>(store);
+                    var userStore = new UserStore<ApplicationUser>(db);
+                    var userManager = new UserManager<ApplicationUser>(userStore);
+                    var roleStore = new RoleStore<IdentityRole>(db);
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                    result = manager.AddToRole(user.Id, "Student");
+                    //TODO: find teacher's choice of role in dropdown listbox
+                    result = userManager.AddToRole(user.Id, "Student");
 
                     if (result.Succeeded)
                     {
@@ -539,10 +538,23 @@ namespace LMS.Controllers
                 rolesList.Add(r.Name);
             }
 
+            var role = UserManager.GetRoles(id).FirstOrDefault(r => r == "Teacher") ?? "Student";
+
             ViewBag.Roles = new SelectList(rolesList);
             ViewBag.Courses = new SelectList(courses.ToList(), "Id", "Name");
 
-            return View(user);
+            var editUserViewModel = new EditUserViewModel
+            {
+                Id = user.Id,
+                AssignedRole = role,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CourseId = user.CourseId,
+                UserName = user.UserName
+            };
+
+            return View(editUserViewModel);
         }
 
         //
@@ -550,15 +562,14 @@ namespace LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<ActionResult> Edit(ApplicationUser model)
+        public async Task<ActionResult> Edit(EditUserViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            ApplicationUser user = db.Users.Where(u => u.Id == model.Id).SingleOrDefault();
-
+            ApplicationUser user = db.Users.Find(model.Id);
             if (user != null)
             {
                 if (!string.IsNullOrEmpty(model.FirstName))
@@ -583,37 +594,25 @@ namespace LMS.Controllers
                 }
                 if (!string.IsNullOrEmpty(model.AssignedRole))
                 {
-                    var role = (from r in db.Roles
-                                where r.Name == model.AssignedRole
-                                select r).First();
+                    var userStore = new UserStore<ApplicationUser>(db);
+                    var userManager = new UserManager<ApplicationUser>(userStore);
 
-                    var store = new UserStore<ApplicationUser>(db);
-                    var manager = new UserManager<ApplicationUser>(store);
-                    var currentRoles = await manager.GetRolesAsync(user.Id);
-                    var removeResult = await manager.RemoveFromRolesAsync(user.Id, currentRoles.ToArray());
-
+                    var currentRoles = await userManager.GetRolesAsync(model.Id);
+                    var removeResult = await userManager.RemoveFromRolesAsync(model.Id, currentRoles.ToArray());
                     if (!removeResult.Succeeded)
                     {
                         ModelState.AddModelError("", "Failed to remove user roles");
-
                         return View(model);
                     }
-
-                    string[] rolesToAssign = { model.AssignedRole };
-                    IdentityResult addResult = await manager.AddToRolesAsync(user.Id, rolesToAssign);
-
+                    IdentityResult addResult = await userManager.AddToRoleAsync(model.Id, model.AssignedRole);                    
                     if (!addResult.Succeeded)
                     {
                         ModelState.AddModelError("", "Failed to add user roles");
-
                         return View(model);
                     }
-
-                    user.AssignedRole = model.AssignedRole;
                 }
 
                 await db.SaveChangesAsync();
-
                 return RedirectToAction("SeeAllUsers", "Account");
             }
 
