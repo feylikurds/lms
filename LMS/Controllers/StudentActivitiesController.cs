@@ -86,7 +86,7 @@ namespace LMS.Controllers
                          where ac.Id == activity.ActivityId
                          select ac).First();
 
-                sa.Name = a.Name;
+                sa.ActivityName = a.Name;
                 sa.Status = activity.Status;
                 sa.Grade = activity.Grade;
 
@@ -124,10 +124,23 @@ namespace LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var students = (from a in db.StudentActivities
-                           where a.ActivityId == id
-                           from u in db.Users
-                           select u).ToList();
+            var studentActivities = (from sa in db.StudentActivities
+                            where sa.ActivityId == id
+                            select sa).ToList();
+            var students = new List<StudentActivityViewModel>();
+
+            foreach (var sa in studentActivities)
+            {
+                var activityName = (from a in db.Activities
+                                    where a.Id == sa.ActivityId
+                                    select a.Name).First();
+                var studentName = (from s in db.Users
+                                    where s.Id == sa.StudentId
+                                    select s).First().FullName;
+
+                students.Add(new StudentActivityViewModel { ActivityId = sa.ActivityId, ActivityName = activityName, StudentId = sa.StudentId, StudentName = studentName });
+            }
+
 
             return View(students);
         }

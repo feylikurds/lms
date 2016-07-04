@@ -645,26 +645,31 @@ namespace LMS.Controllers
                                 .Where(m => m.CourseId == u.CourseId)
                                 .Select(m => m.Id)
                                 .ToList();
-                var allActivties = db.Activities
+                var allActivtyIds = db.Activities
                                    .Where(a => moduleIds.Contains(a.ModuleId))
+                                   .Select(a => a.Id)
                                    .ToList();
-                var currentStudentActivities = db.StudentActivities
-                                               .Where(sa => sa.StudentId == u.Id)
-                                               .ToList();
-                var deletedStudentActivities = currentStudentActivities
-                                               .Where(csa => allActivties.Any(aa => aa.Id != csa.ActivityId))
-                                               .ToList();
+                var currentActivityIds = db.StudentActivities
+                                         .Where(sa => sa.StudentId == u.Id)
+                                         .Select(sa => sa.ActivityId)
+                                         .ToList();
+                var deletedActivityIds = currentActivityIds
+                                         .Where(csa => !allActivtyIds.Contains(csa))
+                                         .ToList();
+                var deletedStudentActivities = (from sa in db.StudentActivities
+                                                where sa.StudentId == u.Id && deletedActivityIds.Contains(sa.ActivityId)
+                                                select sa).ToList();
 
                 db.StudentActivities.RemoveRange(deletedStudentActivities);
 
                 await db.SaveChangesAsync();
 
-                var newActivties = allActivties
-                                   .Where(aa => currentStudentActivities.Any(sa => aa.Id != sa.ActivityId))
+                var newActivtyIds = allActivtyIds
+                                   .Where(aa => !currentActivityIds.Contains(aa))
                                    .ToList();
 
-                foreach (var na in newActivties)
-                    db.StudentActivities.Add(new StudentActivity { StudentId = u.Id, ActivityId = na.Id });
+                foreach (var na in newActivtyIds)
+                    db.StudentActivities.Add(new StudentActivity { StudentId = u.Id, ActivityId = na });
 
                 await db.SaveChangesAsync();
             }
