@@ -121,6 +121,12 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            else if (course.Name.ToLower().Equals("none"))
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(course);
         }
 
@@ -131,8 +137,12 @@ namespace LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
+            if (!course.Name.ToLower().Equals("none"))
+            {
+                db.Courses.Remove(course);
+                db.SaveChanges();
+            }
+            
             return RedirectToAction("Index");
         }
 
