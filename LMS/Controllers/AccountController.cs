@@ -635,6 +635,15 @@ namespace LMS.Controllers
         {
             var users = (from u in db.Users
                          select u).ToList();
+            var userIds = (from u in db.Users
+                         select u.Id).ToList();
+            var deletedStudents = (from sa in db.StudentActivities
+                                   where !userIds.Contains(sa.StudentId)
+                                   select sa).ToList();
+
+            db.StudentActivities.RemoveRange(deletedStudents);
+
+            await db.SaveChangesAsync();
 
             foreach (var u in users)
             {
