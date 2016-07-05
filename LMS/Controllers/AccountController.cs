@@ -630,18 +630,44 @@ namespace LMS.Controllers
                 if (!string.IsNullOrEmpty(model.AssignedRole))
                 {
                     var userStore = new UserStore<ApplicationUser>(db);
-                    var userManager = new UserManager<ApplicationUser>(userStore);
+                    var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
                     var currentRoles = await userManager.GetRolesAsync(model.Id);
                     var removeResult = await userManager.RemoveFromRolesAsync(model.Id, currentRoles.ToArray());
                     if (!removeResult.Succeeded)
                     {
+                        var _courses = from c in db.Courses
+                                      select c;
+                        var _roles = from r in db.Roles
+                                    select r;
+                        var _rolesList = new List<string>();
+
+                        foreach (var r in _roles)
+                        {
+                            _rolesList.Add(r.Name);
+                        }
+                        ViewBag.Roles = new SelectList(_rolesList);
+                        ViewBag.Courses = new SelectList(_courses.ToList(), "Id", "Name");
+
                         ModelState.AddModelError("", "Failed to remove user roles");
                         return View(model);
                     }
                     IdentityResult addResult = await userManager.AddToRoleAsync(model.Id, model.AssignedRole);                    
                     if (!addResult.Succeeded)
                     {
+                        var _courses = from c in db.Courses
+                                       select c;
+                        var _roles = from r in db.Roles
+                                     select r;
+                        var _rolesList = new List<string>();
+
+                        foreach (var r in _roles)
+                        {
+                            _rolesList.Add(r.Name);
+                        }
+                        ViewBag.Roles = new SelectList(_rolesList);
+                        ViewBag.Courses = new SelectList(_courses.ToList(), "Id", "Name");
+
                         ModelState.AddModelError("", "Failed to add user roles");
                         return View(model);
                     }
