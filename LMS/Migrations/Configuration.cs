@@ -9,6 +9,7 @@ namespace LMS.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using LMS.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<LMS.Models.ApplicationDbContext>
     {
@@ -76,7 +77,7 @@ namespace LMS.Migrations
 
             context.Courses.AddOrUpdate(c => c.Id, courses2.ToArray());
 
-            var modules1 = Builder<Module>.CreateListOfSize(10).All()
+            var modules1 = Builder<LMS.Models.Module>.CreateListOfSize(10).All()
                 .With(m => m.Name = Faker.Company.Name())
                 .With(m => m.Description = Faker.Company.CatchPhrase())
                 .With(m => m.StartDate = new DateTime(2017, 1, 1))
@@ -86,7 +87,7 @@ namespace LMS.Migrations
 
             context.Modules.AddOrUpdate(m => m.Id, modules1.ToArray());
 
-            var modules2 = Builder<Module>.CreateListOfSize(10).All()
+            var modules2 = Builder<LMS.Models.Module>.CreateListOfSize(10).All()
                 .With(m => m.Name = Faker.Company.Name())
                 .With(m => m.Description = Faker.Company.CatchPhrase())
                 .With(m => m.StartDate = new DateTime(2017, 7, 1))
@@ -128,15 +129,40 @@ namespace LMS.Migrations
                 userManager.AddToRole(user.Id, "Teacher");
             }
 
-            if (!context.Users.Any(u => u.UserName == "student@localhost.com"))
+            var courses = (from c in context.Courses
+                           where c.Name != "None" && c.Modules.Count() > 0
+                           select c).ToList();
+
+            SetUpUser(context, userManager, courses, rand, "student@localhost.com", "Jill", "Jillson", "student@localhost.com");
+
+            context.SaveChanges();
+
+            //Some additional users
+
+            for (int i = 0; i < 25; i++)
             {
-                var course = (from c in context.Courses
-                              where c.Name != "None" && c.Modules.Count() > 0
-                              select c).First();
-                var user = new ApplicationUser { UserName = "student@localhost.com", FirstName = "Jill", LastName = "Jillson", Email = "student@localhost.com", CourseId = course.Id };
+                var firstName = Faker.Name.First();
+                var lastName = Faker.Name.Last();
+                var email = firstName.ToLower() + "." + lastName.ToLower() + "@localhost.com";
+
+                SetUpUser(context, userManager, courses, rand, email, firstName, lastName, email);
+            }
+        }
+
+        private void SetUpUser(LMS.Models.ApplicationDbContext context, UserManager<ApplicationUser> userManager, List<Course>courses, Random rand, string userName, string firstName, string lastName, string email)
+        {
+            if (!context.Users.Any(u => u.UserName == userName))
+            {
+                var course = courses.ElementAt(rand.Next(0, courses.Count()));
+                var user = new ApplicationUser { UserName = userName, FirstName = firstName, LastName = lastName, Email = email, CourseId = course.Id };
 
                 userManager.Create(user, "Pass.123");
-                userManager.AddToRole(user.Id, "Student");
+
+                var us = (from u in context.Users
+                        where u.Email == email
+                        select u).First();
+
+                userManager.AddToRole(us.Id, "Student");
 
                 var activities = (from m in context.Modules
                                   where m.CourseId == course.Id
@@ -149,7 +175,7 @@ namespace LMS.Migrations
                 {
                     var sa = new StudentActivity();
 
-                    sa.StudentId = user.Id;
+                    sa.StudentId = us.Id;
                     sa.ActivityId = a.Id;
 
                     studentActivities.Add(sa);
@@ -157,47 +183,6 @@ namespace LMS.Migrations
 
                 context.StudentActivities.AddOrUpdate(a => a.StudentId, studentActivities.ToArray());
                 context.SaveChanges();
-            }
-
-            //Some additional users
-            List<string> names = new List<string>();
-            for (int i = 0; i < 25; i++)
-            {
-                names.Add(Faker.Name.First());
-            }
-
-            foreach (var name in names)
-            {
-                if (!context.Users.Any(u => u.UserName == name + "@localhost.com"))
-                {
-                    var course = (from c in context.Courses
-                                  where c.Name != "None" && c.Modules.Count() > 0
-                                  select c).First();
-                    var user = new ApplicationUser { UserName = name + "@localhost.com", FirstName = name, LastName = Faker.Name.Last(), Email = name + "@localhost.com", CourseId = course.Id };
-
-                    userManager.Create(user, "Pass.123");
-                    userManager.AddToRole(user.Id, "Student");
-
-                    var activities = (from m in context.Modules
-                                      where m.CourseId == course.Id
-                                      from a in context.Activities
-                                      where a.ModuleId == m.Id
-                                      select a).ToList();
-                    var studentActivities = new List<StudentActivity>();
-
-                    foreach (var a in activities)
-                    {
-                        var sa = new StudentActivity();
-
-                        sa.StudentId = user.Id;
-                        sa.ActivityId = a.Id;
-
-                        studentActivities.Add(sa);
-                    }
-
-                    context.StudentActivities.AddOrUpdate(a => a.StudentId, studentActivities.ToArray());
-                    context.SaveChanges();
-                }
             }
         }
     }
