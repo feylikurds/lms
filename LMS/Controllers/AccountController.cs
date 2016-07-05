@@ -506,10 +506,9 @@ namespace LMS.Controllers
 
                 if (result.Succeeded)
                 {
-
+                    var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                     var userStore = new UserStore<ApplicationUser>(db);
-                    var userManager = new UserManager<ApplicationUser>(userStore);
-
+                    //var userManager = new UserManager<ApplicationUser>(userStore);
                     //TODO: find teacher's choice of role in dropdown listbox
                     if (model.AssignedRole.Equals("Teacher"))
                     {
@@ -517,10 +516,8 @@ namespace LMS.Controllers
                     }
                     else
                     {
-                    result = userManager.AddToRole(user.Id, "Student");
-                    }
-
-                    
+                        result = userManager.AddToRole(user.Id, "Student");
+                    }                    
 
                     if (result.Succeeded)
                     {
