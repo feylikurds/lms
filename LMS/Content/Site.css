@@ -40,6 +40,7 @@ textarea {
     }
 }
 
+/*Makes hr-lines look prettier*/
 hr {
     display: block;
     height: 1px;
