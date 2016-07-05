@@ -6,7 +6,7 @@
     ViewBag.Title = "See All Users";
 }
 
-<h2>SeeAllUsers</h2>
+<h2>See All Users</h2>
 <p>
     @using (Html.BeginForm("UpdateUsers", "Account"))
     {
@@ -22,6 +22,12 @@
             Username
         </th>
         <th>
+            First name
+        </th>
+        <th>
+            Last names
+        </th>
+        <th>
             Role
         </th>
         <th>
@@ -34,6 +40,12 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => user.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.LastName)
                 </td>
                 <td>
                     @{
