@@ -13,7 +13,9 @@ namespace LMS.Models
 
         public string Name { get; set; }
         public string Description { get; set; }
+        [DisplayAttribute(Name = "Upload Time")]
         public DateTime UploadTime { get; set; }
+        [DisplayAttribute(Name = "Uploader")]
         public int UploaderId { get; set; }
         public DateTime Deadline { get; set; }
         public string DocumentName { get; set; }
