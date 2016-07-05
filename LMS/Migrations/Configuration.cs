@@ -157,10 +157,11 @@ namespace LMS.Migrations
                 var user = new ApplicationUser { UserName = userName, FirstName = firstName, LastName = lastName, Email = email, CourseId = course.Id };
 
                 userManager.Create(user, "Pass.123");
+                context.SaveChanges();
 
                 var us = (from u in context.Users
-                        where u.Email == email
-                        select u).First();
+                          where u.UserName == userName
+                          select u).First();
 
                 userManager.AddToRole(us.Id, "Student");
 

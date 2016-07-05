@@ -140,6 +140,17 @@ namespace LMS.Controllers
             Course course = db.Courses.Find(id);
             if (!course.Name.ToLower().Equals("none"))
             {
+                var none = (from c in db.Courses
+                            where c.Name == "None"
+                            select c).First();
+
+                db.Users
+                .Where(u => u.CourseId == id)
+                .ToList()
+                .ForEach(u => u.CourseId = none.Id);
+
+                db.SaveChanges();
+                
                 db.Courses.Remove(course);
                 db.SaveChanges();
             }
