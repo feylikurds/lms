@@ -21,7 +21,9 @@ namespace LMS.Controllers
 
             if (User.IsInRole("Teacher"))
             {
-                courses = db.Courses.ToList();
+                courses = db.Courses
+                          .Where(c => c.Name != "None")
+                          .ToList();
             }
             else
             {

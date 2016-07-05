@@ -16,11 +16,16 @@ namespace LMS.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [DisplayAttribute(Name = "Firstname")]
         public string FirstName { get; set; }
+        [DisplayAttribute(Name = "Lastname")]
         public string LastName { get; set; }
+        [DisplayAttribute(Name = "Full Name")]
         public string FullName { get { return FirstName + " " + LastName; } }
+        [DisplayAttribute(Name = "Registration Time")]
         public DateTime TimeOfRegistration { get; set; } = DateTime.Now;
 
+        [DisplayAttribute(Name = "Course")]
         public int? CourseId { get; set; }
         public virtual Course Course { get; set; }
 
