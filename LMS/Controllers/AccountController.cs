@@ -509,8 +509,6 @@ namespace LMS.Controllers
 
                     var userStore = new UserStore<ApplicationUser>(db);
                     var userManager = new UserManager<ApplicationUser>(userStore);
-                    var roleStore = new RoleStore<IdentityRole>(db);
-                    var roleManager = new RoleManager<IdentityRole>(roleStore);
 
                     //TODO: find teacher's choice of role in dropdown listbox
                     if (model.AssignedRole.Equals("Teacher"))
