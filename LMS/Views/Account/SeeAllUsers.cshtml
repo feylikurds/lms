@@ -31,6 +31,9 @@
             Role
         </th>
         <th>
+            Course
+        </th>
+        <th>
         </th>
     </tr>
     @{
@@ -55,6 +58,9 @@
 
                         @Html.DisplayFor(s => role);
                     }
+                </td>
+                <td>
+                    @Html.ActionLink(user.Course.Name, "Details", "Courses", new { id = user.CourseId }, new { })
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = user.Id })

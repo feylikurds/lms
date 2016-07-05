@@ -5,8 +5,8 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -38,4 +38,14 @@ textarea {
         margin: 0;
         padding: 10px 15px;
     }
+}
+
+/*Makes hr-lines look prettier*/
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #999999;
+    margin: 1em 0;
+    padding: 0; 
 }
