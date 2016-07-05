@@ -31,3 +31,10 @@ textarea {
   -o-transition: height 0.01s;
   transition: height 0.01s;
 }
+
+@media (max-width: 991px) {    
+    p.navbar-text {
+        margin: 0;
+        padding: 10px 15px;
+    }
+}
