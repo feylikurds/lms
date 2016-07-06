@@ -126,7 +126,7 @@ namespace LMS.Migrations
             context.SaveChanges();
 
             //Add an module to courses that doesn't have one
-            var modulelessCourses = context.Courses.Where(c => c.Modules.Count == 0).ToList();
+            var modulelessCourses = context.Courses.Where(c => c.Modules.Count() == 0).ToList();
             foreach (var item in modulelessCourses)
             {
                 var module = Builder<Module>.CreateNew()
@@ -141,7 +141,7 @@ namespace LMS.Migrations
             context.SaveChanges();
 
             //Add an activity to a module that did not have any
-            var activitylessModules = context.Modules.Where(c => c.Activities.Count == 0).ToList();
+            var activitylessModules = context.Modules.Where(c => c.Activities.Count() == 0).ToList();
             foreach (var item in activitylessModules)
             {
                 var activity = Builder<Activity>.CreateNew()
@@ -197,7 +197,7 @@ namespace LMS.Migrations
 
                 var us = (from u in context.Users
                           where u.UserName == userName
-                          select u).First();
+                          select u).FirstOrDefault();
 
                 userManager.AddToRole(us.Id, "Student");
 
