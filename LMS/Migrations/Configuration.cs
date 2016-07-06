@@ -97,6 +97,34 @@ namespace LMS.Migrations
 
             context.Modules.AddOrUpdate(m => m.Id, modules2.ToArray());
 
+            //Add an module to courses that doesn't have one
+            var modulelessCourses = courses1.Where(c => c.Modules.Count == 0).ToList();
+            foreach (var item in modulelessCourses)
+            {
+                var module = Builder<Module>.CreateNew()
+                .With(m => m.Name = Faker.Company.Name())
+                .With(m => m.Description = Faker.Company.CatchPhrase())
+                .With(m => m.StartDate = new DateTime(2017, 1, 1))
+                .With(m => m.EndDate = new DateTime(2017, 6, 30))
+                .With(m => m.Course = item)
+                .Build();
+                context.Modules.AddOrUpdate(c => c.Id, module);
+            }
+
+            var modulelessCourses2 = courses2.Where(c => c.Modules.Count == 0).ToList();
+            foreach (var item in modulelessCourses2)
+            {
+                var module = Builder<Module>.CreateNew()
+                .With(m => m.Name = Faker.Company.Name())
+                .With(m => m.Description = Faker.Company.CatchPhrase())
+                .With(m => m.StartDate = new DateTime(2017, 7, 1))
+                .With(m => m.EndDate = new DateTime(2017, 12, 30))
+                .With(m => m.Course = item)
+                .Build();
+                context.Modules.AddOrUpdate(c => c.Id, module);
+            }
+
+            //Activities
             var activities1 = Builder<Activity>.CreateListOfSize(20).All()
                 .With(a => a.Name = Faker.Company.Name())
                 .With(a => a.Description = Faker.Company.CatchPhrase())
@@ -116,6 +144,35 @@ namespace LMS.Migrations
                 .Build();
 
             context.Activities.AddOrUpdate(a => a.Id, activities2.ToArray());
+
+
+            //Add an activity to a module that did not have any
+            var activitylessModules = modules1.Where(c => c.Activities.Count == 0).ToList();
+            foreach (var item in activitylessModules)
+            {
+                var activity = Builder<Activity>.CreateNew()
+                .With(m => m.Name = Faker.Company.Name())
+                .With(m => m.Description = Faker.Company.CatchPhrase())
+                .With(m => m.StartDate = new DateTime(2017, 1, 1))
+                .With(m => m.EndDate = new DateTime(2017, 6, 30))
+                .With(m => m.Module = item)
+                .Build();
+                context.Activities.AddOrUpdate(c => c.Id, activity);
+            }
+
+            var activitylessModules2 = modules2.Where(c => c.Activities.Count == 0).ToList();
+            foreach (var item in activitylessModules2)
+            {
+                var activity = Builder<Activity>.CreateNew()
+                .With(m => m.Name = Faker.Company.Name())
+                .With(m => m.Description = Faker.Company.CatchPhrase())
+                .With(a => a.StartDate = new DateTime(2017, 7, 1))
+                .With(a => a.EndDate = new DateTime(2017, 12, 30))
+                .With(m => m.Module = item)
+                .Build();
+                context.Activities.AddOrUpdate(c => c.Id, activity);
+            }
+
 
             context.SaveChanges();
 
