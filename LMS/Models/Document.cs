@@ -18,7 +18,9 @@ namespace LMS.Models
         [DisplayAttribute(Name = "Uploader")]
         public int UploaderId { get; set; }
         public DateTime Deadline { get; set; }
+        [DisplayAttribute(Name = "Document Name")]
         public string DocumentName { get; set; }
+        [DisplayAttribute(Name = "Document Type")]
         public DocumentTypes DocumentType { get; set; }
 
         public Course Course { get; set; }
