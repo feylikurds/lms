@@ -9,7 +9,7 @@ namespace LMS.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using LMS.Models;
+    //using LMS.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<LMS.Models.ApplicationDbContext>
     {
