@@ -97,32 +97,7 @@ namespace LMS.Migrations
 
             context.Modules.AddOrUpdate(m => m.Id, modules2.ToArray());
 
-            //Add an module to courses that doesn't have one
-            var modulelessCourses = courses1.Where(c => c.Modules.Count == 0).ToList();
-            foreach (var item in modulelessCourses)
-            {
-                var module = Builder<Module>.CreateNew()
-                .With(m => m.Name = Faker.Company.Name())
-                .With(m => m.Description = Faker.Company.CatchPhrase())
-                .With(m => m.StartDate = new DateTime(2017, 1, 1))
-                .With(m => m.EndDate = new DateTime(2017, 6, 30))
-                .With(m => m.Course = item)
-                .Build();
-                context.Modules.AddOrUpdate(c => c.Id, module);
-            }
-
-            var modulelessCourses2 = courses2.Where(c => c.Modules.Count == 0).ToList();
-            foreach (var item in modulelessCourses2)
-            {
-                var module = Builder<Module>.CreateNew()
-                .With(m => m.Name = Faker.Company.Name())
-                .With(m => m.Description = Faker.Company.CatchPhrase())
-                .With(m => m.StartDate = new DateTime(2017, 7, 1))
-                .With(m => m.EndDate = new DateTime(2017, 12, 30))
-                .With(m => m.Course = item)
-                .Build();
-                context.Modules.AddOrUpdate(c => c.Id, module);
-            }
+            
 
             //Activities
             var activities1 = Builder<Activity>.CreateListOfSize(20).All()
@@ -146,8 +121,28 @@ namespace LMS.Migrations
             context.Activities.AddOrUpdate(a => a.Id, activities2.ToArray());
 
 
+            
+
+
+            context.SaveChanges();
+
+            //Add an module to courses that doesn't have one
+            var modulelessCourses = context.Courses.Where(c => c.Modules.Count == 0).ToList();
+            foreach (var item in modulelessCourses)
+            {
+                var module = Builder<Module>.CreateNew()
+                .With(m => m.Name = Faker.Company.Name())
+                .With(m => m.Description = Faker.Company.CatchPhrase())
+                .With(m => m.StartDate = new DateTime(2017, 1, 1))
+                .With(m => m.EndDate = new DateTime(2017, 6, 30))
+                .With(m => m.Course = item)
+                .Build();
+                context.Modules.AddOrUpdate(c => c.Id, module);
+            }
+            context.SaveChanges();
+
             //Add an activity to a module that did not have any
-            var activitylessModules = modules1.Where(c => c.Activities.Count == 0).ToList();
+            var activitylessModules = context.Modules.Where(c => c.Activities.Count == 0).ToList();
             foreach (var item in activitylessModules)
             {
                 var activity = Builder<Activity>.CreateNew()
@@ -159,23 +154,9 @@ namespace LMS.Migrations
                 .Build();
                 context.Activities.AddOrUpdate(c => c.Id, activity);
             }
-
-            var activitylessModules2 = modules2.Where(c => c.Activities.Count == 0).ToList();
-            foreach (var item in activitylessModules2)
-            {
-                var activity = Builder<Activity>.CreateNew()
-                .With(m => m.Name = Faker.Company.Name())
-                .With(m => m.Description = Faker.Company.CatchPhrase())
-                .With(a => a.StartDate = new DateTime(2017, 7, 1))
-                .With(a => a.EndDate = new DateTime(2017, 12, 30))
-                .With(m => m.Module = item)
-                .Build();
-                context.Activities.AddOrUpdate(c => c.Id, activity);
-            }
-
-
             context.SaveChanges();
 
+            //Users
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
             if (!context.Users.Any(u => u.UserName == "teacher@localhost.com"))
@@ -190,27 +171,26 @@ namespace LMS.Migrations
                            where c.Name != "None" && c.Modules.Count() > 0
                            select c).ToList();
 
-            SetUpUser(context, userManager, courses, rand, "student@localhost.com", "Jill", "Jillson", "student@localhost.com");
+            SetUpUser(context, userManager, courses, rand, "student@localhost.com", "Jill", "Jillson", "student@localhost.com", courses.FirstOrDefault().Id);
 
             context.SaveChanges();
 
             //Some additional users
-
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < courses.Count*3; i++)
             {
                 var firstName = Faker.Name.First();
                 var lastName = Faker.Name.Last();
                 var email = firstName.ToLower() + "." + lastName.ToLower() + "@localhost.com";
 
-                SetUpUser(context, userManager, courses, rand, email, firstName, lastName, email);
+                SetUpUser(context, userManager, courses, rand, email, firstName, lastName, email, courses.ElementAt(i % courses.Count).Id);
             }
         }
 
-        private void SetUpUser(LMS.Models.ApplicationDbContext context, UserManager<ApplicationUser> userManager, List<Course>courses, Random rand, string userName, string firstName, string lastName, string email)
+        private void SetUpUser(LMS.Models.ApplicationDbContext context, UserManager<ApplicationUser> userManager, List<Course>courses, Random rand, string userName, string firstName, string lastName, string email, int courseId)
         {
             if (!context.Users.Any(u => u.UserName == userName))
             {
-                var course = courses.ElementAt(rand.Next(0, courses.Count()));
+                var course = courses.Where(c => c.Id == courseId).First();
                 var user = new ApplicationUser { UserName = userName, FirstName = firstName, LastName = lastName, Email = email, CourseId = course.Id };
 
                 userManager.Create(user, "Pass.123");
