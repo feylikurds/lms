@@ -97,21 +97,21 @@
                 Last name
             </th>
         </tr>
-        
-            @foreach (var item in Model.CourseParticipants)
+
+        @foreach (var item in Model.CourseParticipants)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(u => item.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(u => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(u => item.LastName)
-                    </td>
-                </tr>
-            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(u => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(u => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(u => item.LastName)
+                </td>
+            </tr>
+        }
     </table>
 </div>
 
