@@ -13,15 +13,23 @@ namespace LMS.Models
 
         public string Name { get; set; }
         public string Description { get; set; }
-        [DisplayAttribute(Name = "Upload Time")]
-        public DateTime UploadTime { get; set; }
-        [DisplayAttribute(Name = "Uploader")]
-        public int UploaderId { get; set; }
-        public DateTime Deadline { get; set; }
-        [DisplayAttribute(Name = "Document Name")]
-        public string DocumentName { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        public DateTime Deadline { get; set; } = DateTime.Now;
         [DisplayAttribute(Name = "Document Type")]
         public DocumentTypes DocumentType { get; set; }
+
+        [DisplayAttribute(Name = "Uploader")]
+        public string UploaderId { get; set; }
+        public virtual ApplicationUser Uploader { get; set; }
+        [DisplayAttribute(Name = "Upload Time")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        public DateTime UploadTime { get; set; } = DateTime.Now;
+
+        [StringLength(255)]
+        public string FileName { get; set; }
+        [StringLength(100)]
+        public string ContentType { get; set; }
+        public byte[] Content { get; set; }
 
         public Course Course { get; set; }
         public Module Module { get; set; }

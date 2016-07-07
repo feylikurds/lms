@@ -39,3 +39,11 @@
     }
 
 </table>
+
+@Html.ActionLink(
+    linkText: "Upload Document",
+    actionName: "Upload",
+    controllerName: "Documents",
+    routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Activity, returnAction = "ListStudents", returnController = "StudentActivities" },
+    htmlAttributes: new { @class = "btn btn-success btn-md" }
+)
