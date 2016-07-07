@@ -30,6 +30,10 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
+                @if (User.IsInRole("Teacher") && item.CourseParticipants.Count < 1)
+                {
+                        @:(*)
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -46,6 +50,7 @@
                 @if (User.IsInRole("Teacher"))
                 {
                     @: | @Html.ActionLink("Edit", "Edit", "Courses", new { id = item.Id }, new { })
+                    
                 }
 
             </td>
@@ -53,3 +58,9 @@
     }
 
 </table>
+
+@if (Model.Where(c => c.CourseParticipants.Count < 1).Count() > 0)
+{
+    <hr />
+    @: (*) after name means that no student is assigned to the course
+}

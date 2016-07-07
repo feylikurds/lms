@@ -52,10 +52,12 @@
         </dd>
     </dl>
 </div>
+<br />
 <p>
-    @Html.ActionLink("Back to list", "Index", "Activities", new { }, new { })
+    
     @if (User.IsInRole("Teacher"))
     {
+        @Html.ActionLink("Back to list", "Index", "Activities", new { }, new { })
         @: | @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
         @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
     }
