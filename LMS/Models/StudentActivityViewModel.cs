@@ -16,5 +16,6 @@ namespace LMS.Models
         public string StudentName { get; set; }
         public Statuses Status { get; set; }
         public Grades Grade { get; set; }
+        public ICollection<Document> Documents { get; set; }
     }
 }

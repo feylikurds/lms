@@ -26,6 +26,21 @@
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
         </tr>
+
+        foreach (var doc in item.Documents)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Deadline)
+                </td>
+            </tr>
+        }
     }
 
 </table>

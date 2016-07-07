@@ -91,6 +91,7 @@ namespace LMS.Controllers
                 sa.ActivityName = a.Name;
                 sa.Status = activity.Status;
                 sa.Grade = activity.Grade;
+                sa.Documents = a.Documents.ToList();
 
                 studentActivities.Add(sa);
             }
