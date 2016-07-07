@@ -48,3 +48,23 @@ hr {
     margin: 1em 0;
     padding: 0; 
 }
+
+#Pass{
+    color: green;
+}
+
+#Fail{
+    color: red;
+}
+
+#Waiting{
+    color: darkorange;
+}
+
+#Done{
+    color: green;
+}
+
+#Error{
+    color: red;
+}
