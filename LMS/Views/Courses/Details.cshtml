@@ -66,7 +66,7 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(item.Name, "Details", "Modules", new { Id = item.Id }, new { })
+                    @Html.ActionLink(item.Name, "Details", "Modules", new { Id = item.Id}, new { })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -97,21 +97,21 @@
                 Last name
             </th>
         </tr>
-
-        @foreach (var item in Model.CourseParticipants)
+        
+            @foreach (var item in Model.CourseParticipants)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(u => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(u => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(u => item.LastName)
-                </td>
-            </tr>
-        }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(u => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(u => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(u => item.LastName)
+                    </td>
+                </tr>
+            }
     </table>
 </div>
 
@@ -119,7 +119,7 @@
 
     @if (User.IsInRole("Teacher"))
     {
-        @Html.ActionLink("Create new module", "Create", "Modules", new { }, new { })
+        @Html.ActionLink("Create new module", "Create", "Modules", new {@returnUrl = ViewContext.HttpContext.Request.Url.PathAndQuery }, new { })
         @: | @Html.ActionLink("Back to list", "Index", "Courses", new { }, new { })
         if (!Model.Name.ToLower().Equals("none"))
         {
