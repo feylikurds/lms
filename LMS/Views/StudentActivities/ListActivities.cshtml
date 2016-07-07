@@ -33,17 +33,9 @@
                 @item.EndDate.ToShortDateString()
             </td>
             <td>
-                 @Html.ActionLink("List Students", "ListStudents", "StudentActivities", new { id = item.Id }, new { })
+                 @Html.ActionLink("Handle Class", "HandleClass", "StudentActivities", new { id = item.Id }, new { })
             </td>
         </tr>
     }
 
 </table>
-
-@Html.ActionLink(
-    linkText: "Upload Document",
-    actionName: "Upload",
-    controllerName: "Documents",
-    routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Activity, returnAction = "ListStudents", returnController = "StudentActivities" },
-    htmlAttributes: new { @class = "btn btn-success btn-md" }
-)

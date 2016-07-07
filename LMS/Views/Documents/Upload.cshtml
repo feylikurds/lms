@@ -6,16 +6,18 @@
 
 <h2>@Model.DocumentType</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Upload", "Documents", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-horizontal">
         <h4>Upload File</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.DocumentType)
         @Html.HiddenFor(model => model.UploaderId)
         @Html.HiddenFor(model => model.UploadTime)
 
+        @Html.Hidden("objectId", (int)ViewBag.ObjectId)
         @Html.Hidden("returnAction", (string)ViewBag.ReturnAction)
         @Html.Hidden("returnController", (string)ViewBag.ReturnController)
         

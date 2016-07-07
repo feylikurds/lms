@@ -118,8 +118,8 @@ namespace LMS.Controllers
             return View(activities);
         }
 
-        // GET: StudentActivities/ListStudents/5
-        public ActionResult ListStudents(int? id)
+        // GET: StudentActivities/HandleClass/5
+        public ActionResult HandleClass(int? id)
         {
             if (id == null)
             {
@@ -127,8 +127,8 @@ namespace LMS.Controllers
             }
 
             var studentActivities = (from sa in db.StudentActivities
-                            where sa.ActivityId == id
-                            select sa).ToList();
+                                     where sa.ActivityId == id
+                                     select sa).ToList();
             var students = new List<StudentActivityViewModel>();
 
             foreach (var sa in studentActivities)
@@ -145,6 +145,10 @@ namespace LMS.Controllers
                                                            Status = sa.Status, Grade = sa.Grade });                
             }
 
+            ViewBag.Id = id;
+            ViewBag.Documents = (from a in db.Activities
+                                 where a.Id == id
+                                 select a.Documents).First().ToList();
 
             return View(students);
         }

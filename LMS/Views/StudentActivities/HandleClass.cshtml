@@ -1,0 +1,91 @@
+﻿@model IEnumerable<LMS.Models.StudentActivityViewModel>
+
+<h4>Students</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Grade
+        </th>
+        <th>
+            
+        </th>
+        </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                 @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h4>Documents</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            Uploader
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in ViewBag.Documents)
+    {
+        <tr>
+            <td>
+                @item.Uploader.FullName
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @Html.ActionLink(
+                    linkText: "Delete",
+                    actionName: "Remove",
+                    controllerName: "Documents",
+                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                    htmlAttributes: null 
+                )
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink(
+    linkText: "Upload Document",
+    actionName: "Upload",
+    controllerName: "Documents",
+    routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Activity, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+    htmlAttributes: new { @class = "btn btn-success btn-md" }
+)

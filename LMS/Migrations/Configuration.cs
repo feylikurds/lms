@@ -197,7 +197,7 @@ namespace LMS.Migrations
 
                 var us = (from u in context.Users
                           where u.UserName == userName
-                          select u).FirstOrDefault();
+                          select u).First();
 
                 userManager.AddToRole(us.Id, "Student");
 

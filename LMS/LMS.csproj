@@ -227,13 +227,9 @@
     <Compile Include="Migrations\201607041029111_Fixed_merge.Designer.cs">
       <DependentUpon>201607041029111_Fixed_merge.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607070746523_Changed_Document_to_allow_uploads.cs" />
-    <Compile Include="Migrations\201607070746523_Changed_Document_to_allow_uploads.Designer.cs">
-      <DependentUpon>201607070746523_Changed_Document_to_allow_uploads.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607070854307_Added_upload_fields.cs" />
-    <Compile Include="Migrations\201607070854307_Added_upload_fields.Designer.cs">
-      <DependentUpon>201607070854307_Added_upload_fields.cs</DependentUpon>
+    <Compile Include="Migrations\201607071033162_Adding_uploading.cs" />
+    <Compile Include="Migrations\201607071033162_Adding_uploading.Designer.cs">
+      <DependentUpon>201607071033162_Adding_uploading.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -341,7 +337,7 @@
     <Content Include="Views\StudentActivities\ListModules.cshtml" />
     <Content Include="Views\StudentActivities\ListActivities.cshtml" />
     <Content Include="Views\StudentActivities\StudentListActivities.cshtml" />
-    <Content Include="Views\StudentActivities\ListStudents.cshtml" />
+    <Content Include="Views\StudentActivities\HandleClass.cshtml" />
     <Content Include="Views\StudentActivities\EditStudent.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
     <Content Include="Views\Documents\Create.cshtml" />
@@ -388,11 +384,8 @@
     <EmbeddedResource Include="Migrations\201607041029111_Fixed_merge.resx">
       <DependentUpon>201607041029111_Fixed_merge.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607070746523_Changed_Document_to_allow_uploads.resx">
-      <DependentUpon>201607070746523_Changed_Document_to_allow_uploads.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607070854307_Added_upload_fields.resx">
-      <DependentUpon>201607070854307_Added_upload_fields.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607071033162_Adding_uploading.resx">
+      <DependentUpon>201607071033162_Adding_uploading.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

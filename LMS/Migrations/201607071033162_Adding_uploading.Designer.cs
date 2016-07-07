@@ -7,13 +7,13 @@ namespace LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Changed_Document_to_allow_uploads : IMigrationMetadata
+    public sealed partial class Adding_uploading : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Changed_Document_to_allow_uploads));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Adding_uploading));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607070746523_Changed_Document_to_allow_uploads"; }
+            get { return "201607071033162_Adding_uploading"; }
         }
         
         string IMigrationMetadata.Source

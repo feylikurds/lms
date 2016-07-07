@@ -91,6 +91,26 @@ namespace LMS.Controllers
             }
             return View(document);
         }
+        // GET: Documents/Remove/5
+        public ActionResult Remove(int? id, int objectId, string returnAction, string returnController)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Document document = db.Documents.Find(id);
+
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.Documents.Remove(document);
+            db.SaveChanges();
+
+            return RedirectToAction(returnAction, returnController, new { id = objectId });
+        }
 
         // GET: Documents/Delete/5
         public ActionResult Delete(int? id)
@@ -119,7 +139,7 @@ namespace LMS.Controllers
         }
 
         // GET: Documents/Upload/5
-        public ActionResult Upload(Document.DocumentTypes documentType, string returnAction, string returnController)
+        public ActionResult Upload(Document.DocumentTypes documentType, int objectId, string returnAction, string returnController)
         {
             var userId = User.Identity.GetUserId();
             var user = (from u in db.Users
@@ -137,6 +157,7 @@ namespace LMS.Controllers
             document.Uploader = user;
             document.UploaderId = user.Id;
 
+            ViewBag.ObjectId = objectId;
             ViewBag.ReturnAction = returnAction;
             ViewBag.ReturnController = returnController;
 
@@ -147,7 +168,7 @@ namespace LMS.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Upload(Document document, HttpPostedFileBase upload, string returnAction, string returnController)
+        public ActionResult Upload(Document document, HttpPostedFileBase upload, int objectId, string returnAction, string returnController)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
@@ -163,13 +184,51 @@ namespace LMS.Controllers
                         document.Content = reader.ReadBytes(upload.ContentLength);
                     }
 
+                    switch (document.DocumentType)
+                    {
+                        case Document.DocumentTypes.Course:
+                            document.Course = (from c in db.Courses
+                                               where c.Id == objectId
+                                               select c).First();
+                            document.Course.Documents.Add(document);
+
+                            break;
+
+                        case Document.DocumentTypes.Module:
+                            document.Module = (from m in db.Modules
+                                               where m.Id == objectId
+                                               select m).First();
+                            document.Module.Documents.Add(document);
+
+                            break;
+
+                        case Document.DocumentTypes.Activity:
+                            document.Activity = (from a in db.Activities
+                                                 where a.Id == objectId
+                                                 select a).First();
+                            document.Activity.Documents.Add(document);
+
+                            break;
+
+                        case Document.DocumentTypes.Homework:
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    document.Uploader = (from u in db.Users
+                                         where u.Id == document.UploaderId
+                                         select u).First();
+
                     db.Documents.Add(document);
                     db.SaveChanges();
 
-                    return RedirectToAction(returnAction, returnController);
+                    return RedirectToAction(returnAction, returnController, new { id = objectId });
                 }
             }
 
+            ViewBag.ObjectId = objectId;
             ViewBag.ReturnAction = returnAction;
             ViewBag.ReturnController = returnController;
 

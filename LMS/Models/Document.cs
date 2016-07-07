@@ -15,6 +15,7 @@ namespace LMS.Models
         public string Description { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime Deadline { get; set; } = DateTime.Now;
+        public int ObjectId { get; set; }
         [DisplayAttribute(Name = "Document Type")]
         public DocumentTypes DocumentType { get; set; }
 
