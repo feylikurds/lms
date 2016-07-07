@@ -96,6 +96,8 @@ namespace LMS.Controllers
                 studentActivities.Add(sa);
             }
 
+            ViewBag.Id = user.Id;
+
             return View(studentActivities);
         }
 

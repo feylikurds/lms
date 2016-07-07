@@ -111,6 +111,25 @@ namespace LMS.Controllers
 
             return RedirectToAction(returnAction, returnController, new { id = objectId });
         }
+        
+        // GET: Documents/Download/5
+        public ActionResult Download(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Document document = db.Documents.Find(id);
+
+            if (document == null)
+            {
+                return HttpNotFound();
+            }
+
+            byte[] fileBytes = document.Content;
+
+            return File(fileBytes, document.ContentType, document.FileName);
+        }
 
         // GET: Documents/Delete/5
         public ActionResult Delete(int? id)

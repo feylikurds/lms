@@ -11,6 +11,9 @@
         <th>
             Grade
         </th>
+        <th>
+            
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -25,6 +28,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
+            <th>
+
+            </th>
         </tr>
 
         foreach (var doc in item.Documents)
@@ -38,6 +44,15 @@
                 </td>
                 <td>
                     @Html.DisplayFor(docItem => doc.Deadline)
+                </td>
+                <td>
+                    @Html.ActionLink(
+                        linkText: "Download",
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
                 </td>
             </tr>
         }
