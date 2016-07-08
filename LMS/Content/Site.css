@@ -54,20 +54,25 @@ hr {
 */
 #Pass{
     color: #41AD49;
+    font-weight: bold;
 }
 
 #Fail{
     color: #D60000;
+    font-weight: bold;
 }
 
 #Waiting{
     color: #F57920;
+    font-weight: bold;
 }
 
 #Done{
     color: #41AD49;
+    font-weight: bold;
 }
 
 #Error{
     color: #D60000;
+    font-weight: bold;
 }
