@@ -48,23 +48,26 @@ hr {
     margin: 1em 0;
     padding: 0; 
 }
-/*Color coding for grades*/
+/*
+    Color coding for grades
+    Values are Lexicon's colors
+*/
 #Pass{
-    color: green;
+    color: #41AD49;
 }
 
 #Fail{
-    color: red;
+    color: #D60000;
 }
 
 #Waiting{
-    color: darkorange;
+    color: #F57920;
 }
 
 #Done{
-    color: green;
+    color: #41AD49;
 }
 
 #Error{
-    color: red;
+    color: #D60000;
 }
