@@ -30,10 +30,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
-                @if (User.IsInRole("Teacher") && item.CourseParticipants.Count < 1)
-                {
-                        @:(*)
-                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -58,9 +54,3 @@
     }
 
 </table>
-
-@if (Model.Where(c => c.CourseParticipants.Count < 1).Count() > 0)
-{
-    <hr />
-    @: (*) after name means that no student is assigned to the course
-}
