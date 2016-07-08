@@ -10,7 +10,7 @@ namespace LMS.Shared
 {
     public static class Database
     {
-        public static async void UpdateUsers(ApplicationDbContext db)
+        public static void UpdateUsers(ApplicationDbContext db)
         {
             var users = (from u in db.Users
                          select u).ToList();
@@ -22,7 +22,7 @@ namespace LMS.Shared
 
             db.StudentActivities.RemoveRange(deletedStudents);
 
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             foreach (var u in users)
             {
@@ -50,7 +50,7 @@ namespace LMS.Shared
 
                 db.StudentActivities.RemoveRange(deletedStudentActivities);
 
-                await db.SaveChangesAsync();
+                db.SaveChanges();
 
                 var newActivtyIds = allActivtyIds
                                    .Where(aa => !currentActivityIds.Contains(aa))
@@ -59,7 +59,7 @@ namespace LMS.Shared
                 foreach (var na in newActivtyIds)
                     db.StudentActivities.Add(new StudentActivity { StudentId = u.Id, ActivityId = na });
 
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
         }
     }
