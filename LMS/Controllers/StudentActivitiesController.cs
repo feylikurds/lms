@@ -55,6 +55,11 @@ namespace LMS.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.Id = id;
+            ViewBag.Documents = (from c in db.Courses
+                                 where c.Id == id
+                                 select c.Documents).First().ToList();
+
             return View(modules);
         }
 
@@ -117,6 +122,11 @@ namespace LMS.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.Id = id;
+            ViewBag.Documents = (from m in db.Modules
+                                 where m.Id == id
+                                 select m.Documents).First().ToList();
 
             return View(activities);
         }
