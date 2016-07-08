@@ -250,7 +250,7 @@ namespace LMS.Controllers
                 db.Entry(studentActivity).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("HandleClass", new { Id = studentActivity.ActivityId});
             }
 
             return View(viewModel);
