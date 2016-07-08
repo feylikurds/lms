@@ -154,7 +154,9 @@ namespace LMS.Controllers
                 db.Courses.Remove(course);
                 db.SaveChanges();
             }
-            
+
+            LMS.Shared.Database.UpdateUsers(db);
+
             return RedirectToAction("Index");
         }
 

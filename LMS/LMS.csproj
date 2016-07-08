@@ -242,6 +242,7 @@
     <Compile Include="Models\StudentActivity.cs" />
     <Compile Include="Models\StudentActivityViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Database.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

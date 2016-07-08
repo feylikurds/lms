@@ -84,6 +84,8 @@ namespace LMS.Controllers
                 db.Activities.Add(activity);
                 db.SaveChanges();
 
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
 
@@ -138,6 +140,8 @@ namespace LMS.Controllers
                 db.Entry(activity).State = EntityState.Modified;
                 db.SaveChanges();
 
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
 
@@ -171,6 +175,9 @@ namespace LMS.Controllers
             Activity activity = db.Activities.Find(id);
             db.Activities.Remove(activity);
             db.SaveChanges();
+
+            LMS.Shared.Database.UpdateUsers(db);
+
             return RedirectToAction("Index");
         }
 

@@ -82,6 +82,8 @@ namespace LMS.Controllers
                 db.Modules.Add(module);
                 db.SaveChanges();
 
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
 
@@ -134,6 +136,8 @@ namespace LMS.Controllers
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
 
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", module.CourseId);
@@ -166,6 +170,9 @@ namespace LMS.Controllers
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);
             db.SaveChanges();
+
+            LMS.Shared.Database.UpdateUsers(db);
+
             return RedirectToAction("Index");
         }
 
