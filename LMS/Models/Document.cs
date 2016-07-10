@@ -17,7 +17,7 @@ namespace LMS.Models
         public DateTime Deadline { get; set; } = DateTime.Now;
         public int ObjectId { get; set; }
         [DisplayAttribute(Name = "Document Type")]
-        public DocumentTypes DocumentType { get; set; }
+        public DocumentTypes DocumentType { get; set; } = DocumentTypes.Other;
 
         [DisplayAttribute(Name = "Uploader")]
         public string UploaderId { get; set; }
@@ -35,6 +35,7 @@ namespace LMS.Models
         public Course Course { get; set; }
         public Module Module { get; set; }
         public Activity Activity { get; set; }
+        public StudentActivity StudentActivity { get; set; }
 
         public enum DocumentTypes
         {
@@ -42,6 +43,7 @@ namespace LMS.Models
             Module,
             Activity,
             Homework,
+            Other,
         }
     }
 }

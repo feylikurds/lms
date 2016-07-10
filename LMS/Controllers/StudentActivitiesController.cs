@@ -93,15 +93,17 @@ namespace LMS.Controllers
                          where ac.Id == activity.ActivityId
                          select ac).First();
 
+                sa.Id = activity.Id;
                 sa.ActivityName = a.Name;
                 sa.Status = activity.Status;
                 sa.Grade = activity.Grade;
                 sa.Documents = a.Documents.ToList();
+                sa.Homeworks = activity.Documents.ToList();
 
                 studentActivities.Add(sa);
             }
 
-            ViewBag.Id = user.Id;
+            ViewBag.id = 0;
 
             return View(studentActivities);
         }
