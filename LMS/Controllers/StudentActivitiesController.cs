@@ -157,7 +157,8 @@ namespace LMS.Controllers
 
                 students.Add(new StudentActivityViewModel{ ActivityId = sa.ActivityId, ActivityName = activityName,
                                                            StudentId = sa.StudentId, StudentName = studentName,
-                                                           Status = sa.Status, Grade = sa.Grade });                
+                                                           Status = sa.Status, Grade = sa.Grade,
+                                                           Documents = sa.Documents });                
             }
 
             ViewBag.Id = id;
