@@ -263,6 +263,8 @@ namespace LMS.Controllers
                 db.Entry(studentActivity).State = EntityState.Modified;
                 db.SaveChanges();
 
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("HandleClass", new { Id = studentActivity.ActivityId});
             }
 
@@ -295,6 +297,9 @@ namespace LMS.Controllers
             {
                 db.Entry(studentActivity).State = EntityState.Modified;
                 db.SaveChanges();
+
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
             return View(studentActivity);
@@ -323,6 +328,9 @@ namespace LMS.Controllers
             StudentActivity studentActivity = db.StudentActivities.Find(id);
             db.StudentActivities.Remove(studentActivity);
             db.SaveChanges();
+
+            LMS.Shared.Database.UpdateUsers(db);
+
             return RedirectToAction("Index");
         }
 
