@@ -311,6 +311,7 @@
     <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Documents\Upload.cshtml" />
+    <Content Include="Views\Documents\ManageHomeworkFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -27,94 +27,25 @@
             <td id=@item.Grade>
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td>
-                <b>Documents</b>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        foreach (var doc in item.Documents)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Deadline)
-                </td>
-                <td>
-                    @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                </td>
-                <td></td>
-            </tr>
-        }
-
-        foreach (var doc in item.Homeworks)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Deadline)
-                </td>
-                <td>
-                    @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                </td>
-                <td>
-                    @Html.ActionLink(
-                        linkText: "Delete",
-                        actionName: "Remove",
-                        controllerName: "Documents",
-                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                </td>
-            </tr>
-        }
-
-        <tr>
-            <td>
-                @Html.ActionLink(
+            <td>@Html.ActionLink(
                     linkText: "Upload Homework",
                     actionName: "Upload",
                     controllerName: "Documents",
                     routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                    htmlAttributes: new { @class = "btn btn-primary btn-md" }
-                )
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+                    htmlAttributes: new { }
+                )</td>
+            <td>@Html.ActionLink(
+                    linkText: "Manage Homework Files",
+                    actionName: "ManageHomeworkFiles",
+                    controllerName: "Documents",
+                    //routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                    routeValues: new { Id = item.Id },
+                    htmlAttributes: new { }
+                )</td>
         </tr>
-    }
+
+        
+        }
 
 </table>
 
