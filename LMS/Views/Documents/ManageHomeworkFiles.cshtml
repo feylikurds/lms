@@ -4,41 +4,21 @@
     ViewBag.Title = "ManageHomeworkFiles";
 }
 
-<h2>ManageHomeworkFiles</h2>
+<h2>Manage Homework Files</h2>
+<h4>Activity: @Model.FirstOrDefault().ActivityName</h4>
+
+@{ 
+    var status = Model.FirstOrDefault().Status.ToString();
+    var grade = Model.FirstOrDefault().Grade.ToString();
+    @: <b>Status:</b> <span id="@status">@status</span>
+    @: <br />
+    @: <b>Grade:</b> <span id="@grade">@grade</span>
+}
 
 <table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            Grade
-        </th>
-        <th></th>
-        <th></th>
-    </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityName)
-            </td>
-            <td id=@item.Status>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td id=@item.Grade>
-                @Html.DisplayFor(modelItem => item.Grade)
-            </td>
-            <td>
-        </td>
-        <td>
-    </td>
-</tr>
-
         <tr>
             <td>
                 <b>Documents</b>
@@ -100,13 +80,13 @@
 
         <tr>
             <td>
-                @*@Html.ActionLink(
+                @Html.ActionLink(
                         linkText: "Upload Homework",
                         actionName: "Upload",
                         controllerName: "Documents",
                         routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
                         htmlAttributes: new { @class = "btn btn-primary btn-md" }
-                    )*@
+                    )
             </td>
             <td></td>
             <td></td>
