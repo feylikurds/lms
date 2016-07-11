@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<LMS.Models.StudentActivityViewModel>
 
+<h2>Module details</h2>
+
 <table class="table">
     <tr>
         <th>
@@ -49,3 +51,63 @@
 
 </table>
 
+<table class="table">
+    <tr>
+        <th>
+            Uploader
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Filename
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in ViewBag.Documents)
+    {
+        <tr>
+            <td>
+                @item.Uploader.FullName
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @item.FileName
+            </td>
+            <td>
+                @if (User.IsInRole("Teacher"))
+                {
+                    @Html.ActionLink(
+                        linkText: "Delete",
+                        actionName: "Remove",
+                        controllerName: "Documents",
+                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+                }
+                else
+                {
+                    @Html.ActionLink(
+                        linkText: "Download",
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+                }
+            </td>
+        </tr>
+    }
+
+</table>

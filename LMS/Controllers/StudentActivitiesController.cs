@@ -64,7 +64,7 @@ namespace LMS.Controllers
         }
 
         // GET: StudentActivities/ListActivities/5
-        public ActionResult StudentListActivities()
+        public ActionResult StudentListActivities(int? id)
         {
             var user = (from u in db.Users
                           where u.UserName == User.Identity.Name
@@ -104,6 +104,9 @@ namespace LMS.Controllers
             }
 
             ViewBag.id = 0;
+            ViewBag.Documents = (from m in db.Modules
+                                 where m.Id == id
+                                 select m.Documents).FirstOrDefault().ToList();
 
             return View(studentActivities);
         }

@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<LMS.Models.Module>
 @using Microsoft.AspNet.Identity
 
+<h2>Course Details</h2>
+
 <table class="table">
     <tr>
         <th>
@@ -36,11 +38,11 @@
             <td>
                 @if (User.IsInRole("Teacher"))
                 {
-                    @Html.ActionLink("Activities", "ListActivities", "StudentActivities", new { id = item.Id }, new { })
+                    @Html.ActionLink("Activities / Module Details", "ListActivities", "StudentActivities", new { id = item.Id }, new { })
                 }
                 else
                 {
-                    @Html.ActionLink("Activities", "StudentListActivities", "StudentActivities", new { }, new { })
+                    @Html.ActionLink("Activities / Module Details", "StudentListActivities", "StudentActivities", new { id = item.Id}, new { })
                 }
             </td>
         </tr>
