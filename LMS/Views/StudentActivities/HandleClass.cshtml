@@ -16,6 +16,9 @@
         <th>
             
         </th>
+        <th>
+
+        </th>
         </tr>
 
     @foreach (var item in Model)
@@ -33,7 +36,42 @@
             <td>
                  @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
             </td>
+            <td>
+            </td>
         </tr>
+
+        foreach (var doc in item.Documents)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Deadline)
+                </td>
+                <td>
+                    @Html.ActionLink(
+                        linkText: "Download",
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+                </td>
+                <td>
+                    @Html.ActionLink(
+                        linkText: "Delete",
+                        actionName: "Remove",
+                        controllerName: "Documents",
+                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+                </td>
+            </tr>
+        }
     }
 
 </table>

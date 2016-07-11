@@ -11,9 +11,8 @@
         <th>
             Grade
         </th>
-        <th>
-            
-        </th>
+        <th></th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -28,9 +27,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
-            <th>
+            <td></td>
+            <td></td>
+        </tr>
 
-            </th>
+        <tr>
+            <td>
+                <b>Documents</b>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
 
         foreach (var doc in item.Documents)
@@ -54,8 +62,59 @@
                         htmlAttributes: null
                     )
                 </td>
+                <td></td>
             </tr>
         }
+
+        foreach (var doc in item.Homeworks)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Deadline)
+                </td>
+                <td>
+                    @Html.ActionLink(
+                        linkText: "Download",
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+                </td>
+                <td>
+                    @Html.ActionLink(
+                        linkText: "Delete",
+                        actionName: "Remove",
+                        controllerName: "Documents",
+                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td>
+                @Html.ActionLink(
+                    linkText: "Upload Homework",
+                    actionName: "Upload",
+                    controllerName: "Documents",
+                    routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                    htmlAttributes: new { @class = "btn btn-primary btn-md" }
+                )
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
     }
 
 </table>
+

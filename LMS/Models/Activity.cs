@@ -20,6 +20,8 @@ namespace LMS.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime EndDate { get; set; }
 
+        public Kinds Kind { get; set; } = Kinds.Other;
+
         [DisplayAttribute(Name = "Module")]
         public int ModuleId { get; set; }
         [DisplayAttribute(Name = "Module")]
@@ -28,5 +30,14 @@ namespace LMS.Models
         public virtual ICollection<StudentActivity> StudentActivities { get; set; }
 
         public virtual ICollection<Document> Documents { get; set; }
+    }
+
+
+    public enum Kinds
+    {
+        ELearning,
+        Lecture,
+        Homework,
+        Other
     }
 }

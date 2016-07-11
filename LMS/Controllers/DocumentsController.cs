@@ -230,6 +230,11 @@ namespace LMS.Controllers
                             break;
 
                         case Document.DocumentTypes.Homework:
+                            document.StudentActivity = (from sa in db.StudentActivities
+                                                 where sa.Id == objectId
+                                                 select sa).First();
+                            document.StudentActivity.Documents.Add(document);
+
                             break;
 
                         default:

@@ -195,9 +195,14 @@ namespace LMS.Migrations
                 userManager.Create(user, "Pass.123");
                 context.SaveChanges();
 
-                var us = (from u in context.Users
+                var userQuery = (from u in context.Users
                           where u.UserName == userName
-                          select u).First();
+                          select u).ToList();
+
+                if (userQuery == null || userQuery.Count() == 0)
+                    return;
+
+                var us = userQuery.ElementAt(0);
 
                 userManager.AddToRole(us.Id, "Student");
 
