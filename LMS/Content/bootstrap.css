@@ -2995,7 +2995,7 @@ select[multiple].input-lg {
 .btn {
   display: inline-block;
   margin-bottom: 0;
-  font-weight: normal;
+  font-weight: bold;
   text-align: center;
   vertical-align: middle;
   touch-action: manipulation;
@@ -4575,7 +4575,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 .navbar-inverse {
   background-color: #d60000;
-  border-color: #a30000;
+  border-color: #8a0000;
 }
 .navbar-inverse .navbar-brand {
   color: #ffffff;
@@ -4630,10 +4630,10 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 @media (max-width: 991px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
-    border-color: #a30000;
+    border-color: #8a0000;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-    background-color: #a30000;
+    background-color: #8a0000;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #ffffff;
