@@ -83,7 +83,7 @@
         </td>
         <td>
             @Html.ActionLink(
-            linkText: (string)doc.FileName,
+            linkText: doc.FileName,
             actionName: "Download",
             controllerName: "Documents",
             routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
