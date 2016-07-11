@@ -273,6 +273,57 @@ namespace LMS.Controllers
             return RedirectToAction("HandleClass", "StudentActivities", new { id = returnId });
         }
 
+        //public ActionResult ManageHomeworkFiles(Document.DocumentTypes documentType, int objectId, string returnAction, string returnController)
+        //{
+        //    Document document = db.Documents.Find(objectId);
+
+        //    return View(document);
+        //}
+
+        public ActionResult ManageHomeworkFiles(int Id)
+        {
+            var user = (from u in db.Users
+                        where u.UserName == User.Identity.Name
+                        select u).FirstOrDefault();
+
+            if (user == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var activities = (from a in db.StudentActivities
+                              where a.StudentId == user.Id
+                              select a).Where(a => a.Id == Id).ToList();
+
+            if (activities == null)
+            {
+                return HttpNotFound();
+            }
+
+            var studentActivities = new List<StudentActivityViewModel>();
+
+            foreach (var activity in activities)
+            {
+                var sa = new StudentActivityViewModel();
+                var a = (from ac in db.Activities
+                         where ac.Id == activity.ActivityId
+                         select ac).First();
+
+                sa.Id = activity.Id;
+                sa.ActivityName = a.Name;
+                sa.Status = activity.Status;
+                sa.Grade = activity.Grade;
+                sa.Documents = a.Documents.ToList();
+                sa.Homeworks = activity.Documents.ToList();
+
+                studentActivities.Add(sa);
+            }
+
+            ViewBag.id = 0;
+
+            return View(studentActivities);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

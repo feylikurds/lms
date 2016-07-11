@@ -11,7 +11,7 @@
         <th>
             Grade
         </th>
-        <th></th>
+        @*<th></th>*@
         <th></th>
     </tr>
 
@@ -21,10 +21,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ActivityName)
             </td>
-            <td>
+            <td id=@item.Status>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-            <td>
+            <td id=@item.Grade>
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td></td>
@@ -124,14 +124,19 @@
                     actionName: "Upload",
                     controllerName: "Documents",
                     routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                    htmlAttributes: new { @class = "btn btn-primary btn-md" }
-                )
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+                    htmlAttributes: new { }
+                )</td>*@
+            <td>@Html.ActionLink(
+                    linkText: "Manage Homework Files",
+                    actionName: "ManageHomeworkFiles",
+                    controllerName: "Documents",
+                    //routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                    routeValues: new { Id = item.Id },
+                    htmlAttributes: new { }
+                )</td>
         </tr>
+
+        
     }
 
 </table>
