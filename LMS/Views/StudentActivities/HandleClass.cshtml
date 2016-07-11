@@ -14,12 +14,12 @@
             Grade
         </th>
         <th>
-            
+
         </th>
         <th>
 
         </th>
-        </tr>
+    </tr>
 
     @foreach (var item in Model)
     {
@@ -34,13 +34,12 @@
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td>
-                 @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
+                @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
             </td>
-            <td>
-            </td>
+            <td></td>
         </tr>
 
-        
+
     }
 
 </table>
@@ -58,8 +57,11 @@
         <th>
             Description
         </th>
-        <th>Filename</th>
-        <th></th><th></th>
+        <th>
+            Filename
+        </th>
+        <th></th>
+        <th></th>
     </tr>
     @{
         var sortedModel = Model.OrderBy(s => s.StudentName).ToList();
@@ -100,8 +102,8 @@
             }
         }
     }
-    
-   
+
+
 </table>
 
 <h4>Documents</h4>
@@ -117,7 +119,9 @@
         <th>
             Description
         </th>
-        <th>Filename</th>
+        <th>
+            Filename
+        </th>
         <th>
 
         </th>
@@ -142,7 +146,7 @@
                     actionName: "Remove",
                     controllerName: "Documents",
                     routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                    htmlAttributes: null 
+                    htmlAttributes: null
                 )
             </td>
         </tr>
