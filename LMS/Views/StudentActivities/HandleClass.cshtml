@@ -61,7 +61,6 @@
             Filename
         </th>
         <th></th>
-        <th></th>
     </tr>
     @{
         var sortedModel = Model.OrderBy(s => s.StudentName).ToList();
@@ -79,10 +78,9 @@
                     <td>
                         @Html.DisplayFor(docItem => doc.Description)
                     </td>
-                    <td>@Html.DisplayFor(docItem => doc.FileName)</td>
                     <td>
                         @Html.ActionLink(
-                        linkText: "Download",
+                        linkText: doc.FileName,
                         actionName: "Download",
                         controllerName: "Documents",
                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
@@ -122,9 +120,7 @@
         <th>
             Filename
         </th>
-        <th>
-
-        </th>
+        <th></th>
     </tr>
 
     @foreach (var item in ViewBag.Documents)
@@ -139,7 +135,15 @@
             <td>
                 @item.Description
             </td>
-            <td>@item.FileName</td>
+            <td>
+                @Html.ActionLink(
+                    linkText: (string)item.FileName,
+                    actionName: "Download",
+                    controllerName: "Documents",
+                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                    htmlAttributes: null
+                )
+            </td>
             <td>
                 @Html.ActionLink(
                     linkText: "Delete",
