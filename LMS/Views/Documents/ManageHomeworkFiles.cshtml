@@ -15,18 +15,18 @@
     @: <b>Grade:</b> <span id="@grade">@grade</span>
 }
 
+
+<h4>Documents</h4>
 <table class="table">
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                <b>Documents</b>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th></th>
+            <th></th>
         </tr>
 
         foreach (var doc in item.Documents)
