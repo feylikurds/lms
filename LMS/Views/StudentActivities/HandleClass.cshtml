@@ -71,6 +71,27 @@
                     )
                 </td>
             </tr>
+
+            <tr>
+                <td>
+                    @using (Html.BeginForm("Comments", "Documents", FormMethod.Post))
+                    {
+                        <input type="hidden" name="id" value="@doc.Id">
+                        <input type="hidden" name="returnId" value="@ViewBag.id">
+
+                        @Html.EditorFor(docItem => doc.Comments, "string", "comments");
+                        <input type="submit" value="Write Comments" />
+                    }
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
         }
     }
 

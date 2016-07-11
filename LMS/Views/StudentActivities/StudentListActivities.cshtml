@@ -62,7 +62,8 @@
                         htmlAttributes: null
                     )
                 </td>
-                <td></td>
+                <td>
+                </td>
             </tr>
         }
 
@@ -97,6 +98,23 @@
                     )
                 </td>
             </tr>
+
+            if (!string.IsNullOrEmpty(doc.Comments))
+            {
+                <tr>
+                    <td style="color: red;">
+                        @Html.DisplayFor(docItem => doc.Comments)
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
         }
 
         <tr>

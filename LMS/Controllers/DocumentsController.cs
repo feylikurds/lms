@@ -259,6 +259,20 @@ namespace LMS.Controllers
             return View(document);
         }
 
+        [HttpPost]
+        public ActionResult Comments(int id, string comments, int returnId)
+        {
+            var document = (from d in db.Documents
+                            where d.Id == id
+                            select d).First();
+
+            document.Comments = comments;
+
+            db.SaveChanges();
+
+            return RedirectToAction("HandleClass", "StudentActivities", new { id = returnId });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

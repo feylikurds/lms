@@ -26,6 +26,8 @@ namespace LMS.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime UploadTime { get; set; } = DateTime.Now;
 
+        public string Comments { get; set; }
+
         [StringLength(255)]
         public string FileName { get; set; }
         [StringLength(100)]

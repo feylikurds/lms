@@ -161,7 +161,7 @@ namespace LMS.Controllers
                                                            Documents = sa.Documents });                
             }
 
-            ViewBag.Id = id;
+            ViewBag.id = id;
             ViewBag.Documents = (from a in db.Activities
                                  where a.Id == id
                                  select a.Documents).First().ToList();
