@@ -58,6 +58,7 @@
         <th>
             Description
         </th>
+        <th>Filename</th>
         <th></th><th></th>
     </tr>
     @foreach (var item in Model)
@@ -74,7 +75,7 @@
                 <td>
                     @Html.DisplayFor(docItem => doc.Description)
                 </td>
-                
+                <td>@Html.DisplayFor(docItem => doc.FileName)</td>
                 <td>
                     @Html.ActionLink(
                         linkText: "Download",
@@ -112,6 +113,7 @@
         <th>
             Description
         </th>
+        <th>Filename</th>
         <th>
 
         </th>
@@ -121,7 +123,7 @@
     {
         <tr>
             <td>
-                @item.Uploader.FullName
+                @item.Uploader.UserName
             </td>
             <td>
                 @item.Name
@@ -129,6 +131,7 @@
             <td>
                 @item.Description
             </td>
+            <td>@item.FileName</td>
             <td>
                 @Html.ActionLink(
                     linkText: "Delete",

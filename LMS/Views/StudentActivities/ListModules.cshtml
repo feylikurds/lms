@@ -61,6 +61,7 @@
         <th>
             Description
         </th>
+        <th>Filename</th>
         <th>
 
         </th>
@@ -77,6 +78,9 @@
             </td>
             <td>
                 @item.Description
+            </td>
+            <td>
+                @item.FileName
             </td>
             <td>
                 @if (User.IsInRole("Teacher"))

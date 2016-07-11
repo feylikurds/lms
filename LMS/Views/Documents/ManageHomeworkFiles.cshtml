@@ -16,9 +16,8 @@
 }
 
 
-<h4>Documents</h4>
+<h4>Activity documents</h4>
 <table class="table">
-
     @foreach (var item in Model)
     {
         <tr>
@@ -26,7 +25,6 @@
             <th>Description</th>
             <th>Deadline</th>
             <th>Filename</th>
-            <th></th>
             <th></th>
         </tr>
 
@@ -43,10 +41,33 @@
                     @Html.DisplayFor(docItem => doc.Deadline)
                 </td>
                 <td>@Html.DisplayFor(docItem => doc.FileName)</td>
-                <td></td>
-                <td></td>
-            </tr>
+                <td>
+                    @Html.ActionLink(
+                        linkText: "Download",
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+            </td>
+        </tr>
         }
+    }
+</table>
+
+<h4>Homework</h4>
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>Filename</th>
+            <th></th>
+            <th></th>
+        </tr>
 
         foreach (var doc in item.Homeworks)
         {
