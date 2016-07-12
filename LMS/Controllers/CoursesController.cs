@@ -48,7 +48,8 @@ namespace LMS.Controllers
         /// <returns>True if it is valid</returns>
         private bool IsValidCourse(Course course)
         {
-            return course.StartDate <= course.EndDate;
+            return course.StartDate <= course.EndDate
+                && DateTime.Now <= course.StartDate;
         }
 
         // GET: Courses/Create
