@@ -19,177 +19,214 @@ namespace LMS.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-
-            var roleStore = new RoleStore<IdentityRole>(context);
-            var roleManager = new RoleManager<IdentityRole>(roleStore);
-            if (!context.Roles.Any(r => r.Name == "Teacher"))
-            {
-                var role = new IdentityRole { Name = "Teacher" };
-
-                roleManager.Create(role);
-            }
-
-            if (!context.Roles.Any(r => r.Name == "Student"))
-            {
-                var role = new IdentityRole { Name = "Student" };
-
-                roleManager.Create(role);
-            }
-
-            var rand = new Random();
             var noCourse = new Course();
 
             noCourse.Name = "None";
             noCourse.Description = "None";
             noCourse.StartDate = new DateTime(2000, 1, 1);
-            noCourse.EndDate = new DateTime(2001, 12, 12);
+            noCourse.EndDate = new DateTime(2001, 12, 31);
 
             context.Courses.AddOrUpdate(noCourse);
 
-            var courses1 = Builder<Course>.CreateListOfSize(5).All()
-                .With(c => c.Name = Faker.Company.Name())
-                .With(c => c.Description = Faker.Company.CatchPhrase())
-                .With(c => c.StartDate = new DateTime(2017, 1, 1))
-                .With(c => c.EndDate = new DateTime(2017, 6, 30))
-                .Build();
+            var courses = new List<Course>();
 
-            context.Courses.AddOrUpdate(c => c.Id, courses1.ToArray());
-
-            var courses2 = Builder<Course>.CreateListOfSize(5).All()
-                .With(c => c.Name = Faker.Company.Name())
-                .With(c => c.Description = Faker.Company.CatchPhrase())
-                .With(c => c.StartDate = new DateTime(2017, 7, 1))
-                .With(c => c.EndDate = new DateTime(2017, 12, 30))
-                .Build();
-
-            context.Courses.AddOrUpdate(c => c.Id, courses2.ToArray());
-
-            var modules1 = Builder<LMS.Models.Module>.CreateListOfSize(10).All()
-                .With(m => m.Name = Faker.Company.Name())
-                .With(m => m.Description = Faker.Company.CatchPhrase())
-                .With(m => m.StartDate = new DateTime(2017, 1, 1))
-                .With(m => m.EndDate = new DateTime(2017, 6, 30))
-                .With(m => m.Course = courses1.ElementAt(rand.Next(0, courses1.Count())))
-                .Build();
-
-            context.Modules.AddOrUpdate(m => m.Id, modules1.ToArray());
-
-            var modules2 = Builder<LMS.Models.Module>.CreateListOfSize(10).All()
-                .With(m => m.Name = Faker.Company.Name())
-                .With(m => m.Description = Faker.Company.CatchPhrase())
-                .With(m => m.StartDate = new DateTime(2017, 7, 1))
-                .With(m => m.EndDate = new DateTime(2017, 12, 30))
-                .With(m => m.Course = courses2.ElementAt(rand.Next(0, courses2.Count())))
-                .Build();
-
-            context.Modules.AddOrUpdate(m => m.Id, modules2.ToArray());
-
-            
-
-            //Activities
-            var activities1 = Builder<Activity>.CreateListOfSize(20).All()
-                .With(a => a.Name = Faker.Company.Name())
-                .With(a => a.Description = Faker.Company.CatchPhrase())
-                .With(a => a.StartDate = new DateTime(2017, 1, 1))
-                .With(a => a.EndDate = new DateTime(2017, 6, 30))
-                .With(a => a.Module = modules1.ElementAt(rand.Next(0, modules1.Count())))
-                .Build();
-
-            context.Activities.AddOrUpdate(a => a.Id, activities1.ToArray());
-
-            var activities2 = Builder<Activity>.CreateListOfSize(20).All()
-                .With(a => a.Name = Faker.Company.Name())
-                .With(a => a.Description = Faker.Company.CatchPhrase())
-                .With(a => a.StartDate = new DateTime(2017, 7, 1))
-                .With(a => a.EndDate = new DateTime(2017, 12, 30))
-                .With(a => a.Module = modules2.ElementAt(rand.Next(0, modules2.Count())))
-                .Build();
-
-            context.Activities.AddOrUpdate(a => a.Id, activities2.ToArray());
-
-
-            
-
-
-            context.SaveChanges();
-
-            //Add an module to courses that doesn't have one
-            var modulelessCourses = context.Courses.Where(c => c.Modules.Count() == 0).ToList();
-            foreach (var item in modulelessCourses)
+            courses.Add(new Course
             {
-                var module = Builder<Module>.CreateNew()
-                .With(m => m.Name = Faker.Company.Name())
-                .With(m => m.Description = Faker.Company.CatchPhrase())
-                .With(m => m.StartDate = new DateTime(2017, 1, 1))
-                .With(m => m.EndDate = new DateTime(2017, 6, 30))
-                .With(m => m.Course = item)
-                .Build();
-                context.Modules.AddOrUpdate(c => c.Id, module);
-            }
-            context.SaveChanges();
+                Name = "NETASP1701",
+                Description = ".NET ASP.NET 2017 Spring",
+                StartDate = new DateTime(2017, 1, 1),
+                EndDate = new DateTime(2017, 6, 30),
+            });
 
-            //Add an activity to a module that did not have any
-            var activitylessModules = context.Modules.Where(c => c.Activities.Count() == 0).ToList();
-            foreach (var item in activitylessModules)
+            courses.Add(new Course
             {
-                var activity = Builder<Activity>.CreateNew()
-                .With(m => m.Name = Faker.Company.Name())
-                .With(m => m.Description = Faker.Company.CatchPhrase())
-                .With(m => m.StartDate = new DateTime(2017, 1, 1))
-                .With(m => m.EndDate = new DateTime(2017, 6, 30))
-                .With(m => m.Module = item)
-                .Build();
-                context.Activities.AddOrUpdate(c => c.Id, activity);
-            }
+                Name = "JAVAEE1701",
+                Description = "Java EE 2017 Spring",
+                StartDate = new DateTime(2017, 1, 1),
+                EndDate = new DateTime(2017, 6, 30),
+            });
+
+            courses.Add(new Course
+            {
+                Name = "NETASP1707",
+                Description = ".NET ASP.NET 2017 Fall",
+                StartDate = new DateTime(2017, 7, 1),
+                EndDate = new DateTime(2017, 12, 30),
+            });
+
+            courses.Add(new Course
+            {
+                Name = "JAVAEE1707",
+                Description = "Java EE 2017 Fall",
+                StartDate = new DateTime(2017, 7, 1),
+                EndDate = new DateTime(2017, 12, 30),
+            });
+            
+            context.Courses.AddOrUpdate(c => c.Id, courses.ToArray());
             context.SaveChanges();
 
-            //Users
+            foreach (var course in courses.Where(c => c.Name != "None").ToList())
+            {
+                var mods = new List<Module>();
+
+                mods.Add(new Module
+                {
+                    Name = course.Name + ": Introduction",
+                    Description = "Welcome to the course!",
+                    StartDate = course.StartDate,
+                    EndDate = course.StartDate.AddDays(25),
+                    Course = course,
+                });
+
+                mods.Add(new Module
+                {
+                    Name = course.Name + ": History",
+                    Description = "Study the past.",
+                    StartDate = course.StartDate.AddMonths(1),
+                    EndDate = course.StartDate.AddMonths(1).AddDays(25),
+                    Course = course,
+                });
+
+                mods.Add(new Module
+                {
+                    Name = course.Name + ": Theory",
+                    Description = "Explore the basic concepts.",
+                    StartDate = course.StartDate.AddMonths(2),
+                    EndDate = course.StartDate.AddMonths(2).AddDays(25),
+                    Course = course,
+                });
+
+                mods.Add(new Module
+                {
+                    Name = course.Name + ": Midterm exam",
+                    Description = "Evaluate students' understanding.",
+                    StartDate = course.StartDate.AddMonths(3),
+                    EndDate = course.StartDate.AddMonths(3).AddDays(25),
+                    Course = course,
+                });
+
+                mods.Add(new Module
+                {
+                    Name = course.Name + ": Current state",
+                    Description = "Present recent progress and new trends.",
+                    StartDate = course.StartDate.AddMonths(4),
+                    EndDate = course.StartDate.AddMonths(4).AddDays(25),
+                    Course = course,
+                });
+
+                mods.Add(new Module
+                {
+                    Name = course.Name + ": Final exam",
+                    Description = "Determines your grade.",
+                    StartDate = course.StartDate.AddMonths(5),
+                    EndDate = course.EndDate,
+                    Course = course,
+                });
+
+                context.Modules.AddOrUpdate(m => m.Id, mods.ToArray());
+            }
+
+            context.SaveChanges();
+
+            var modules = (from m in context.Modules
+                           select m).ToList();
+
+            foreach (var module in modules)
+            {
+                var activities = new List<Activity>();
+
+                activities.Add(new Activity
+                {
+                    Name = module.Name + ": Introduction",
+                    Description = "Welcome to the module!",
+                    StartDate = module.StartDate,
+                    EndDate = module.StartDate.AddDays(5),
+                    Kind = Kinds.Other,
+                    Module = module,
+                });
+
+                activities.Add(new Activity
+                {
+                    Name = module.Name + ": E-Learning",
+                    Description = "Self-paced, interactive videos.",
+                    StartDate = module.StartDate.AddDays(5),
+                    EndDate = module.StartDate.AddDays(10),
+                    Kind = Kinds.ELearning,
+                    Module = module,
+                });
+
+                activities.Add(new Activity
+                {
+                    Name = module.Name + ": Lecture",
+                    Description = "Teacher gives an oral presentation.",
+                    StartDate = module.StartDate.AddDays(10),
+                    EndDate = module.StartDate.AddDays(15),
+                    Kind = Kinds.Lecture,
+                    Module = module,
+                });
+
+                activities.Add(new Activity
+                {
+                    Name = module.Name + ": Homework",
+                    Description = "Assignment to be completed.",
+                    StartDate = module.StartDate.AddDays(15),
+                    EndDate = module.EndDate,
+                    Kind = Kinds.Homework,
+                    Module = module,
+                });
+
+                activities.Add(new Activity
+                {
+                    Name = module.Name + ": Quiz",
+                    Description = "A test of knowledge.",
+                    StartDate = module.StartDate.AddDays(20),
+                    EndDate = module.EndDate,
+                    Kind = Kinds.Other,
+                    Module = module,
+                });
+
+                context.Activities.AddOrUpdate(a => a.Id, activities.ToArray());
+            }
+
+            context.SaveChanges();
+            
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+            roleManager.Create(new IdentityRole { Name = "Teacher" });
+            roleManager.Create(new IdentityRole { Name = "Student" });
+
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
-            if (!context.Users.Any(u => u.UserName == "teacher@localhost.com"))
-            {
-                var user = new ApplicationUser { UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson", Email = "teacher@localhost.com", CourseId = noCourse.Id };
 
-                userManager.Create(user, "Pass.123");
-                userManager.AddToRole(user.Id, "Teacher");
-            }
+            var user = new ApplicationUser { UserName = "teacher@localhost.com", FirstName = "Bob", LastName = "Bobson", Email = "teacher@localhost.com", CourseId = noCourse.Id };
+            userManager.Create(user, "Pass.123");
+            userManager.AddToRole(user.Id, "Teacher");
 
-            var courses = (from c in context.Courses
-                           where c.Name != "None" && c.Modules.Count() > 0
-                           select c).ToList();
+            user = new ApplicationUser { UserName = "anders.svensson@localhost.com", FirstName = "Anders", LastName = "Svensson", Email = "anders.svensson@localhost.com", CourseId = noCourse.Id };
+            userManager.Create(user, "Pass.123");
+            userManager.AddToRole(user.Id, "Teacher");
 
-            SetUpUser(context, userManager, courses, rand, "student@localhost.com", "Jill", "Jillson", "student@localhost.com", courses.FirstOrDefault().Id);
+            SetUpUser(context, userManager, "student@localhost.com", "Jill", "Jillson", "student@localhost.com", courses.ElementAt(1));
+            SetUpUser(context, userManager, "peter.andersson@localhost.com", "Peter", "Andersson", "peter.andersson@localhost.com", courses.ElementAt(3));
 
-            context.SaveChanges();
+            var rand = new Random();
 
-            //Some additional users
-            for (int i = 0; i < courses.Count*3; i++)
+            for (int i = 0; i < 30; i++)
             {
                 var firstName = Faker.Name.First();
                 var lastName = Faker.Name.Last();
                 var email = firstName.ToLower() + "." + lastName.ToLower() + "@localhost.com";
+                var cor = courses.ElementAt(rand.Next(0, courses.Count()));
 
-                SetUpUser(context, userManager, courses, rand, email, firstName, lastName, email, courses.ElementAt(i % courses.Count).Id);
+                SetUpUser(context, userManager, email, firstName, lastName, email, cor);
             }
         }
 
-        private void SetUpUser(LMS.Models.ApplicationDbContext context, UserManager<ApplicationUser> userManager, List<Course>courses, Random rand, string userName, string firstName, string lastName, string email, int courseId)
+        private void SetUpUser(LMS.Models.ApplicationDbContext context, UserManager<ApplicationUser> userManager, string userName, string firstName, string lastName, string email, Course course)
         {
             if (!context.Users.Any(u => u.UserName == userName))
             {
-                var course = courses.Where(c => c.Id == courseId).First();
                 var user = new ApplicationUser { UserName = userName, FirstName = firstName, LastName = lastName, Email = email, CourseId = course.Id };
 
                 userManager.Create(user, "Pass.123");

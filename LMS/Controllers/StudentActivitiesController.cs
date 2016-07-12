@@ -89,9 +89,14 @@ namespace LMS.Controllers
             foreach (var activity in activities)
             {
                 var sa = new StudentActivityViewModel();
-                var a = (from ac in db.Activities
-                         where ac.Id == activity.ActivityId
-                         select ac).First();
+                var act = (from ac in db.Activities
+                         where ac.ModuleId == id && ac.Id == activity.ActivityId
+                         select ac).ToList();
+
+                if (act.Count() == 0)
+                    continue;
+
+                var a = act.First();
 
                 sa.Id = activity.Id;
                 sa.ActivityName = a.Name;
