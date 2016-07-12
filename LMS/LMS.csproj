@@ -199,6 +199,10 @@
     <Compile Include="Migrations\201607110730196_Added_Comments.Designer.cs">
       <DependentUpon>201607110730196_Added_Comments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607121430370_AddedNameRequired.cs" />
+    <Compile Include="Migrations\201607121430370_AddedNameRequired.Designer.cs">
+      <DependentUpon>201607121430370_AddedNameRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -331,6 +335,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607110730196_Added_Comments.resx">
       <DependentUpon>201607110730196_Added_Comments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607121430370_AddedNameRequired.resx">
+      <DependentUpon>201607121430370_AddedNameRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
