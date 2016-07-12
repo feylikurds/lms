@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<LMS.Models.Activity>
 
+<h2>Module details</h2>
+
 <table class="table">
     <tr>
         <th>
@@ -74,7 +76,13 @@
                 @item.Description
             </td>
             <td>
-                @item.FileName
+                @Html.ActionLink(
+                        linkText: (string)item.FileName,
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
             </td>
             <td>
                 @if (User.IsInRole("Teacher"))
@@ -82,16 +90,6 @@
                     @Html.ActionLink(
                         linkText: "Delete",
                         actionName: "Remove",
-                        controllerName: "Documents",
-                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListActivities", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                }
-                else
-                {
-                    @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
                         controllerName: "Documents",
                         routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListActivities", returnController = "StudentActivities" },
                         htmlAttributes: null

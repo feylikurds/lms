@@ -58,7 +58,9 @@
     @if (User.IsInRole("Teacher"))
     {
         @Html.ActionLink("Back to list", "Index", "Activities", new { }, new { })
+        @: | @Html.ActionLink("Create", "Create")
         @: | @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
         @: | @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        @: | @Html.ActionLink("Manage class", "HandleClass", "StudentActivities", new { id = Model.Id }, null)
     }
 </p>

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<LMS.Models.StudentActivityViewModel>
+<h2>Handle class</h2>
 
 <h4>Students</h4>
 
@@ -14,12 +15,12 @@
             Grade
         </th>
         <th>
-            
+
         </th>
         <th>
 
         </th>
-        </tr>
+    </tr>
 
     @foreach (var item in Model)
     {
@@ -34,13 +35,12 @@
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td>
-                 @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
+                @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
             </td>
-            <td>
-            </td>
+            <td></td>
         </tr>
 
-        
+
     }
 
 </table>
@@ -58,35 +58,38 @@
         <th>
             Description
         </th>
-        <th>Filename</th>
-        <th></th><th></th>
+        <th>
+            Filename
+        </th>
+        <th></th>
     </tr>
-    @foreach (var item in Model)
-    {
-        foreach (var doc in item.Documents)
+    @{
+        var sortedModel = Model.OrderBy(s => s.StudentName).ToList();
+        foreach (var item in sortedModel)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Uploader.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Description)
-                </td>
-                <td>@Html.DisplayFor(docItem => doc.FileName)</td>
-                <td>
-                    @Html.ActionLink(
-                        linkText: "Download",
+            foreach (var doc in item.Documents)
+            {
+                <tr>
+                    <td title="@doc.Uploader.FullName">
+                        @Html.DisplayFor(docItem => doc.Uploader.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(docItem => doc.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(docItem => doc.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink(
+                        linkText: doc.FileName,
                         actionName: "Download",
                         controllerName: "Documents",
                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
                         htmlAttributes: null
                     )
-                </td>
-                <td>
-                    @Html.ActionLink(
+                    </td>
+                    <td>
+                        @Html.ActionLink(
                         linkText: "Delete",
                         actionName: "Remove",
                         controllerName: "Documents",
@@ -134,16 +137,16 @@
         <th>
             Description
         </th>
-        <th>Filename</th>
         <th>
-
+            Filename
         </th>
+        <th></th>
     </tr>
 
     @foreach (var item in ViewBag.Documents)
     {
         <tr>
-            <td>
+            <td title="@item.Uploader.FullName">
                 @item.Uploader.UserName
             </td>
             <td>
@@ -152,14 +155,22 @@
             <td>
                 @item.Description
             </td>
-            <td>@item.FileName</td>
+            <td>
+                @Html.ActionLink(
+                    linkText: (string)item.FileName,
+                    actionName: "Download",
+                    controllerName: "Documents",
+                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                    htmlAttributes: null
+                )
+            </td>
             <td>
                 @Html.ActionLink(
                     linkText: "Delete",
                     actionName: "Remove",
                     controllerName: "Documents",
                     routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                    htmlAttributes: null 
+                    htmlAttributes: null
                 )
             </td>
         </tr>
