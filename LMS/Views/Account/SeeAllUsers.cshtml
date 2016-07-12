@@ -54,7 +54,11 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink(user.Course.Name, "Details", "Courses", new { id = user.CourseId }, new { })
+                    @if (user.Course.Name != "None")
+                    {
+                        @Html.ActionLink(user.Course.Name, "Details", "Courses", new { id = user.CourseId }, new { })
+                    }
+                    
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = user.Id })
