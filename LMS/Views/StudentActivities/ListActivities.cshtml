@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<LMS.Models.Activity>
 
 <h2>Module details</h2>
+<h3>@Model.FirstOrDefault().Module.Name</h3>
+<h4>@Model.FirstOrDefault().Module.Description</h4>
 
 <table class="table">
     <tr>
