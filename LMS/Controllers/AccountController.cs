@@ -604,8 +604,21 @@ namespace LMS.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<ActionResult> Edit(EditUserViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid
+                || (model.Id == User.Identity.GetUserId() && User.IsInRole("Teacher") && model.AssignedRole == "Student"))
             {
+                var _courses = from c in db.Courses
+                               select c;
+                var _roles = from r in db.Roles
+                             select r;
+                var _rolesList = new List<string>();
+
+                foreach (var r in _roles)
+                {
+                    _rolesList.Add(r.Name);
+                }
+                ViewBag.Roles = new SelectList(_rolesList);
+                ViewBag.Courses = new SelectList(_courses.ToList(), "Id", "Name");
                 return View(model);
             }
 
