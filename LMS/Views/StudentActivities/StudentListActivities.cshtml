@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<LMS.Models.StudentActivityViewModel>
 
+<h2>Module details</h2>
+
 <table class="table">
     <tr>
         <th>
@@ -21,10 +23,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ActivityName)
             </td>
-            <td>
+            <td id=@item.Status>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-            <td>
+            <td id=@item.Grade>
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td></td>
@@ -62,7 +64,8 @@
                         htmlAttributes: null
                     )
                 </td>
-                <td></td>
+                <td>
+                </td>
             </tr>
         }
 
@@ -79,42 +82,90 @@
                     @Html.DisplayFor(docItem => doc.Deadline)
                 </td>
                 <td>
-                    @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
                 </td>
                 <td>
-                    @Html.ActionLink(
-                        linkText: "Delete",
-                        actionName: "Remove",
-                        controllerName: "Documents",
-                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
                 </td>
             </tr>
+
+            if (!string.IsNullOrEmpty(doc.Comments))
+            {
+                <tr>
+                    <td style="color: red;">
+                        @Html.DisplayFor(docItem => doc.Comments)
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
         }
 
         <tr>
             <td>
                 @Html.ActionLink(
-                    linkText: "Upload Homework",
-                    actionName: "Upload",
+                    linkText: "Manage Homework Files",
+                    actionName: "ManageHomeworkFiles",
                     controllerName: "Documents",
-                    routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                    htmlAttributes: new { @class = "btn btn-primary btn-md" }
+                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                    htmlAttributes: new { }
                 )
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
         </tr>
     }
 
 </table>
 
+<table class="table">
+    <tr>
+        <th>
+            Uploader
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Filename
+        </th>
+    </tr>
+
+    @foreach (var item in ViewBag.Documents)
+    {
+        <tr>
+            <td>
+                @item.Uploader.FullName
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @Html.ActionLink(
+                        linkText: (string)item.FileName,
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+            </td>
+        </tr>
+    }
+
+</table>

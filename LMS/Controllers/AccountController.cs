@@ -190,6 +190,8 @@ namespace LMS.Controllers
             if (user.Id != User.Identity.GetUserId())
             {
                 await UserManager.DeleteAsync(user);
+
+                LMS.Shared.Database.UpdateUsers(db);
             }
 
             return RedirectToAction("SeeAllUsers");
@@ -522,6 +524,8 @@ namespace LMS.Controllers
 
                     if (result.Succeeded)
                     {
+                        LMS.Shared.Database.UpdateUsers(db);
+
                         return RedirectToAction("SeeAllUsers", "Account");
                     }
                 }

@@ -19,5 +19,6 @@ namespace LMS.Models
         public Grades Grade { get; set; }
         public ICollection<Document> Documents { get; set; }
         public ICollection<Document> Homeworks { get; set; }
+        public string Comments { get; set; }
     }
 }

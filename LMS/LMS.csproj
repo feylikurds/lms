@@ -195,6 +195,10 @@
     <Compile Include="Migrations\201607101700177_Init.Designer.cs">
       <DependentUpon>201607101700177_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607110730196_Added_Comments.cs" />
+    <Compile Include="Migrations\201607110730196_Added_Comments.Designer.cs">
+      <DependentUpon>201607110730196_Added_Comments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -311,6 +315,7 @@
     <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Documents\Upload.cshtml" />
+    <Content Include="Views\Documents\ManageHomeworkFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -323,6 +328,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201607101700177_Init.resx">
       <DependentUpon>201607101700177_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607110730196_Added_Comments.resx">
+      <DependentUpon>201607110730196_Added_Comments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<LMS.Models.Course>
 
+<h2>Home page</h2>
+
 <table class="table">
     <tr>
         <th>
@@ -33,7 +35,7 @@
                 @item.EndDate.ToShortDateString()
             </td>
             <td>
-                @Html.ActionLink("Modules", "ListModules", "StudentActivities", new { id = item.Id }, new { })
+                @Html.ActionLink("Modules / Course Details", "ListModules", "StudentActivities", new { id = item.Id }, new { })
             </td>
         </tr>
     }

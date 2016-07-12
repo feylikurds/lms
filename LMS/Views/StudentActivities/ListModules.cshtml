@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<LMS.Models.Module>
 @using Microsoft.AspNet.Identity
 
+<h2>Course Details</h2>
+
 <table class="table">
     <tr>
         <th>
@@ -36,11 +38,11 @@
             <td>
                 @if (User.IsInRole("Teacher"))
                 {
-                    @Html.ActionLink("Activities", "ListActivities", "StudentActivities", new { id = item.Id }, new { })
+                    @Html.ActionLink("Activities / Module Details", "ListActivities", "StudentActivities", new { id = item.Id }, new { })
                 }
                 else
                 {
-                    @Html.ActionLink("Activities", "StudentListActivities", "StudentActivities", new { }, new { })
+                    @Html.ActionLink("Activities / Module Details", "StudentListActivities", "StudentActivities", new { id = item.Id}, new { })
                 }
             </td>
         </tr>
@@ -61,6 +63,7 @@
         <th>
             Description
         </th>
+        <th>Filename</th>
         <th>
 
         </th>
@@ -79,21 +82,20 @@
                 @item.Description
             </td>
             <td>
+                @Html.ActionLink(
+                        linkText: (string)item.FileName,
+                        actionName: "Download",
+                        controllerName: "Documents",
+                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListModules", returnController = "StudentActivities" },
+                        htmlAttributes: null
+                    )
+            </td>
+            <td>
                 @if (User.IsInRole("Teacher"))
                 {
                     @Html.ActionLink(
                         linkText: "Delete",
                         actionName: "Remove",
-                        controllerName: "Documents",
-                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListModules", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                }
-                else
-                {
-                    @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
                         controllerName: "Documents",
                         routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "ListModules", returnController = "StudentActivities" },
                         htmlAttributes: null

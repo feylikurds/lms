@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<LMS.Models.StudentActivityViewModel>
+<h2>Handle class</h2>
 
 <h4>Students</h4>
 
@@ -14,12 +15,10 @@
             Grade
         </th>
         <th>
-            
         </th>
         <th>
-
         </th>
-        </tr>
+    </tr>
 
     @foreach (var item in Model)
     {
@@ -34,15 +33,45 @@
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
             <td>
-                 @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
+                @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
             </td>
             <td>
             </td>
         </tr>
+    }
+</table>
 
-        foreach (var doc in item.Documents)
+<h4>Homeworks</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            Uploader
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Filename
+        </th>
+        <th>
+        </th>
+    </tr>
+
+    @{
+        var sortedModel = Model.OrderBy(s => s.StudentName).ToList();
+
+        foreach (var item in sortedModel)
         {
+            foreach (var doc in item.Documents)
+            {
             <tr>
+                <td title="@doc.Uploader.FullName">
+                    @Html.DisplayFor(docItem => doc.Uploader.UserName)
+                </td>
                 <td>
                     @Html.DisplayFor(docItem => doc.Name)
                 </td>
@@ -50,30 +79,48 @@
                     @Html.DisplayFor(docItem => doc.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(docItem => doc.Deadline)
+                    @Html.ActionLink(
+                         linkText: doc.FileName,
+                         actionName: "Download",
+                         controllerName: "Documents",
+                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                         htmlAttributes: null
+                     )
                 </td>
                 <td>
                     @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
+                         linkText: "Delete",
+                         actionName: "Remove",
+                         controllerName: "Documents",
+                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                         htmlAttributes: null
+                     )
                 </td>
-                <td>
-                    @Html.ActionLink(
-                        linkText: "Delete",
-                        actionName: "Remove",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                </td>
-            </tr>
-        }
-    }
+                </tr>
 
+                <tr>
+                    <td>
+                        @using (Html.BeginForm("Comments", "Documents", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id" value="@doc.Id">
+                            <input type="hidden" name="returnId" value="@ViewBag.id">
+
+                            @Html.EditorFor(docItem => doc.Comments, "string", "comments");
+                            <input type="submit" value="Write Comments" />
+                        }
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                }
+            }
+        }
 </table>
 
 <h4>Documents</h4>
@@ -90,15 +137,16 @@
             Description
         </th>
         <th>
-
+            Filename
         </th>
+        <th></th>
     </tr>
 
     @foreach (var item in ViewBag.Documents)
     {
         <tr>
-            <td>
-                @item.Uploader.FullName
+            <td title="@item.Uploader.FullName">
+                @item.Uploader.UserName
             </td>
             <td>
                 @item.Name
@@ -108,11 +156,20 @@
             </td>
             <td>
                 @Html.ActionLink(
+                    linkText: (string)item.FileName,
+                    actionName: "Download",
+                    controllerName: "Documents",
+                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                    htmlAttributes: null
+                )
+            </td>
+            <td>
+                @Html.ActionLink(
                     linkText: "Delete",
                     actionName: "Remove",
                     controllerName: "Documents",
                     routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                    htmlAttributes: null 
+                    htmlAttributes: null
                 )
             </td>
         </tr>

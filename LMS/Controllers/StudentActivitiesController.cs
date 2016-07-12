@@ -64,7 +64,7 @@ namespace LMS.Controllers
         }
 
         // GET: StudentActivities/ListActivities/5
-        public ActionResult StudentListActivities()
+        public ActionResult StudentListActivities(int? id)
         {
             var user = (from u in db.Users
                           where u.UserName == User.Identity.Name
@@ -103,7 +103,10 @@ namespace LMS.Controllers
                 studentActivities.Add(sa);
             }
 
-            ViewBag.id = 0;
+            ViewBag.id = id;
+            ViewBag.Documents = (from m in db.Modules
+                                 where m.Id == id
+                                 select m.Documents).FirstOrDefault().ToList();
 
             return View(studentActivities);
         }
@@ -161,7 +164,7 @@ namespace LMS.Controllers
                                                            Documents = sa.Documents });                
             }
 
-            ViewBag.Id = id;
+            ViewBag.id = id;
             ViewBag.Documents = (from a in db.Activities
                                  where a.Id == id
                                  select a.Documents).First().ToList();
@@ -263,6 +266,8 @@ namespace LMS.Controllers
                 db.Entry(studentActivity).State = EntityState.Modified;
                 db.SaveChanges();
 
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("HandleClass", new { Id = studentActivity.ActivityId});
             }
 
@@ -295,6 +300,9 @@ namespace LMS.Controllers
             {
                 db.Entry(studentActivity).State = EntityState.Modified;
                 db.SaveChanges();
+
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
             return View(studentActivity);
@@ -323,6 +331,9 @@ namespace LMS.Controllers
             StudentActivity studentActivity = db.StudentActivities.Find(id);
             db.StudentActivities.Remove(studentActivity);
             db.SaveChanges();
+
+            LMS.Shared.Database.UpdateUsers(db);
+
             return RedirectToAction("Index");
         }
 

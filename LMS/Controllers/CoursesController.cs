@@ -70,6 +70,9 @@ namespace LMS.Controllers
             {
                 db.Courses.Add(course);
                 db.SaveChanges();
+
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
 
@@ -104,6 +107,9 @@ namespace LMS.Controllers
             {
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
+
+                LMS.Shared.Database.UpdateUsers(db);
+
                 return RedirectToAction("Index");
             }
             return View(course);
