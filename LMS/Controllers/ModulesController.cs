@@ -69,6 +69,12 @@ namespace LMS.Controllers
             var validRange = module.StartDate <= module.EndDate;
             var notTooOld = DateTime.Now <= module.StartDate;
 
+            var courseStartDate = db.Courses.Where(c => c.Id == module.CourseId).FirstOrDefault().StartDate;
+            var courseEndDate = db.Courses.Where(c => c.Id == module.CourseId).FirstOrDefault().EndDate;
+
+            var inCourseRange = courseStartDate <= module.StartDate
+                && courseEndDate >= module.EndDate;
+
             if (!validRange)
             {
                 ModelState.AddModelError("", "Invalid date range.");
@@ -77,7 +83,7 @@ namespace LMS.Controllers
             {
                 ModelState.AddModelError("", "Date too old.");
             }
-            else if (ModelState.IsValid)
+            else if (ModelState.IsValid && inCourseRange)
             {
                 db.Modules.Add(module);
                 db.SaveChanges();
@@ -123,6 +129,12 @@ namespace LMS.Controllers
             var validRange = module.StartDate <= module.EndDate;
             var notTooOld = DateTime.Now <= module.StartDate;
 
+            var courseStartDate = db.Courses.Where(c => c.Id == module.CourseId).FirstOrDefault().StartDate;
+            var courseEndDate = db.Courses.Where(c => c.Id == module.CourseId).FirstOrDefault().EndDate;
+
+            var inCourseRange = courseStartDate <= module.StartDate
+                && courseEndDate >= module.EndDate;
+
             if (!validRange)
             {
                 ModelState.AddModelError("", "Invalid date range.");
@@ -131,7 +143,7 @@ namespace LMS.Controllers
             {
                 ModelState.AddModelError("", "Date too old.");
             }
-            else if (ModelState.IsValid)
+            else if (ModelState.IsValid && inCourseRange)
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
