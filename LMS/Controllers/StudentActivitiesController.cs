@@ -23,6 +23,9 @@ namespace LMS.Controllers
             {
                 courses = db.Courses
                           .Where(c => c.Name != "None")
+                          .OrderBy(c => c.StartDate)
+                          .ThenBy(c => c.EndDate)
+                          .ThenBy(c => c.Name)
                           .ToList();
             }
             else
