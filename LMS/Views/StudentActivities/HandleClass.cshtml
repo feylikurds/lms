@@ -80,21 +80,21 @@
                 </td>
                 <td>
                     @Html.ActionLink(
-                         linkText: doc.FileName,
-                         actionName: "Download",
-                         controllerName: "Documents",
-                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                         htmlAttributes: null
-                     )
+                  linkText: doc.FileName,
+                  actionName: "Download",
+                  controllerName: "Documents",
+                  routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                  htmlAttributes: null
+              )
                 </td>
                 <td>
                     @Html.ActionLink(
-                         linkText: "Delete",
-                         actionName: "Remove",
-                         controllerName: "Documents",
-                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                         htmlAttributes: null
-                     )
+                  linkText: "Delete",
+                  actionName: "Remove",
+                  controllerName: "Documents",
+                  routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                  htmlAttributes: null
+              )
                 </td>
                 </tr>
 
@@ -118,8 +118,8 @@
                     <td>
                     </td>
                 </tr>
-                }
             }
+        }
         }
 </table>
 
@@ -156,21 +156,21 @@
             </td>
             <td>
                 @Html.ActionLink(
-                    linkText: (string)item.FileName,
-                    actionName: "Download",
-                    controllerName: "Documents",
-                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                    htmlAttributes: null
-                )
+             linkText: (string)item.FileName,
+             actionName: "Download",
+             controllerName: "Documents",
+             routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+             htmlAttributes: null
+         )
             </td>
             <td>
                 @Html.ActionLink(
-                    linkText: "Delete",
-                    actionName: "Remove",
-                    controllerName: "Documents",
-                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                    htmlAttributes: null
-                )
+             linkText: "Delete",
+             actionName: "Remove",
+             controllerName: "Documents",
+             routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+             htmlAttributes: null
+         )
             </td>
         </tr>
     }

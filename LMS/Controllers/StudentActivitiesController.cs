@@ -23,6 +23,9 @@ namespace LMS.Controllers
             {
                 courses = db.Courses
                           .Where(c => c.Name != "None")
+                          .OrderBy(c => c.StartDate)
+                          .ThenBy(c => c.EndDate)
+                          .ThenBy(c => c.Name)
                           .ToList();
             }
             else
@@ -32,7 +35,11 @@ namespace LMS.Controllers
                             select u).FirstOrDefault();
                 courses = (from c in db.Courses
                           where c.Id == user.CourseId
-                          select c).ToList(); 
+                          select c)
+                          .OrderBy(c => c.StartDate)
+                          .ThenBy(c => c.EndDate)
+                          .ThenBy(c => c.Name)
+                          .ToList(); 
             }
 
             return View(courses);

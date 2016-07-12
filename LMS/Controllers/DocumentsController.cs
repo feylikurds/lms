@@ -193,7 +193,8 @@ namespace LMS.Controllers
 
             if (ModelState.IsValid)
             {
-                if (upload != null && upload.ContentLength > 0)
+                if (upload != null && upload.ContentLength > 0
+                    && document.Deadline >= DateTime.Now)
                 {
                     document.FileName = System.IO.Path.GetFileName(upload.FileName);
                     document.ContentType = upload.ContentType;

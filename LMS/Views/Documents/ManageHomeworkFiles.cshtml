@@ -1,12 +1,9 @@
 ﻿@model IEnumerable<LMS.Models.StudentActivityViewModel>
-
 @{
     ViewBag.Title = "ManageHomeworkFiles";
 }
-
 <h2>Manage Homework Files</h2>
 <h4>Activity: @Model.FirstOrDefault().ActivityName</h4>
-
 @{
     var status = Model.FirstOrDefault().Status.ToString();
     var grade = Model.FirstOrDefault().Grade.ToString();
@@ -14,104 +11,113 @@
     @: <br />
     @: <b>Grade:</b> <span id="@grade">@grade</span>
 }
-
 <h4>Activity documents</h4>
 <table class="table">
     @foreach (var item in Model)
     {
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Deadline</th>
-        <th>Filename</th>
-    </tr>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>Filename</th>
+        </tr>
 
-    foreach (var doc in item.Documents)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(docItem => doc.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(docItem => doc.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(docItem => doc.Deadline)
-        </td>
-        <td>
-            @Html.ActionLink(
+        foreach (var doc in item.Documents)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Deadline)
+                </td>
+                <td>
+                    @Html.ActionLink(
             linkText: doc.FileName,
             actionName: "Download",
             controllerName: "Documents",
             routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: null
             )
-        </td>
-    </tr>
-    }
+                </td>
+            </tr>
+            
+        }
     }
 </table>
-
 <h4>Homework</h4>
 <table class="table">
-
     @foreach (var item in Model)
     {
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Deadline</th>
-        <th>Filename</th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>Filename</th>
+            <th></th>
+        </tr>
 
-    foreach (var doc in item.Homeworks)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(docItem => doc.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(docItem => doc.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(docItem => doc.Deadline)
-        </td>
-        <td>
-            @Html.ActionLink(
+        foreach (var doc in item.Homeworks)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Deadline)
+                </td>
+                <td>
+                    @Html.ActionLink(
             linkText: doc.FileName,
             actionName: "Download",
             controllerName: "Documents",
             routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: null
             )
-        </td>
-        <td>
-            @Html.ActionLink(
+                </td>
+                <td>
+                    @Html.ActionLink(
             linkText: "Delete",
             actionName: "Remove",
             controllerName: "Documents",
             routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: null
             )
-        </td>
-    </tr>
-    }
+                </td>
+            </tr>
 
-    <tr>
-        <td>
-            @Html.ActionLink(
+            if (!string.IsNullOrWhiteSpace(doc.Comments))
+            {
+                <tr>
+                    <td></td>
+                    <td><b>Comment:</b> </td>
+                    <td>@Html.DisplayFor(d => doc.Comments)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        }
+
+        <tr>
+            <td>
+                @Html.ActionLink(
             linkText: "Upload Homework",
             actionName: "Upload",
             controllerName: "Documents",
             routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: new { @class = "btn btn-primary btn-md" }
             )
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
     }
 </table>

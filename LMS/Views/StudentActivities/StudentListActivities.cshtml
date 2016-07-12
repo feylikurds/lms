@@ -29,102 +29,111 @@
             <td id=@item.Grade>
                 @Html.DisplayFor(modelItem => item.Grade)
             </td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
             <td>
-                <b>Documents</b>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+                @Html.ActionLink(
+         linkText: "Manage Homework Files",
+         actionName: "ManageHomeworkFiles",
+         controllerName: "Documents",
+         routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+         htmlAttributes: new {}
+     )
+        </td>
+        <td>
+        </td>
+    </tr>
 
-        foreach (var doc in item.Documents)
-        {
-            <tr>
+        @*@<tr>
                 <td>
-                    @Html.DisplayFor(docItem => doc.Name)
+                    <b>Documents</b>
                 </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Deadline)
-                </td>
-                <td>
-                    @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                </td>
-                <td>
-                </td>
-            </tr>
-        }
-
-        foreach (var doc in item.Homeworks)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(docItem => doc.Deadline)
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
 
-            if (!string.IsNullOrEmpty(doc.Comments))
+            foreach (var doc in item.Documents)
             {
                 <tr>
-                    <td style="color: red;">
-                        @Html.DisplayFor(docItem => doc.Comments)
+                    <td>
+                        @Html.DisplayFor(docItem => doc.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(docItem => doc.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(docItem => doc.Deadline)
+                    </td>
+                    <td>
+                        @Html.ActionLink(
+                            linkText: "Download",
+                            actionName: "Download",
+                            controllerName: "Documents",
+                            routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                            htmlAttributes: null
+                        )
                     </td>
                     <td>
                     </td>
+                </tr>
+            }
+
+            foreach (var doc in item.Homeworks)
+            {
+                <tr>
                     <td>
+                        @Html.DisplayFor(docItem => doc.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(docItem => doc.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(docItem => doc.Deadline)
                     </td>
                     <td>
                     </td>
                     <td>
                     </td>
                 </tr>
-            }
-        }
 
-        <tr>
-            <td>
-                @Html.ActionLink(
-                    linkText: "Manage Homework Files",
-                    actionName: "ManageHomeworkFiles",
-                    controllerName: "Documents",
-                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                    htmlAttributes: new { }
-                )
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-        </tr>
-    }
+                if (!string.IsNullOrEmpty(doc.Comments))
+                {
+                    <tr>
+                        <td style="color: red;">
+                            @Html.DisplayFor(docItem => doc.Comments)
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            }
+
+            @*<tr>
+                <td>
+                    @Html.ActionLink(
+                        linkText: "Manage Homework Files",
+                        actionName: "ManageHomeworkFiles",
+                        controllerName: "Documents",
+                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+                        htmlAttributes: new { }
+                    )
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>*@
+                }
 
 </table>
 
