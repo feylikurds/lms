@@ -15,10 +15,8 @@
             Grade
         </th>
         <th>
-
         </th>
         <th>
-
         </th>
     </tr>
 
@@ -37,17 +35,15 @@
             <td>
                 @Html.ActionLink("Edit", "EditStudent", "StudentActivities", new { activityId = item.ActivityId, studentId = item.StudentId }, new { })
             </td>
-            <td></td>
+            <td>
+            </td>
         </tr>
-
-
     }
-
 </table>
 
 <h4>Homeworks</h4>
-<table class="table">
 
+<table class="table">
     <tr>
         <th>
             Uploader
@@ -61,67 +57,70 @@
         <th>
             Filename
         </th>
-        <th></th>
+        <th>
+        </th>
     </tr>
+
     @{
         var sortedModel = Model.OrderBy(s => s.StudentName).ToList();
+
         foreach (var item in sortedModel)
         {
             foreach (var doc in item.Documents)
             {
-                <tr>
-                    <td title="@doc.Uploader.FullName">
-                        @Html.DisplayFor(docItem => doc.Uploader.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(docItem => doc.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(docItem => doc.Description)
-                    </td>
-                    <td>
-                        @Html.ActionLink(
-                        linkText: doc.FileName,
-                        actionName: "Download",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                    </td>
-                    <td>
-                        @Html.ActionLink(
-                        linkText: "Delete",
-                        actionName: "Remove",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
-                </td>
-            </tr>
-
             <tr>
+                <td title="@doc.Uploader.FullName">
+                    @Html.DisplayFor(docItem => doc.Uploader.UserName)
+                </td>
                 <td>
-                    @using (Html.BeginForm("Comments", "Documents", FormMethod.Post))
-                    {
-                        <input type="hidden" name="id" value="@doc.Id">
-                        <input type="hidden" name="returnId" value="@ViewBag.id">
+                    @Html.DisplayFor(docItem => doc.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(docItem => doc.Description)
+                </td>
+                <td>
+                    @Html.ActionLink(
+                         linkText: doc.FileName,
+                         actionName: "Download",
+                         controllerName: "Documents",
+                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                         htmlAttributes: null
+                     )
+                </td>
+                <td>
+                    @Html.ActionLink(
+                         linkText: "Delete",
+                         actionName: "Remove",
+                         controllerName: "Documents",
+                         routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "HandleClass", returnController = "StudentActivities" },
+                         htmlAttributes: null
+                     )
+                </td>
+                </tr>
 
-                        @Html.EditorFor(docItem => doc.Comments, "string", "comments");
-                        <input type="submit" value="Write Comments" />
-                    }
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @using (Html.BeginForm("Comments", "Documents", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id" value="@doc.Id">
+                            <input type="hidden" name="returnId" value="@ViewBag.id">
+
+                            @Html.EditorFor(docItem => doc.Comments, "string", "comments");
+                            <input type="submit" value="Write Comments" />
+                        }
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                }
+            }
         }
-    }
-   
 </table>
 
 <h4>Documents</h4>
