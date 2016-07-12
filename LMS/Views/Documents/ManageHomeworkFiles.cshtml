@@ -43,7 +43,7 @@
             linkText: doc.FileName,
             actionName: "Download",
             controllerName: "Documents",
-            routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+            routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: null
             )
         </td>
@@ -82,7 +82,7 @@
             linkText: doc.FileName,
             actionName: "Download",
             controllerName: "Documents",
-            routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+            routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: null
             )
         </td>
@@ -91,7 +91,7 @@
             linkText: "Delete",
             actionName: "Remove",
             controllerName: "Documents",
-            routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+            routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: null
             )
         </td>
@@ -104,7 +104,7 @@
             linkText: "Upload Homework",
             actionName: "Upload",
             controllerName: "Documents",
-            routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
+            routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "ManageHomeworkFiles", returnController = "Documents" },
             htmlAttributes: new { @class = "btn btn-primary btn-md" }
             )
         </td>

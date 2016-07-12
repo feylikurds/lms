@@ -103,7 +103,7 @@ namespace LMS.Controllers
                 studentActivities.Add(sa);
             }
 
-            ViewBag.id = 0;
+            ViewBag.id = id;
             ViewBag.Documents = (from m in db.Modules
                                  where m.Id == id
                                  select m.Documents).FirstOrDefault().ToList();

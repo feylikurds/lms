@@ -82,22 +82,8 @@
                     @Html.DisplayFor(docItem => doc.Deadline)
                 </td>
                 <td>
-                    @Html.ActionLink(
-                        linkText: "Download",
-                        actionName: "Download",
-                        controllerName: "Documents",
-                        routeValues: new { id = doc.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
                 </td>
                 <td>
-                    @Html.ActionLink(
-                        linkText: "Delete",
-                        actionName: "Remove",
-                        controllerName: "Documents",
-                        routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                        htmlAttributes: null
-                    )
                 </td>
             </tr>
 
@@ -122,25 +108,22 @@
         <tr>
             <td>
                 @Html.ActionLink(
-                    linkText: "Upload Homework",
-                    actionName: "Upload",
-                    controllerName: "Documents",
-                    routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                    htmlAttributes: new { }
-                )
-            </td>
-            <td>@Html.ActionLink(
                     linkText: "Manage Homework Files",
                     actionName: "ManageHomeworkFiles",
                     controllerName: "Documents",
-                    //routeValues: new { documentType = LMS.Models.Document.DocumentTypes.Homework, objectId = item.Id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
-                    routeValues: new { Id = item.Id },
+                    routeValues: new { id = item.Id, objectId = ViewBag.id, returnAction = "StudentListActivities", returnController = "StudentActivities" },
                     htmlAttributes: new { }
                 )
             </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
         </tr>
-
-        
     }
 
 </table>

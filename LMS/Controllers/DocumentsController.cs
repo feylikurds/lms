@@ -280,7 +280,7 @@ namespace LMS.Controllers
         //    return View(document);
         //}
 
-        public ActionResult ManageHomeworkFiles(int Id)
+        public ActionResult ManageHomeworkFiles(int id)
         {
             var user = (from u in db.Users
                         where u.UserName == User.Identity.Name
@@ -293,7 +293,7 @@ namespace LMS.Controllers
 
             var activities = (from a in db.StudentActivities
                               where a.StudentId == user.Id
-                              select a).Where(a => a.Id == Id).ToList();
+                              select a).Where(a => a.Id == id).ToList();
 
             if (activities == null)
             {
@@ -319,7 +319,7 @@ namespace LMS.Controllers
                 studentActivities.Add(sa);
             }
 
-            ViewBag.id = 0;
+            ViewBag.id = id;
 
             return View(studentActivities);
         }
