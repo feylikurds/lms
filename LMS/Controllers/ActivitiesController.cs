@@ -71,6 +71,12 @@ namespace LMS.Controllers
             var validRange = activity.StartDate <= activity.EndDate;
             var notTooOld = DateTime.Now <= activity.StartDate;
 
+            var moduleStartDate = db.Modules.Where(c => c.Id == activity.ModuleId).FirstOrDefault().StartDate;
+            var moduleEndDate = db.Modules.Where(c => c.Id == activity.ModuleId).FirstOrDefault().EndDate;
+
+            var inModuleRange = moduleStartDate <= activity.StartDate
+                && moduleEndDate >= activity.EndDate;
+
             if (!validRange)
             {
                 ModelState.AddModelError("", "Invalid date range.");
@@ -78,6 +84,10 @@ namespace LMS.Controllers
             else if (!notTooOld)
             {
                 ModelState.AddModelError("", "Date too old.");
+            }
+            else if (!inModuleRange)
+            {
+                ModelState.AddModelError("", "Date not within the module's dates");
             }
             else if (ModelState.IsValid)
             {
@@ -127,6 +137,12 @@ namespace LMS.Controllers
             var validRange = activity.StartDate <= activity.EndDate;
             var notTooOld = DateTime.Now <= activity.StartDate;
 
+            var moduleStartDate = db.Modules.Where(c => c.Id == activity.ModuleId).FirstOrDefault().StartDate;
+            var moduleEndDate = db.Modules.Where(c => c.Id == activity.ModuleId).FirstOrDefault().EndDate;
+
+            var inModuleRange = moduleStartDate <= activity.StartDate
+                && moduleEndDate >= activity.EndDate;
+
             if (!validRange)
             {
                 ModelState.AddModelError("", "Invalid date range.");
@@ -134,6 +150,10 @@ namespace LMS.Controllers
             else if (!notTooOld)
             {
                 ModelState.AddModelError("", "Date too old.");
+            }
+            else if (!inModuleRange)
+            {
+                ModelState.AddModelError("", "Date not within the module's dates");
             }
             else if (ModelState.IsValid)
             {

@@ -143,7 +143,11 @@ namespace LMS.Controllers
             {
                 ModelState.AddModelError("", "Date too old.");
             }
-            else if (ModelState.IsValid && inCourseRange)
+            else if (!inCourseRange)
+            {
+                ModelState.AddModelError("", "Date not within the coure's dates");
+            }
+            else if (ModelState.IsValid)
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
