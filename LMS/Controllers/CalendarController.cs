@@ -96,8 +96,8 @@ namespace LMS.Controllers
                 foreach (var course in courses)
                 {
                     events.Add(new Event {
+                        Id = course.Id.ToString(),
                         Name = course.Name,
-                        Description = course.Description,
                         StartDate = course.StartDate,
                         EndDate = course.EndDate,
                     });
@@ -114,8 +114,8 @@ namespace LMS.Controllers
                     {
                         events.Add(new Event
                         {
+                            Id = module.Id.ToString(),
                             Name = module.Name,
-                            Description = module.Description,
                             StartDate = module.StartDate,
                             EndDate = module.EndDate,
                         });
@@ -124,8 +124,8 @@ namespace LMS.Controllers
 
                 Events = events;
 
-                DataIdField = "Name";
-                DataTextField = "Description";
+                DataIdField = "Id";
+                DataTextField = "Name";
                 DataStartField = "StartDate";
                 DataEndField = "EndDate";
 
@@ -135,8 +135,8 @@ namespace LMS.Controllers
 
         class Event
         {
+            public string Id { get; set; }
             public string Name { get; set; }
-            public string Description { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
         }
