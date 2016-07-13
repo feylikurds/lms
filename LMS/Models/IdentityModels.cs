@@ -20,7 +20,7 @@ namespace LMS.Models
         public string FirstName { get; set; }
         [DisplayAttribute(Name = "Last name")]
         public string LastName { get; set; }
-        [DisplayAttribute(Name = "Full Name")]
+        [DisplayAttribute(Name = "Full name")]
         public string FullName { get { return FirstName + " " + LastName; } }
         [DisplayAttribute(Name = "Registration Time")]
         [DataType(DataType.Date)]

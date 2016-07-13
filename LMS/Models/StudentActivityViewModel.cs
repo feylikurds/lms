@@ -10,10 +10,10 @@ namespace LMS.Models
     {
         public int Id { get; set; }
         public int ActivityId { get; set; }
-        [DisplayAttribute(Name = "Activity Name")]
+        [DisplayAttribute(Name = "Activity name")]
         public string ActivityName { get; set; }
         public string StudentId { get; set; }
-        [DisplayAttribute(Name = "Student Name")]
+        [DisplayAttribute(Name = "Student name")]
         public string StudentName { get; set; }
         public Statuses Status { get; set; }
         public Grades Grade { get; set; }
