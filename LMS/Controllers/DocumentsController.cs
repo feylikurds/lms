@@ -319,7 +319,12 @@ namespace LMS.Controllers
                 studentActivities.Add(sa);
             }
 
-            ViewBag.id = id;
+            var sact = studentActivities.FirstOrDefault();
+
+            ViewBag.id = sact.Id;
+            ViewBag.activityName = sact.ActivityName;
+            ViewBag.status = sact.Status;
+            ViewBag.grade = sact.Grade;
 
             return View(studentActivities);
         }
