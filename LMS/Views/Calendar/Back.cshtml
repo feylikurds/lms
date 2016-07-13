@@ -1,0 +1,34 @@
+﻿@using DayPilot.Web.Mvc;
+
+@{
+    ViewBag.Title ="Calendar";
+}
+
+<h2>Calendar</h2>
+
+<hr />
+
+@Html.ActionLink(
+    linkText: "Back",
+    actionName: "Back",
+    controllerName: "Calendar",
+    routeValues: new { date = (DateTime)ViewBag.startDate },
+    htmlAttributes: new { @class = "btn btn-primary btn-md" }
+)
+
+@Html.ActionLink(
+    linkText: "Forward",
+    actionName: "Forward",
+    controllerName: "Calendar",
+    routeValues: new { date = (DateTime)ViewBag.startDate },
+    htmlAttributes: new { @class = "btn btn-primary btn-md" }
+)
+
+<hr />
+
+@Html.DayPilotMonth("dp_month", new DayPilotMonthConfig
+{
+    BackendUrl = Url.Content("~/Calendar/Backend"),
+    CssOnly = true,
+    StartDate = (DateTime)ViewBag.startDate,
+})

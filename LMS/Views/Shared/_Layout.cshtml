@@ -8,6 +8,7 @@
     <title>@ViewBag.Title - LMS</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/daypilot")
 
 </head>
 <body>
@@ -35,6 +36,7 @@
                     {             
                         <li>@Html.MenuLink("My course", "Index", "StudentActivities")</li>
                         <li>@Html.MenuLink("See my classmates", "SeeMyClassMates", "Account")</li>
+                        <li>@Html.MenuLink("Calendar", "Index", "Calendar")</li>
                     }
                 </ul>
 
