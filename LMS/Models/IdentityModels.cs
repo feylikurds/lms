@@ -23,6 +23,8 @@ namespace LMS.Models
         [DisplayAttribute(Name = "Full Name")]
         public string FullName { get { return FirstName + " " + LastName; } }
         [DisplayAttribute(Name = "Registration Time")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime TimeOfRegistration { get; set; } = DateTime.Now;
 
         [DisplayAttribute(Name = "Course")]

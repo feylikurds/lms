@@ -13,7 +13,8 @@ namespace LMS.Models
 
         public string Name { get; set; }
         public string Description { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Deadline { get; set; } = DateTime.Now;
         public int ObjectId { get; set; }
         [DisplayAttribute(Name = "Document Type")]
@@ -23,7 +24,8 @@ namespace LMS.Models
         public string UploaderId { get; set; }
         public virtual ApplicationUser Uploader { get; set; }
         [DisplayAttribute(Name = "Upload Time")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime UploadTime { get; set; } = DateTime.Now;
 
         public string Comments { get; set; }
