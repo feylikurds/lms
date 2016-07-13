@@ -128,12 +128,12 @@ namespace LMS.Models
     {
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
-        [Display(Name = "Firstname")]
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
-        [Display(Name = "Lastname")]
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
 
         [Required]
@@ -142,7 +142,7 @@ namespace LMS.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = " Role ")]
+        [Display(Name = "Role")]
         public string AssignedRole { get; set; }
     }
 
@@ -162,10 +162,11 @@ namespace LMS.Models
         [Required]
         public string Id { get; set; }
 
+        [Display(Name = "Course")]
         public int? CourseId { get; set; }
 
         [Required]
-        [Display(Name = "User Name")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
     }
 
