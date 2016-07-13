@@ -1,15 +1,8 @@
 ﻿@model IEnumerable<LMS.Models.StudentActivityViewModel>
 
 <h2>Module details</h2>
-@{
-    var db = new LMS.Models.ApplicationDbContext();
-    var activityId = Model.FirstOrDefault().Id;
-    var module = db.Modules.Where(
-        m => m.Activities.Where(a => a.Id == activityId).Count() > 0
-        ).FirstOrDefault();
-}
-<h3>@module.Name</h3>
-<h4>@module.Description</h4>
+<h3>@ViewBag.moduleName</h3>
+<h4>@ViewBag.moduleDescription</h4>
 <table class="table">
     <tr>
         <th>

@@ -115,10 +115,14 @@ namespace LMS.Controllers
                 studentActivities.Add(sa);
             }
 
+            var module = (from m in db.Modules
+                          where m.Id == id
+                          select m).First();
+
             ViewBag.id = id;
-            ViewBag.Documents = (from m in db.Modules
-                                 where m.Id == id
-                                 select m.Documents).FirstOrDefault().ToList();
+            ViewBag.moduleName = module.Name;
+            ViewBag.moduleDescription = module.Description;
+            ViewBag.Documents = module.Documents.ToList();
 
             return View(studentActivities);
         }
